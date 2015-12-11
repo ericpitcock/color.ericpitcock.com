@@ -19,7 +19,6 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Color Picker</h1>
-                <p><a href="./">Brand</a> / <a href="?palette=coveragemap">CoverageMap</a> / <a href="?palette=carriers-design">Carriers</a></p>
             </div>
         </div>
         <?php output_colors(); ?>

@@ -30,49 +30,45 @@ function output_colors() {
         return array('red' => $r, 'green' => $g, 'blue' => $b);
     }
     
-    // get file according to query parameter
-    if ($_GET['palette'] == 'carriers-design') { 
-        $less = file_get_contents('color/color-carriers-design.less');
-    } else if ($_GET['palette'] == 'carriers') {
-        $less = file_get_contents('color/color-carriers.less');
-    } else if ($_GET['palette'] == 'coveragemap') {
-        $less = file_get_contents('color/color-root-coveragemap.less');
-    } else {
-        $less = file_get_contents('color/color-root.less');
-    }
+    // NEW AUTO LESS FILE GRABBER SYSTEM
     
-    // split string into an array, divded by //
-    $sections = explode('//', $less);
-    
-    foreach ($sections as $section) {
+    // for each less file
+    foreach (glob('color/*.less') as $lessFile) {
         
-        //print_r($section);
-        
-        //echo "sections" . $section. "<br>";
-        echo '<div class="row">';
-        
-        // split section array into swatches by ";"
-        $swatches = explode(";", $section, -1);
-        
-        // output each swatch
-        foreach ($swatches as $swatch) { ?>
-            <?php
-                $hexValue = readBetween($swatch, ": ", ";");
-                $RGBValue = implode(', ', hex2rgb($hexValue));
-                $colorName = str_replace('-', ' ', readBetween($swatch, '@', ':'));
-            ?>
+        // split string into an array, divded by //
+        $lessContents = explode('//', file_get_contents($lessFile));
+
+        // for each //, make a row
+        foreach ($lessContents as $section) {
             
-            <div class="col-sm-2">
-            <div class="color-chip" style="background: <?php echo $hexValue; ?>;"></div>
-            <h3><?php echo $colorName; ?></h3>
-            <ul class="unstyled">
-                <li><span>Hex</span><input value="<?php echo $hexValue; ?>" readonly></input></li>
-                <li><span>RGB</span><input value="<?php echo $RGBValue; ?>" readonly></input></li>
-            </ul>
-            </div>
-        <? }
+            //print_r($section);
             
-        echo '</div>';
+            //echo "sections" . $section. "<br>";
+            echo '<div class="row">';
+            
+            // split section array into swatches by ";"
+            $swatches = explode(";", $section, -1);
+            
+            // output each swatch
+            foreach ($swatches as $swatch) { ?>
+                <?php
+                    $hexValue = readBetween($swatch, ": ", ";");
+                    $RGBValue = implode(', ', hex2rgb($hexValue));
+                    $colorName = str_replace('-', ' ', readBetween($swatch, '@', ':'));
+                ?>
+                
+                <div class="col-sm-2">
+                <div class="color-chip" style="background: <?php echo $hexValue; ?>;"></div>
+                <h3><?php echo $colorName; ?></h3>
+                <ul class="unstyled">
+                    <li><span>Hex</span><input value="<?php echo $hexValue; ?>" readonly></input></li>
+                    <li><span>RGB</span><input value="<?php echo $RGBValue; ?>" readonly></input></li>
+                </ul>
+                </div>
+            <? }
+                
+            echo '</div>';
+        }
     }
 }
 
