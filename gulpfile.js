@@ -24,10 +24,15 @@ gulp.task('sass', function() {
 
 // Concatenate & Minify JS
 gulp.task('scripts', function() {
-    return gulp.src('assets/js/color-picker.js')
+    return gulp.src([
+            'assets/bower/jquery/dist/jquery.js',
+            'assets/bower/bootstrap/js/tab.js',
+            'assets/js/file_get_contents.js',
+            'assets/js/color-picker.js'
+            ])
         .pipe(concat('all.js'))
         .pipe(gulp.dest('assets/js'))
-        .pipe(rename('color-picker.js'))
+        .pipe(rename('color-picker.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('assets/js'));
 });

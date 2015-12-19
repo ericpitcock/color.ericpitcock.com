@@ -37,6 +37,8 @@ function output_colors() {
         
         // split string into an array, divded by //
         $lessContents = explode('//', file_get_contents($lessFile));
+        
+        echo '<div role="tabpanel" class="tab-pane" id="' . basename($lessFile) . '">';
 
         // for each //, make a row
         foreach ($lessContents as $section) {
@@ -47,12 +49,12 @@ function output_colors() {
             echo '<div class="row">';
             
             // split section array into swatches by ";"
-            $swatches = explode(";", $section, -1);
+            $swatches = explode(';', $section, -1);
             
             // output each swatch
             foreach ($swatches as $swatch) { ?>
                 <?php
-                    $hexValue = readBetween($swatch, ": ", ";");
+                    $hexValue = readBetween($swatch, ': ', ';');
                     $RGBValue = implode(', ', hex2rgb($hexValue));
                     $colorName = str_replace('-', ' ', readBetween($swatch, '@', ':'));
                 ?>
@@ -69,6 +71,9 @@ function output_colors() {
                 
             echo '</div>';
         }
+        
+        echo '</div>';
+    
     }
 }
 

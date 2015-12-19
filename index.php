@@ -21,16 +21,27 @@
                 <h1>Color Picker</h1>
             </div>
         </div>
-        <?php output_colors(); ?>
+        <div class="row">
+            <!-- Nav tabs -->
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <?php output_colors(); ?>
+            </div>
+        </div>
     </div>
-    
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
-        $("ul.unstyled li").each(function() {
-            $(this).click(function() {
-                $(this).children("input").select();
-            })
-        });
+        // print json here
     </script>
+    <script src="assets/js/color-picker.min.js"></script>
 </body>
 </html>

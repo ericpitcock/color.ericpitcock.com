@@ -2,18 +2,13 @@
 // IMPORTS
 //=============================================================================
 
-@import (less) "../bower/HTML5-Reset/assets/css/reset.css";
+@import "../bower/HTML5-Reset/assets/css/reset.css";
 
-@import "../bower/bootstrap/less/variables.less";
-@import "../bower/bootstrap/less/mixins.less";
-@import "../bower/bootstrap/less/utilities.less";
-
-// Make &:extend(.clearfix all); work without having to pull whole utilities.less from bootstrap
-.clearfix {
-  .clearfix();
-}
-
-@import "../bower/bootstrap/less/grid.less";
+@import "../bower/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../bower/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_grid-framework.scss";
+@import "../bower/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_grid.scss";
+@import "../bower/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_clearfix.scss";
+@import "../bower/bootstrap-sass/assets/stylesheets/bootstrap/_grid.scss";
 
 //=============================================================================
 // STYLES
@@ -49,6 +44,46 @@ h3 {
     font-weight: 600; // semi-bold
     text-transform: capitalize;
     margin-bottom: 10px;
+}
+
+// tabs
+.nav-tabs {
+    li {
+        float: left;
+        
+        a {
+            position: relative;
+            top: 1px;
+            z-index: 1;
+            padding: 10px 15px;
+            border: 1px solid #e6e6e6;
+            border-bottom: none;
+            margin-right: 3px;
+            text-decoration: none;
+            color: #555;
+            
+            &.active {
+                background: #fff;
+            }
+        }
+    }
+    
+    &:after {
+        // border
+    }
+}
+
+// tab content
+.tab-content > .tab-pane {
+    display: none;
+    
+    &:first-child {
+        display: block;
+    }
+}
+
+.tab-content > .active {
+    display: block;
 }
 
 ul.unstyled {
