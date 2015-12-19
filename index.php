@@ -25,16 +25,16 @@
             <!-- Nav tabs -->
             <div class="col-sm-12">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                    <li class="active"><a href="#color-root" data-toggle="tab">Root</a></li>
+                    <li><a href="#color-carriers" data-toggle="tab">Carriers</a></li>
+                    <li><a href="#color-carriers-design" data-toggle="tab">Carriers Design</a></li>
+                    <li><a href="#color-root-coveragemap" data-toggle="tab">WCM</a></li>
                 </ul>
             </div>
         </div>
         <div class="row">
             <!-- Tab panes -->
-            <div class="tab-content">
+            <div class="tab-content col-sm-12">
                 <?php output_colors(); ?>
             </div>
         </div>

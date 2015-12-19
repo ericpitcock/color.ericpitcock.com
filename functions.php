@@ -38,7 +38,7 @@ function output_colors() {
         // split string into an array, divded by //
         $lessContents = explode('//', file_get_contents($lessFile));
         
-        echo '<div role="tabpanel" class="tab-pane" id="' . basename($lessFile) . '">';
+        echo '<div class="tab-pane" id="' . substr(substr(basename($lessFile), 2), 0, -5) . '">';
 
         // for each //, make a row
         foreach ($lessContents as $section) {

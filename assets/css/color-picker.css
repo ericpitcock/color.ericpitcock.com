@@ -522,12 +522,14 @@
 html {
   overflow-y: scroll; }
 
-body {
-  margin-top: 60px;
+body, input {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #555; }
+
+body {
+  margin-top: 60px; }
 
 .row {
   margin-bottom: 40px; }
@@ -553,17 +555,25 @@ h3 {
     z-index: 1;
     padding: 10px 15px;
     border: 1px solid #e6e6e6;
-    border-bottom: none;
     margin-right: 3px;
+    background: #f9f9f9;
     text-decoration: none;
     color: #555; }
-    .nav-tabs li a.active {
-      background: #fff; }
+  .nav-tabs li.active a {
+    background: #fff;
+    border-bottom-color: #fff; }
+
+.nav-tabs:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 29px;
+  width: 100%;
+  height: 1px;
+  background: #e6e6e6; }
 
 .tab-content > .tab-pane {
   display: none; }
-  .tab-content > .tab-pane:first-child {
-    display: block; }
 
 .tab-content > .active {
   display: block; }
