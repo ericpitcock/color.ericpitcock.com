@@ -1,0 +1,17 @@
+{
+  "name": "colorpicker.ericpitcock.com",
+  "authors": [
+    "Eric Pitcock <git-43p@ericpitcock.com>"
+  ],
+  "description": "Color Picker",
+  "main": "index.php",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "colorpicker.ericpitcock.com",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "HTML5-Reset": "~2.1.3",
+    "bootstrap": "~3.3.6"
+  }
+}
