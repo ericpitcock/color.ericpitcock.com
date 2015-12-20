@@ -567,7 +567,7 @@ h3 {
     .nav-tabs li:last-child a {
       margin-right: 0; }
     .nav-tabs li.active a {
-      border-bottom: 2px solid #555; }
+      border-bottom: 2px solid #b9b9b9; }
 
 .tab-content > .tab-pane {
   display: none;
