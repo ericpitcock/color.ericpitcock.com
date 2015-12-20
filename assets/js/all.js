@@ -9887,7 +9887,7 @@ $(document).ready(function(){
         
         // output swatches
         $(theColors).each(function(index, value) {
-            $(id).append('<div class="swatch-container spacer"><div class="swatch" style="background: ' + value + '"></div></div>');
+            $(id).append('<div class="swatch-container"><div class="swatch" style="background: ' + value + '"></div></div>');
         });
         
     });
