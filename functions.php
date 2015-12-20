@@ -83,11 +83,19 @@ function printJSON() {
     // empty array for the stuff we want
     $send_array = array();
     
+    // for each file
     foreach (glob('color/*.less') as $lessFile) {
-        // make an array of colors
-        $lessContents = explode(';', file_get_contents($lessFile), -1);
+        
+        // get file name
         $fileName = substr(substr(basename($lessFile), 2), 0, -5);
         
+        // make an array of colors
+        $lessContents = explode(';', file_get_contents($lessFile), -1);
+        
+        // new empty array
+        $temp_array = array();
+        
+        // for each color in that array, populate $temp_array with keys n values
         foreach ($lessContents as $key => $value) {
             $hexValue = readBetween($value, ': ', ';');
             $RGBValue = implode(', ', hex2rgb($hexValue));
@@ -96,9 +104,9 @@ function printJSON() {
             $temp_array[$key]['name'] = $colorName;
             $temp_array[$key]['hex'] = $hexValue;
             $temp_array[$key]['rgb'] = $RGBValue;
-            
-            $send_array[$fileName] = $temp_array;
         }
+        
+        $send_array[$fileName] = $temp_array;
     }
     
     $json = json_encode($send_array, JSON_PRETTY_PRINT);

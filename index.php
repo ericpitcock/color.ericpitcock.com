@@ -35,7 +35,7 @@
         <div class="row">
             <!-- Tab panes -->
             <div class="tab-content col-sm-12">
-                
+                <pre><?php echo printJSON(); ?></pre>
             </div>
         </div>
     </div>
