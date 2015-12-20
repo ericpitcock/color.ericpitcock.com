@@ -1,5 +1,11 @@
 $(document).ready(function(){
     
+/*
+    $.each(colors, function(key, value) {
+        console.log(colors);
+    });
+*/
+    
     $('.tab-content .tab-pane:first-child').addClass('active');
     
     // tabs

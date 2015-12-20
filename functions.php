@@ -1,8 +1,6 @@
 <?php
-
-function output_colors() {
     
-    // get the value between all the mess
+        // get the value between all the mess
     function readBetween($content, $start, $end) {
         $r = explode($start, $content);
         if (isset($r[1])){
@@ -29,6 +27,10 @@ function output_colors() {
         $b = hexdec($b);
         return array('red' => $r, 'green' => $g, 'blue' => $b);
     }
+
+function output_colors() {
+    
+
     
     // NEW AUTO LESS FILE GRABBER SYSTEM
     
@@ -75,6 +77,32 @@ function output_colors() {
         echo '</div>';
     
     }
+}
+
+function printJSON() {
+    // empty array for the stuff we want
+    $send_array = array();
+    
+    foreach (glob('color/*.less') as $lessFile) {
+        // make an array of colors
+        $lessContents = explode(';', file_get_contents($lessFile), -1);
+        $fileName = substr(substr(basename($lessFile), 2), 0, -5);
+        
+        foreach ($lessContents as $key => $value) {
+            $hexValue = readBetween($value, ': ', ';');
+            $RGBValue = implode(', ', hex2rgb($hexValue));
+            $colorName = str_replace('-', ' ', readBetween($value, '@', ':'));
+                    
+            $temp_array[$key]['name'] = $colorName;
+            $temp_array[$key]['hex'] = $hexValue;
+            $temp_array[$key]['rgb'] = $RGBValue;
+            
+            $send_array[$fileName] = $temp_array;
+        }
+    }
+    
+    $json = json_encode($send_array, JSON_PRETTY_PRINT);
+    return $json;
 }
 
 ?>

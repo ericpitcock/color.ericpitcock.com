@@ -35,12 +35,12 @@
         <div class="row">
             <!-- Tab panes -->
             <div class="tab-content col-sm-12">
-                <?php output_colors(); ?>
+                
             </div>
         </div>
     </div>
     <script>
-        // print json here
+        var colors = <?php echo printJSON(); ?>;
     </script>
     <script src="assets/js/color-picker.min.js"></script>
 </body>
