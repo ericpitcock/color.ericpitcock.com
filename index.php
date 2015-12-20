@@ -27,13 +27,8 @@
                 <ul class="nav nav-tabs" role="tablist"></ul>
             </div>
         </div>
-        <div class="row">
-            <!-- Tab panes -->
-            <div class="tab-content col-sm-12">
-                
-            </div>
-        </div>
     </div>
+    <div class="tab-content">
     <script>
         var colors = <?php echo printJSON(); ?>;
     </script>

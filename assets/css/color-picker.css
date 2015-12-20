@@ -573,7 +573,12 @@ h3 {
     background: #e6e6e6; }
 
 .tab-content > .tab-pane {
-  display: none; }
+  display: none;
+  text-align: center; }
+
+.tab-content {
+  max-width: 1200px;
+  margin: 0 auto; }
 
 .tab-content > .active {
   display: block; }
@@ -587,7 +592,7 @@ h3 {
   height: 120px;
   border-radius: 60px;
   margin: 0 auto 50px auto;
-  transition: all 0.2s ease-in-out; }
+  transition: all 0.15s ease-in-out; }
   .swatch:hover {
     transform: scale(1.2);
     cursor: pointer; }

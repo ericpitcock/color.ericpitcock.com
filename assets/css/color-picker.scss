@@ -92,6 +92,7 @@ h3 {
 // tab content
 .tab-content > .tab-pane {
     display: none;
+    text-align: center;
     
     &:first-child {
         //display: block;
@@ -99,7 +100,8 @@ h3 {
 }
 
 .tab-content {
-    //text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .tab-content > .active {
@@ -116,7 +118,7 @@ h3 {
     height: 120px;
     border-radius: 60px;
     margin: 0 auto 50px auto;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.15s ease-in-out;
     
     &:hover {
         transform: scale(1.2);

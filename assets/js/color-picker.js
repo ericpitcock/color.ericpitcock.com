@@ -37,6 +37,60 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).tab('show');
     });
+    
+    // fill the empty space
+    function spacer() {
+        var firstRow = 0;
+        var lastRow = 0;
+        var spacersNeeded = 0;
+        
+        $('.tab-pane').find('.spacer').remove();
+        
+        $('.tab-pane.active .swatch-container').each(function() {
+            if ($(this).prev().length > 0) {
+                if($(this).position().top != $(this).prev().position().top) return false;
+                firstRow++;
+            }
+            else {
+                firstRow++;   
+            }
+        });
+        
+        lastRow = $('.tab-pane.active .swatch-container').length % firstRow;
+        if (lastRow === 0) { lastRow = firstRow; }
+        
+        //console.log('first row = ' + firstRow + ' last row = ' + lastRow);
+        
+        spacersNeeded = firstRow - lastRow;
+        console.log('need to add ' + spacersNeeded + ' spacers');
+        
+        if (spacersNeeded > 0) {
+            
+            //console.clear();
+            
+            
+            //$('.tab-pane:not(active)').find('.spacer').remove();
+            
+            for (i = 0; i < spacersNeeded; i++) { 
+                $('.tab-pane.active').append('<div class="swatch-container spacer"><div class="swatch" style="background: #fff"></div></div>');
+            }
+        
+        } else {
+            $('.tab-pane').find('.spacer').remove();
+        }
+        
+    }
+    
+    spacer();
+    
+    $(window).resize(function() {
+        console.clear();
+        spacer();
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        spacer();
+    });
 
     // highlight
     $('ul.unstyled li').each(function() {
