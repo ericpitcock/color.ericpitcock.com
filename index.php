@@ -15,20 +15,11 @@
     <link rel="stylesheet" href="assets/css/color-picker.css">
 </head>
 <body>
-    <div class="container colors">
-        <div class="row">
-            <div class="col-sm-12">
-                <h1>Color Picker</h1>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Nav tabs -->
-            <div class="col-sm-12">
-                <ul class="nav nav-tabs" role="tablist"></ul>
-            </div>
-        </div>
-    </div>
-    <div class="tab-content">
+    <header>
+        <h1>Color Picker</h1>
+        <ul class="nav nav-tabs" role="tablist"></ul>
+    </header>
+    <div class="tab-content"></div>
     <script>
         var colors = <?php echo printJSON(); ?>;
     </script>

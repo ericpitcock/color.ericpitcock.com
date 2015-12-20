@@ -9692,7 +9692,7 @@ $(document).ready(function(){
     $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
     
     // tabs
-    $('.nav-tabs li a').click(function (e) {
+    $('.nav-tabs li a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
@@ -9707,7 +9707,7 @@ $(document).ready(function(){
         
         $('.tab-pane.active .swatch-container').each(function() {
             if ($(this).prev().length > 0) {
-                if($(this).position().top != $(this).prev().position().top) return false;
+                if ($(this).position().top != $(this).prev().position().top) return false;
                 firstRow++;
             }
             else {
@@ -9724,11 +9724,6 @@ $(document).ready(function(){
         console.log('need to add ' + spacersNeeded + ' spacers');
         
         if (spacersNeeded > 0) {
-            
-            //console.clear();
-            
-            
-            //$('.tab-pane:not(active)').find('.spacer').remove();
             
             for (i = 0; i < spacersNeeded; i++) { 
                 $('.tab-pane.active').append('<div class="swatch-container spacer"><div class="swatch" style="background: #fff"></div></div>');
@@ -9747,7 +9742,7 @@ $(document).ready(function(){
         spacer();
     });
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
         spacer();
     });
 
