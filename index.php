@@ -24,18 +24,13 @@
         <div class="row">
             <!-- Nav tabs -->
             <div class="col-sm-12">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#color-root" data-toggle="tab">Root</a></li>
-                    <li><a href="#color-carriers" data-toggle="tab">Carriers</a></li>
-                    <li><a href="#color-carriers-design" data-toggle="tab">Carriers Design</a></li>
-                    <li><a href="#color-root-coveragemap" data-toggle="tab">WCM</a></li>
-                </ul>
+                <ul class="nav nav-tabs" role="tablist"></ul>
             </div>
         </div>
         <div class="row">
             <!-- Tab panes -->
             <div class="tab-content col-sm-12">
-                <pre><?php echo printJSON(); ?></pre>
+                
             </div>
         </div>
     </div>

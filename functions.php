@@ -87,7 +87,7 @@ function printJSON() {
     foreach (glob('color/*.less') as $lessFile) {
         
         // get file name
-        $fileName = substr(substr(basename($lessFile), 2), 0, -5);
+        $fileName = substr(basename($lessFile), 0, -5);
         
         // make an array of colors
         $lessContents = explode(';', file_get_contents($lessFile), -1);
