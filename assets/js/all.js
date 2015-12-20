@@ -9365,298 +9365,412 @@ return jQuery;
 
 }(jQuery);
 
-function file_get_contents(url, flags, context, offset, maxLen) {
-  //  discuss at: http://phpjs.org/functions/file_get_contents/
-  // original by: Legaev Andrey
-  //    input by: Jani Hartikainen
-  //    input by: Raphael (Ao) RUDLER
-  // improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // improved by: Brett Zamir (http://brett-zamir.me)
-  // bugfixed by: Brett Zamir (http://brett-zamir.me)
-  //        note: This function uses XmlHttpRequest and cannot retrieve resource from different domain without modifications.
-  //        note: Synchronous by default (as in PHP) so may lock up browser. Can
-  //        note: get async by setting a custom "phpjs.async" property to true and "notification" for an
-  //        note: optional callback (both as context params, with responseText, and other JS-specific
-  //        note: request properties available via 'this'). Note that file_get_contents() will not return the text
-  //        note: in such a case (use this.responseText within the callback). Or, consider using
-  //        note: jQuery's: $('#divId').load('http://url') instead.
-  //        note: The context argument is only implemented for http, and only partially (see below for
-  //        note: "Presently unimplemented HTTP context options"); also the arguments passed to
-  //        note: notification are incomplete
-  //        test: skip
-  //   example 1: var buf file_get_contents('http://google.com');
-  //   example 1: buf.indexOf('Google') !== -1
-  //   returns 1: true
+// randomColor by David Merfield under the MIT license
+// https://github.com/davidmerfield/randomColor/
+;(function(root, factory) {
 
-  var tmp, headers = [],
-    newTmp = [],
-    k = 0,
-    i = 0,
-    href = '',
-    pathPos = -1,
-    flagNames = 0,
-    content = null,
-    http_stream = false;
-  var func = function(value) {
-    return value.substring(1) !== '';
-  };
+  // Support AMD
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
 
-  // BEGIN REDUNDANT
-  this.php_js = this.php_js || {};
-  this.php_js.ini = this.php_js.ini || {};
-  // END REDUNDANT
-  var ini = this.php_js.ini;
-  context = context || this.php_js.default_streams_context || null;
+  // Support CommonJS
+  } else if (typeof exports === 'object') {
+    var randomColor = factory();
 
-  if (!flags) {
-    flags = 0;
-  }
-  var OPTS = {
-    FILE_USE_INCLUDE_PATH : 1,
-    FILE_TEXT             : 32,
-    FILE_BINARY           : 64
-  };
-  if (typeof flags === 'number') {
-    // Allow for a single string or an array of string flags
-    flagNames = flags;
+    // Support NodeJS & Component, which allow module.exports to be a function
+    if (typeof module === 'object' && module && module.exports) {
+      exports = module.exports = randomColor;
+    }
+
+    // Support CommonJS 1.1.1 spec
+    exports.randomColor = randomColor;
+
+  // Support vanilla script loading
   } else {
-    flags = [].concat(flags);
-    for (i = 0; i < flags.length; i++) {
-      if (OPTS[flags[i]]) {
-        flagNames = flagNames | OPTS[flags[i]];
-      }
-    }
+    root.randomColor = factory();
   }
 
-  if (flagNames & OPTS.FILE_BINARY && (flagNames & OPTS.FILE_TEXT)) {
-    // These flags shouldn't be together
-    throw 'You cannot pass both FILE_BINARY and FILE_TEXT to file_get_contents()';
-  }
+}(this, function() {
 
-  if ((flagNames & OPTS.FILE_USE_INCLUDE_PATH) && ini.include_path && ini.include_path.local_value) {
-    var slash = ini.include_path.local_value.indexOf('/') !== -1 ? '/' : '\\';
-    url = ini.include_path.local_value + slash + url;
-  } else if (!/^(https?|file):/.test(url)) {
-    // Allow references within or below the same directory (should fix to allow other relative references or root reference; could make dependent on parse_url())
-    href = this.window.location.href;
-    pathPos = url.indexOf('/') === 0 ? href.indexOf('/', 8) - 1 : href.lastIndexOf('/');
-    url = href.slice(0, pathPos + 1) + url;
-  }
+  // Seed to get repeatable colors
+  var seed = null;
 
-  var http_options;
-  if (context) {
-    http_options = context.stream_options && context.stream_options.http;
-    http_stream = !!http_options;
-  }
+  // Shared color dictionary
+  var colorDictionary = {};
 
-  if (!context || !context.stream_options || http_stream) {
-    var req = this.window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest();
-    if (!req) {
-      throw new Error('XMLHttpRequest not supported');
+  // Populate the color dictionary
+  loadColorBounds();
+
+  var randomColor = function (options) {
+
+    options = options || {};
+
+    if (options.seed && !seed) {
+      seed = options.seed;
     }
 
-    var method = http_stream ? http_options.method : 'GET';
-    var async = !!(context && context.stream_params && context.stream_params['phpjs.async']);
+    var H,S,B;
 
-    if (ini['phpjs.ajaxBypassCache'] && ini['phpjs.ajaxBypassCache'].local_value) {
-      url += (url.match(/\?/) == null ? '?' : '&') + (new Date())
-        .getTime(); // Give optional means of forcing bypass of cache
-    }
+    // Check if we need to generate multiple colors
+    if (options.count !== null && options.count !== undefined) {
 
-    req.open(method, url, async);
-    if (async) {
-      var notification = context.stream_params.notification;
-      if (typeof notification === 'function') {
-        // Fix: make work with req.addEventListener if available: https://developer.mozilla.org/En/Using_XMLHttpRequest
-        if (0 && req.addEventListener) {
-          // Unimplemented so don't allow to get here
-          /*
-          req.addEventListener('progress', updateProgress, false);
-          req.addEventListener('load', transferComplete, false);
-          req.addEventListener('error', transferFailed, false);
-          req.addEventListener('abort', transferCanceled, false);
-          */
-        } else {
-          req.onreadystatechange = function(aEvt) {
-            // aEvt has stopPropagation(), preventDefault(); see https://developer.mozilla.org/en/NsIDOMEvent
-            // Other XMLHttpRequest properties: multipart, responseXML, status, statusText, upload, withCredentials
-            /*
-  PHP Constants:
-  STREAM_NOTIFY_RESOLVE   1       A remote address required for this stream has been resolved, or the resolution failed. See severity  for an indication of which happened.
-  STREAM_NOTIFY_CONNECT   2     A connection with an external resource has been established.
-  STREAM_NOTIFY_AUTH_REQUIRED 3     Additional authorization is required to access the specified resource. Typical issued with severity level of STREAM_NOTIFY_SEVERITY_ERR.
-  STREAM_NOTIFY_MIME_TYPE_IS  4     The mime-type of resource has been identified, refer to message for a description of the discovered type.
-  STREAM_NOTIFY_FILE_SIZE_IS  5     The size of the resource has been discovered.
-  STREAM_NOTIFY_REDIRECTED    6     The external resource has redirected the stream to an alternate location. Refer to message .
-  STREAM_NOTIFY_PROGRESS  7     Indicates current progress of the stream transfer in bytes_transferred and possibly bytes_max as well.
-  STREAM_NOTIFY_COMPLETED 8     There is no more data available on the stream.
-  STREAM_NOTIFY_FAILURE   9     A generic error occurred on the stream, consult message and message_code for details.
-  STREAM_NOTIFY_AUTH_RESULT   10     Authorization has been completed (with or without success).
+      var totalColors = options.count,
+          colors = [];
 
-  STREAM_NOTIFY_SEVERITY_INFO 0     Normal, non-error related, notification.
-  STREAM_NOTIFY_SEVERITY_WARN 1     Non critical error condition. Processing may continue.
-  STREAM_NOTIFY_SEVERITY_ERR  2     A critical error occurred. Processing cannot continue.
-  */
-            var objContext = {
-              responseText : req.responseText,
-              responseXML  : req.responseXML,
-              status       : req.status,
-              statusText   : req.statusText,
-              readyState   : req.readyState,
-              evt          : aEvt
-            }; // properties are not available in PHP, but offered on notification via 'this' for convenience
-            // notification args: notification_code, severity, message, message_code, bytes_transferred, bytes_max (all int's except string 'message')
-            // Need to add message, etc.
-            var bytes_transferred;
-            switch (req.readyState) {
-            case 0:
-              //     UNINITIALIZED     open() has not been called yet.
-              notification.call(objContext, 0, 0, '', 0, 0, 0);
-              break;
-            case 1:
-              //     LOADING     send() has not been called yet.
-              notification.call(objContext, 0, 0, '', 0, 0, 0);
-              break;
-            case 2:
-              //     LOADED     send() has been called, and headers and status are available.
-              notification.call(objContext, 0, 0, '', 0, 0, 0);
-              break;
-            case 3:
-              //     INTERACTIVE     Downloading; responseText holds partial data.
-              // One character is two bytes
-              bytes_transferred = req.responseText.length * 2;
-              notification.call(objContext, 7, 0, '', 0, bytes_transferred, 0);
-              break;
-            case 4:
-              //     COMPLETED     The operation is complete.
-              if (req.status >= 200 && req.status < 400) {
-                // One character is two bytes
-                bytes_transferred = req.responseText.length * 2;
-                notification.call(objContext, 8, 0, '', req.status, bytes_transferred, 0);
-              } else if (req.status === 403) {
-                // Fix: These two are finished except for message
-                notification.call(objContext, 10, 2, '', req.status, 0, 0);
-              } else {
-                // Errors
-                notification.call(objContext, 9, 2, '', req.status, 0, 0);
-              }
-              break;
-            default:
-              throw 'Unrecognized ready state for file_get_contents()';
-            }
-          };
-        }
+      options.count = null;
+
+      while (totalColors > colors.length) {
+        colors.push(randomColor(options));
       }
-    }
 
-    if (http_stream) {
-      var sendHeaders = (http_options.header && http_options.header.split(/\r?\n/)) || [];
-      var userAgentSent = false;
-      for (i = 0; i < sendHeaders.length; i++) {
-        var sendHeader = sendHeaders[i];
-        var breakPos = sendHeader.search(/:\s*/);
-        var sendHeaderName = sendHeader.substring(0, breakPos);
-        req.setRequestHeader(sendHeaderName, sendHeader.substring(breakPos + 1));
-        if (sendHeaderName === 'User-Agent') {
-          userAgentSent = true;
-        }
-      }
-      if (!userAgentSent) {
-        var user_agent = http_options.user_agent || (ini.user_agent && ini.user_agent.local_value);
-        if (user_agent) {
-          req.setRequestHeader('User-Agent', user_agent);
-        }
-      }
-      content = http_options.content || null;
-      /*
-      // Presently unimplemented HTTP context options
-      // When set to TRUE, the entire URI will be used when constructing the request. (i.e. GET http://www.example.com/path/to/file.html HTTP/1.0). While this is a non-standard request format, some proxy servers require it.
-      var request_fulluri = http_options.request_fulluri || false;
-      // The max number of redirects to follow. Value 1 or less means that no redirects are followed.
-      var max_redirects = http_options.max_redirects || 20;
-      // HTTP protocol version
-      var protocol_version = http_options.protocol_version || 1.0;
-      // Read timeout in seconds, specified by a float
-      var timeout = http_options.timeout || (ini.default_socket_timeout && ini.default_socket_timeout.local_value);
-      // Fetch the content even on failure status codes.
-      var ignore_errors = http_options.ignore_errors || false;
-      */
-    }
+      options.count = totalColors;
 
-    if (flagNames & OPTS.FILE_TEXT) {
-      // Overrides how encoding is treated (regardless of what is returned from the server)
-      var content_type = 'text/html';
-      if (http_options && http_options['phpjs.override']) {
-        // Fix: Could allow for non-HTTP as well
-        // We use this, e.g., in gettext-related functions if character set
-        content_type = http_options['phpjs.override'];
-        //   overridden earlier by bind_textdomain_codeset()
+      //Keep the seed constant between runs.
+      if (options.seed && totalColors !== colors.length) {
+        seed = options.seed;
       } else {
-        var encoding = (ini['unicode.stream_encoding'] && ini['unicode.stream_encoding'].local_value) ||
-          'UTF-8';
-        if (http_options && http_options.header && (/^content-type:/im)
-          .test(http_options.header)) {
-          // We'll assume a content-type expects its own specified encoding if present
-          // We let any header encoding stand
-          content_type = http_options.header.match(/^content-type:\s*(.*)$/im)[1];
-        }
-        if (!(/;\s*charset=/)
-          .test(content_type)) {
-          // If no encoding
-          content_type += '; charset=' + encoding;
-        }
+        seed = null;
       }
-      req.overrideMimeType(content_type);
-    }
-    // Default is FILE_BINARY, but for binary, we apparently deviate from PHP in requiring the flag, since many if not
-    //     most people will also want a way to have it be auto-converted into native JavaScript text instead
-    else if (flagNames & OPTS.FILE_BINARY) {
-      // Trick at https://developer.mozilla.org/En/Using_XMLHttpRequest to get binary
-      req.overrideMimeType('text/plain; charset=x-user-defined');
-      // Getting an individual byte then requires:
-      // throw away high-order byte (f7) where x is 0 to responseText.length-1 (see notes in our substr())
-      // responseText.charCodeAt(x) & 0xFF;
+
+      return colors;
     }
 
-    try {
-      if (http_options && http_options['phpjs.sendAsBinary']) {
-        // For content sent in a POST or PUT request (use with file_put_contents()?)
-        // In Firefox, only available FF3+
-        req.sendAsBinary(content);
-      } else {
-        req.send(content);
-      }
-    } catch (e) {
-      // catches exception reported in issue #66
-      return false;
-    }
+    // First we pick a hue (H)
+    H = pickHue(options);
 
-    tmp = req.getAllResponseHeaders();
-    if (tmp) {
-      tmp = tmp.split('\n');
-      for (k = 0; k < tmp.length; k++) {
-        if (func(tmp[k])) {
-          newTmp.push(tmp[k]);
-        }
-      }
-      tmp = newTmp;
-      for (i = 0; i < tmp.length; i++) {
-        headers[i] = tmp[i];
-      }
-      // see http://php.net/manual/en/reserved.variables.httpresponseheader.php
-      this.$http_response_header = headers;
-    }
+    // Then use H to determine saturation (S)
+    S = pickSaturation(H, options);
 
-    if (offset || maxLen) {
-      if (maxLen) {
-        return req.responseText.substr(offset || 0, maxLen);
-      }
-      return req.responseText.substr(offset);
-    }
-    return req.responseText;
+    // Then use S and H to determine brightness (B).
+    B = pickBrightness(H, S, options);
+
+    // Then we return the HSB color in the desired format
+    return setFormat([H,S,B], options);
+  };
+
+  function pickHue (options) {
+
+    var hueRange = getHueRange(options.hue),
+        hue = randomWithin(hueRange);
+
+    // Instead of storing red as two seperate ranges,
+    // we group them, using negative numbers
+    if (hue < 0) {hue = 360 + hue;}
+
+    return hue;
+
   }
-  return false;
-}
+
+  function pickSaturation (hue, options) {
+
+    if (options.luminosity === 'random') {
+      return randomWithin([0,100]);
+    }
+
+    if (options.hue === 'monochrome') {
+      return 0;
+    }
+
+    var saturationRange = getSaturationRange(hue);
+
+    var sMin = saturationRange[0],
+        sMax = saturationRange[1];
+
+    switch (options.luminosity) {
+
+      case 'bright':
+        sMin = 55;
+        break;
+
+      case 'dark':
+        sMin = sMax - 10;
+        break;
+
+      case 'light':
+        sMax = 55;
+        break;
+   }
+
+    return randomWithin([sMin, sMax]);
+
+  }
+
+  function pickBrightness (H, S, options) {
+
+    var bMin = getMinimumBrightness(H, S),
+        bMax = 100;
+
+    switch (options.luminosity) {
+
+      case 'dark':
+        bMax = bMin + 20;
+        break;
+
+      case 'light':
+        bMin = (bMax + bMin)/2;
+        break;
+
+      case 'random':
+        bMin = 0;
+        bMax = 100;
+        break;
+    }
+
+    return randomWithin([bMin, bMax]);
+  }
+
+  function setFormat (hsv, options) {
+
+    switch (options.format) {
+
+      case 'hsvArray':
+        return hsv;
+
+      case 'hslArray':
+        return HSVtoHSL(hsv);
+
+      case 'hsl':
+        var hsl = HSVtoHSL(hsv);
+        return 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)';
+
+      case 'hsla':
+        var hslColor = HSVtoHSL(hsv);
+        return 'hsla('+hslColor[0]+', '+hslColor[1]+'%, '+hslColor[2]+'%, ' + Math.random() + ')';
+
+      case 'rgbArray':
+        return HSVtoRGB(hsv);
+
+      case 'rgb':
+        var rgb = HSVtoRGB(hsv);
+        return 'rgb(' + rgb.join(', ') + ')';
+
+      case 'rgba':
+        var rgbColor = HSVtoRGB(hsv);
+        return 'rgba(' + rgbColor.join(', ') + ', ' + Math.random() + ')';
+
+      default:
+        return HSVtoHex(hsv);
+    }
+
+  }
+
+  function getMinimumBrightness(H, S) {
+
+    var lowerBounds = getColorInfo(H).lowerBounds;
+
+    for (var i = 0; i < lowerBounds.length - 1; i++) {
+
+      var s1 = lowerBounds[i][0],
+          v1 = lowerBounds[i][1];
+
+      var s2 = lowerBounds[i+1][0],
+          v2 = lowerBounds[i+1][1];
+
+      if (S >= s1 && S <= s2) {
+
+         var m = (v2 - v1)/(s2 - s1),
+             b = v1 - m*s1;
+
+         return m*S + b;
+      }
+
+    }
+
+    return 0;
+  }
+
+  function getHueRange (colorInput) {
+
+    if (typeof parseInt(colorInput) === 'number') {
+
+      var number = parseInt(colorInput);
+
+      if (number < 360 && number > 0) {
+        return [number, number];
+      }
+
+    }
+
+    if (typeof colorInput === 'string') {
+
+      if (colorDictionary[colorInput]) {
+        var color = colorDictionary[colorInput];
+        if (color.hueRange) {return color.hueRange;}
+      }
+    }
+
+    return [0,360];
+
+  }
+
+  function getSaturationRange (hue) {
+    return getColorInfo(hue).saturationRange;
+  }
+
+  function getColorInfo (hue) {
+
+    // Maps red colors to make picking hue easier
+    if (hue >= 334 && hue <= 360) {
+      hue-= 360;
+    }
+
+    for (var colorName in colorDictionary) {
+       var color = colorDictionary[colorName];
+       if (color.hueRange &&
+           hue >= color.hueRange[0] &&
+           hue <= color.hueRange[1]) {
+          return colorDictionary[colorName];
+       }
+    } return 'Color not found';
+  }
+
+  function randomWithin (range) {
+    if (seed === null) {
+      return Math.floor(range[0] + Math.random()*(range[1] + 1 - range[0]));
+    } else {
+      //Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+      var max = range[1] || 1;
+      var min = range[0] || 0;
+      seed = (seed * 9301 + 49297) % 233280;
+      var rnd = seed / 233280.0;
+      return Math.floor(min + rnd * (max - min));
+    }
+  }
+
+  function HSVtoHex (hsv){
+
+    var rgb = HSVtoRGB(hsv);
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? '0' + hex : hex;
+    }
+
+    var hex = '#' + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
+
+    return hex;
+
+  }
+
+  function defineColor (name, hueRange, lowerBounds) {
+
+    var sMin = lowerBounds[0][0],
+        sMax = lowerBounds[lowerBounds.length - 1][0],
+
+        bMin = lowerBounds[lowerBounds.length - 1][1],
+        bMax = lowerBounds[0][1];
+
+    colorDictionary[name] = {
+      hueRange: hueRange,
+      lowerBounds: lowerBounds,
+      saturationRange: [sMin, sMax],
+      brightnessRange: [bMin, bMax]
+    };
+
+  }
+
+  function loadColorBounds () {
+
+    defineColor(
+      'monochrome',
+      null,
+      [[0,0],[100,0]]
+    );
+
+    defineColor(
+      'red',
+      [-26,18],
+      [[20,100],[30,92],[40,89],[50,85],[60,78],[70,70],[80,60],[90,55],[100,50]]
+    );
+
+    defineColor(
+      'orange',
+      [19,46],
+      [[20,100],[30,93],[40,88],[50,86],[60,85],[70,70],[100,70]]
+    );
+
+    defineColor(
+      'yellow',
+      [47,62],
+      [[25,100],[40,94],[50,89],[60,86],[70,84],[80,82],[90,80],[100,75]]
+    );
+
+    defineColor(
+      'green',
+      [63,178],
+      [[30,100],[40,90],[50,85],[60,81],[70,74],[80,64],[90,50],[100,40]]
+    );
+
+    defineColor(
+      'blue',
+      [179, 257],
+      [[20,100],[30,86],[40,80],[50,74],[60,60],[70,52],[80,44],[90,39],[100,35]]
+    );
+
+    defineColor(
+      'purple',
+      [258, 282],
+      [[20,100],[30,87],[40,79],[50,70],[60,65],[70,59],[80,52],[90,45],[100,42]]
+    );
+
+    defineColor(
+      'pink',
+      [283, 334],
+      [[20,100],[30,90],[40,86],[60,84],[80,80],[90,75],[100,73]]
+    );
+
+  }
+
+  function HSVtoRGB (hsv) {
+
+    // this doesn't work for the values of 0 and 360
+    // here's the hacky fix
+    var h = hsv[0];
+    if (h === 0) {h = 1;}
+    if (h === 360) {h = 359;}
+
+    // Rebase the h,s,v values
+    h = h/360;
+    var s = hsv[1]/100,
+        v = hsv[2]/100;
+
+    var h_i = Math.floor(h*6),
+      f = h * 6 - h_i,
+      p = v * (1 - s),
+      q = v * (1 - f*s),
+      t = v * (1 - (1 - f)*s),
+      r = 256,
+      g = 256,
+      b = 256;
+
+    switch(h_i) {
+      case 0: r = v; g = t; b = p;  break;
+      case 1: r = q; g = v; b = p;  break;
+      case 2: r = p; g = v; b = t;  break;
+      case 3: r = p; g = q; b = v;  break;
+      case 4: r = t; g = p; b = v;  break;
+      case 5: r = v; g = p; b = q;  break;
+    }
+
+    var result = [Math.floor(r*255), Math.floor(g*255), Math.floor(b*255)];
+    return result;
+  }
+
+  function HSVtoHSL (hsv) {
+    var h = hsv[0],
+      s = hsv[1]/100,
+      v = hsv[2]/100,
+      k = (2-s)*v;
+
+    return [
+      h,
+      Math.round(s*v / (k<1 ? k : 2-k) * 10000) / 100,
+      k/2 * 100
+    ];
+  }
+
+  return randomColor;
+}));
 $(document).ready(function(){
     
     // iterate over the JSON
@@ -9668,7 +9782,7 @@ $(document).ready(function(){
             // create tabs
             $('.nav-tabs').prepend('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
             
-            // create div to contain swatches
+            // create tab pane
             $('.tab-content').prepend('<div class="tab-pane" id="' + key +'"></div>');
             
             var id = '#' + key;
@@ -9676,14 +9790,9 @@ $(document).ready(function(){
             // for each color, append a swatch
             $.each(value, function(key, value) {
                 $(id).append('<div class="swatch-container"><div class="swatch" style="background: ' + value.hex + '"></div></div>');
-                //console.log('this is color ' + value.hex);
-                /*
-                        <h3>' + value.name + '</h3>
-                        <ul class="unstyled">
-                            <li><span>Hex</span><input value="' + value.hex + '" readonly></input></li>
-                            <li><span>RGB</span><input value="' + value.rgb + '" readonly></input></li>
-                        </ul>
-                */
+                //value.name
+                //value.hex
+                //value.rgb
             });
         });
     });
@@ -9721,14 +9830,17 @@ $(document).ready(function(){
         //console.log('first row = ' + firstRow + ' last row = ' + lastRow);
         
         spacersNeeded = firstRow - lastRow;
-        console.log('need to add ' + spacersNeeded + ' spacers');
         
+        // if we need spacers, add them
         if (spacersNeeded > 0) {
+            
+            console.log('added ' + spacersNeeded + ' spacers');
             
             for (i = 0; i < spacersNeeded; i++) { 
                 $('.tab-pane.active').append('<div class="swatch-container spacer"><div class="swatch" style="background: #fff"></div></div>');
             }
         
+        // otherwise, remove any old spacers
         } else {
             $('.tab-pane').find('.spacer').remove();
         }
@@ -9752,5 +9864,35 @@ $(document).ready(function(){
             $(this).children('input').select();
         });
     });
-
+    
+    // random colors
+    
+    var presets = ['red', 'orange', 'yellow'/*, 'green', 'blue', 'indigo', 'violet' */];
+    
+    $(presets).each(function(index, value) {
+        
+        // generate colors
+        var theColors = randomColor({
+            hue: value,
+            count: 18
+        });
+        
+        // create tab
+        $('.nav-tabs').prepend('<li><a href="#' + value +'" data-toggle="tab">' + value +'</a></li>');
+        
+        // create tab pane
+        $('.tab-content').prepend('<div class="tab-pane" id="' + value +'"></div>');
+        
+        var id = '#' + value;
+        
+        // output swatches
+        $(theColors).each(function(index, value) {
+            $(id).append('<div class="swatch-container spacer"><div class="swatch" style="background: ' + value + '"></div></div>');
+        });
+        
+    });
 });
+
+
+
+

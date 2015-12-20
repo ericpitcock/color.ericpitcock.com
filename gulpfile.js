@@ -27,7 +27,7 @@ gulp.task('scripts', function() {
     return gulp.src([
             'assets/bower/jquery/dist/jquery.js',
             'assets/bower/bootstrap/js/tab.js',
-            'assets/js/file_get_contents.js',
+            'assets/bower/randomcolor/randomColor.js',
             'assets/js/color-picker.js'
             ])
         .pipe(concat('all.js'))

@@ -9,7 +9,7 @@ $(document).ready(function(){
             // create tabs
             $('.nav-tabs').prepend('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
             
-            // create div to contain swatches
+            // create tab pane
             $('.tab-content').prepend('<div class="tab-pane" id="' + key +'"></div>');
             
             var id = '#' + key;
@@ -17,14 +17,9 @@ $(document).ready(function(){
             // for each color, append a swatch
             $.each(value, function(key, value) {
                 $(id).append('<div class="swatch-container"><div class="swatch" style="background: ' + value.hex + '"></div></div>');
-                //console.log('this is color ' + value.hex);
-                /*
-                        <h3>' + value.name + '</h3>
-                        <ul class="unstyled">
-                            <li><span>Hex</span><input value="' + value.hex + '" readonly></input></li>
-                            <li><span>RGB</span><input value="' + value.rgb + '" readonly></input></li>
-                        </ul>
-                */
+                //value.name
+                //value.hex
+                //value.rgb
             });
         });
     });
@@ -62,14 +57,17 @@ $(document).ready(function(){
         //console.log('first row = ' + firstRow + ' last row = ' + lastRow);
         
         spacersNeeded = firstRow - lastRow;
-        console.log('need to add ' + spacersNeeded + ' spacers');
         
+        // if we need spacers, add them
         if (spacersNeeded > 0) {
+            
+            console.log('added ' + spacersNeeded + ' spacers');
             
             for (i = 0; i < spacersNeeded; i++) { 
                 $('.tab-pane.active').append('<div class="swatch-container spacer"><div class="swatch" style="background: #fff"></div></div>');
             }
         
+        // otherwise, remove any old spacers
         } else {
             $('.tab-pane').find('.spacer').remove();
         }
@@ -93,5 +91,35 @@ $(document).ready(function(){
             $(this).children('input').select();
         });
     });
-
+    
+    // random colors
+    
+    var presets = ['red', 'orange', 'yellow'/*, 'green', 'blue', 'indigo', 'violet' */];
+    
+    $(presets).each(function(index, value) {
+        
+        // generate colors
+        var theColors = randomColor({
+            hue: value,
+            count: 18
+        });
+        
+        // create tab
+        $('.nav-tabs').prepend('<li><a href="#' + value +'" data-toggle="tab">' + value +'</a></li>');
+        
+        // create tab pane
+        $('.tab-content').prepend('<div class="tab-pane" id="' + value +'"></div>');
+        
+        var id = '#' + value;
+        
+        // output swatches
+        $(theColors).each(function(index, value) {
+            $(id).append('<div class="swatch-container spacer"><div class="swatch" style="background: ' + value + '"></div></div>');
+        });
+        
+    });
 });
+
+
+
+
