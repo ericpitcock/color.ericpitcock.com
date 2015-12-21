@@ -35,19 +35,19 @@ header {
     right: 0;
     left: 0;
     z-index: 1;
+    display: flex;
     width: 100%;
-    //max-width: 1200px;
     height: 100px;
-    background: #fff;
+    padding-left: 60px;
     border-bottom: 1px solid #e6e6e6;
     margin: 0 auto;
-    text-align: center;
+    background: #fff;
 }
 
 h1 {
-    position: absolute;
+    flex-basis: 200px;
     font-size: 20px;
-    margin: 64px 0 0 60px;
+    padding-top: 63px;
 }
 
 h3 {
@@ -59,23 +59,28 @@ h3 {
 
 // tabs
 .nav-tabs {
-    margin-top: 70px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-start;
+    padding-top: 70px;
     
     li {
-        display: inline-block;
+        //display: inline-block;
+        flex-basis: 120px;
         
         a {
             //position: relative;
             //top: 1px;
             //z-index: 1;
             display: block;
-            min-width: 100px;
+            //min-width: 100px;
             height: 30px;
             //padding: 10px 15px;
             //border: 1px solid #e6e6e6;
             margin-right: 40px;
             //background: #f9f9f9;
             text-decoration: none;
+            text-indent: 2px;
             color: #555;
         }
         
@@ -94,40 +99,36 @@ h3 {
 }
 
 // tab content
-.tab-content > .tab-pane {
-    display: none;
-    text-align: center;
-    
-    &:first-child {
-        //display: block;
-    }
-}
-
 .tab-content {
     //max-width: 1200px;
-    margin: 160px auto 0 auto;
-}
-
-.tab-content > .active {
-    display: block;
+    margin: 160px auto 0 15px;
+    
+    .tab-pane {
+        display: none;
+        
+        &.active {
+            display: block;
+        }
+    }
 }
 
 .swatch-container {
     display: inline-block;
     min-width: 190px;
-}
 
-.swatch {
-    width: 120px;
-    height: 120px;
-    border-radius: 60px;
-    margin: 0 auto 50px auto;
-    transition: all 0.15s ease-in-out;
-    
-    &:hover {
-        transform: scale(1.2);
-        cursor: pointer;
+    .swatch {
+        width: 120px;
+        height: 120px;
+        border-radius: 60px;
+        margin: 0 auto 66px auto;
+        transition: all 0.15s ease-in-out;
+        
+        &:hover {
+            transform: scale(1.7);
+            cursor: pointer;
+        }
     }
+    
 }
 
 ul.unstyled {

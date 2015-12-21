@@ -9780,22 +9780,24 @@ return jQuery;
         
         //defaults:,
         
-        presets: {
+        presetColors: {
             'red': '#F00',
             'orange': '#FFA500',
             'yellow': '#FF0',
             'green': '#008000',
             'blue': '#00F',
             'purple': '#800080',
-            'pink': '#FFC0CB',
-            'monochrome': '#000'
+            'pink': '#FFC0CB'
+            //'monochrome': '#000'
         },
         
         spacer: function() {
-            var firstRow = 0;
-            var lastRow = 0;
-            var spacersNeeded = 0;
             
+            var firstRow = 0,
+                lastRow = 0,
+                spacersNeeded = 0;
+            
+            // clear existing spacers
             $('.tab-pane').find('.spacer').remove();
             
             $('.tab-pane.active .swatch-container').each(function() {
@@ -9823,10 +9825,6 @@ return jQuery;
                 for (i = 0; i < spacersNeeded; i++) { 
                     $('.tab-pane.active').append('<div class="swatch-container spacer"><div class="swatch" style="background: #fff"></div></div>');
                 }
-            
-            // otherwise, remove any old spacers
-            } else {
-                $('.tab-pane').find('.spacer').remove();
             }
         },
         
@@ -9836,22 +9834,23 @@ return jQuery;
         
                 var id = '#' + key;
                 
-                console.log(value);
+                //console.log(value);
                 
                 // create tab
-                $('.nav-tabs').prepend('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
+                $('.nav-tabs').append('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
                 
                 // create tab pane
-                $('.tab-content').prepend('<div class="tab-pane" id="' + key +'"></div>');
+                $('.tab-content').append('<div class="tab-pane" id="' + key +'"></div>');
                 
                 // generate colors
                 var theColors = randomColor({
                     hue: key,
+                    luminosity: 'bright',
                     count: 40
                 });
                 
                 // output swatches
-                $(theColors).each(function(index, value) {
+                $.each(theColors, function(index, value) {
                     $(id).append('<div class="swatch-container"><div class="swatch" style="background: ' + value + '"></div></div>');
                 });
                 
@@ -9860,7 +9859,7 @@ return jQuery;
         },
         
         initialize: function() {
-            ColorPicker.loadColors(ColorPicker.presets);
+            ColorPicker.loadColors(ColorPicker.presetColors);
             
             // highlight UNUSED
             $('ul.unstyled li').each(function() {
@@ -9870,12 +9869,33 @@ return jQuery;
             });
             
             // listen for tab switch and run spacer
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                
+                // run spacer
                 ColorPicker.spacer();
+                
+                // update URL
+                window.location.hash = e.target.hash;
+                
+                // scroll to top
+                window.scrollTo(0, 0);
             });
             
-            //activate the first tab
-            $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
+            // activate appropriate tab
+            if (window.location.hash) {
+                
+                var hash = window.location.hash;
+                
+                // activate tab
+                $('.nav-tabs a[href=' + hash + ']').parent().addClass('active');
+                
+                // activate tab pane
+                $('.tab-content .tab-pane' + hash + '').addClass('active');
+                
+            } else {
+                
+                $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
+            }
             
             ColorPicker.spacer();
             
