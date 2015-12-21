@@ -81,9 +81,7 @@ $(document).ready(function(){
         spacer();
     });
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
-        spacer();
-    });
+    
 
     // highlight
     $('ul.unstyled li').each(function() {
@@ -94,23 +92,34 @@ $(document).ready(function(){
     
     // random colors
     
-    var presets = ['red', 'orange', 'yellow'/*, 'green', 'blue', 'indigo', 'violet' */];
+    var presets = {
+        'red': '#F00',
+        'orange': '#FFA500',
+        'yellow': '#FF0',
+        'green': '#008000',
+        'blue': '#00F',
+        'purple': '#800080',
+        'pink': '#FFC0CB',
+        'monochrome': '#000'
+    };
     
-    $(presets).each(function(index, value) {
+    $.each(presets, function(key, value) {
+        
+        var id = '#' + key;
+        
+        console.log(value);
+        
+        // create tab
+        $('.nav-tabs').prepend('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
+        
+        // create tab pane
+        $('.tab-content').prepend('<div class="tab-pane" id="' + key +'"></div>');
         
         // generate colors
         var theColors = randomColor({
-            hue: value,
-            count: 18
+            hue: key,
+            count: 40
         });
-        
-        // create tab
-        $('.nav-tabs').prepend('<li><a href="#' + value +'" data-toggle="tab">' + value +'</a></li>');
-        
-        // create tab pane
-        $('.tab-content').prepend('<div class="tab-pane" id="' + value +'"></div>');
-        
-        var id = '#' + value;
         
         // output swatches
         $(theColors).each(function(index, value) {
@@ -118,6 +127,12 @@ $(document).ready(function(){
         });
         
     });
+    
+    // listen for tab switch and run spacer
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
+        spacer();
+    });
+    
 });
 
 
