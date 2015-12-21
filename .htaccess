@@ -1,0 +1,4 @@
+SetEnvIf HOST "dev.colorpicker.ericpitcock.com" dev
+Order Deny,Allow
+Deny from env=dev
+Allow from 50.181.210.106
