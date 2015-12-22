@@ -27,7 +27,7 @@
             // clear existing spacers
             $('.tab-pane').find('.spacer').remove();
             
-            $('.tab-pane.active .swatch-container').each(function() {
+            $('.tab-pane.active .swatch').each(function() {
                 if ($(this).prev().length > 0) {
                     if ($(this).position().top != $(this).prev().position().top) return false;
                     firstRow++;
@@ -37,7 +37,7 @@
                 }
             });
             
-            lastRow = $('.tab-pane.active .swatch-container').length % firstRow;
+            lastRow = $('.tab-pane.active .swatch').length % firstRow;
             if (lastRow === 0) { lastRow = firstRow; }
             
             //console.log('first row = ' + firstRow + ' last row = ' + lastRow);
@@ -50,7 +50,7 @@
                 console.log('added ' + spacersNeeded + ' spacers');
                 
                 for (i = 0; i < spacersNeeded; i++) { 
-                    $('.tab-pane.active').append('<div class="swatch-container spacer"><div class="swatch" style="background: #fff"></div></div>');
+                    $('.tab-pane.active').append('<div class="swatch spacer" style="background: #fff"></div>');
                 }
             }
         },
@@ -78,7 +78,7 @@
                 
                 // output swatches
                 $.each(theColors, function(index, value) {
-                    $(id).append('<div class="swatch-container"><div class="swatch" style="background: ' + value + '"></div></div>');
+                    $(id).append('<div class="swatch" style="background: ' + value + '"></div>');
                 });
                 
             });
