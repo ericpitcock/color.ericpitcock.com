@@ -15,7 +15,7 @@ gulp.task('jshint', function() {
 
 gulp.task('sass', function() {
     gulp.src('assets/css/color-picker.scss')
-        .pipe(sass())
+        .pipe(sass({outputStyle: 'compressed'}))
         .pipe(autoprefixer())
         .pipe(gulp.dest('assets/css'));
 });
