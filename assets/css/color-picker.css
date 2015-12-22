@@ -736,6 +736,9 @@ header {
   right: 0;
   left: 0;
   z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   height: 100px;
@@ -745,7 +748,9 @@ header {
   background: #fff; }
 
 h1 {
-  flex-basis: 200px;
+  -webkit-flex-basis: 200px;
+      -ms-flex-preferred-size: 200px;
+          flex-basis: 200px;
   font-size: 20px;
   padding-top: 63px; }
 
@@ -756,12 +761,23 @@ h3 {
   margin-bottom: 10px; }
 
 .nav-tabs {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  flex-grow: 1;
-  justify-content: flex-start;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   padding-top: 70px; }
   .nav-tabs li {
-    flex-basis: 120px; }
+    -webkit-flex-basis: 120px;
+        -ms-flex-preferred-size: 120px;
+            flex-basis: 120px; }
     .nav-tabs li a {
       display: block;
       height: 30px;
@@ -789,9 +805,11 @@ h3 {
     height: 120px;
     border-radius: 60px;
     margin: 0 auto 66px auto;
+    -webkit-transition: all 0.15s ease-in-out;
     transition: all 0.15s ease-in-out; }
     .swatch-container .swatch:hover {
-      transform: scale(1.7);
+      -webkit-transform: scale(1.7);
+              transform: scale(1.7);
       cursor: pointer; }
 
 ul.unstyled {
