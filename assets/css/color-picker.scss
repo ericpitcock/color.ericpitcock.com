@@ -11,6 +11,12 @@
 @import "../bower/bootstrap-sass/assets/stylesheets/bootstrap/_grid.scss";
 
 //=============================================================================
+// COLORS
+//=============================================================================
+
+$black: black;
+
+//=============================================================================
 // STYLES
 //=============================================================================
 
@@ -22,7 +28,7 @@ body, input {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400; // regular
     font-size: 14px;
-    color: #555;
+    color: $black;
 }
 
 body {
@@ -65,34 +71,26 @@ h3 {
     padding-top: 70px;
     
     li {
-        //display: inline-block;
         flex-basis: 120px;
+        text-align: center;
         
         a {
-            //position: relative;
-            //top: 1px;
-            //z-index: 1;
             display: block;
-            //min-width: 100px;
             height: 30px;
-            //padding: 10px 15px;
-            //border: 1px solid #e6e6e6;
             margin-right: 40px;
-            //background: #f9f9f9;
             text-decoration: none;
             text-indent: 2px;
-            color: #555;
+            color: $black;
         }
         
         &:last-child {
             a {
-               margin-right: 0; 
             }
         }
     
         &.active {
             a {
-                border-bottom: 2px solid #b9b9b9;
+                border-bottom: 2px solid $black;
             }
         }
     }
@@ -100,7 +98,6 @@ h3 {
 
 // tab content
 .tab-content {
-    //max-width: 1200px;
     margin-top: 160px;
     
     .tab-pane {
@@ -113,12 +110,6 @@ h3 {
         }
     }
 }
-
-/*
-.swatch-container {
-    display: inline-block;
-    min-width: 190px;
-*/
 
 .swatch {
     display: inline-block;

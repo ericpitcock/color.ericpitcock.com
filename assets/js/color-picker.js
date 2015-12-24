@@ -119,6 +119,9 @@
                 // activate tab pane
                 $('.tab-content .tab-pane' + hash + '').addClass('active');
                 
+                // scroll to top
+                window.scrollTo(0, 0);
+                
             } else {
                 
                 $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
