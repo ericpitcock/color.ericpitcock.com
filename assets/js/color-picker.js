@@ -5,7 +5,6 @@
 (function() {
     var ColorPicker = {
         
-        firstPick: true,
         swatchesChosen: [],        
         presetColors: {
             'red': '#F00',
@@ -50,7 +49,7 @@
                 console.log('added ' + spacersNeeded + ' spacers');
                 
                 for (i = 0; i < spacersNeeded; i++) { 
-                    $('.tab-pane.active').append('<div class="swatch spacer" style="background: #fff"></div>');
+                    $('.tab-pane.active').append('<div class="swatch spacer" style="background-color: #fff"></div>');
                 }
             }
         },
@@ -78,7 +77,7 @@
                 
                 // output swatches
                 $.each(theColors, function(index, value) {
-                    $(id).append('<div class="swatch" style="background: ' + value + '"></div>');
+                    $(id).append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
                 });
                 
             });
@@ -87,23 +86,41 @@
         
         handleSwatchClick: function(e) {
             
-            console.log(e);
+            //console.log(e);
+            
+            var color = $(this).data('swatch-color');
             
             if ($(e.target).parent().hasClass('tab-pane')) {
+                
                 // copy swatch to palette
                 $(this).clone(true).appendTo('.palette');
-                console.log('moved to palette');
+                //console.log('moved to palette');
+                
+                // add to swatches array
+                ColorPicker.swatchesChosen.push(color);
+                
+                console.log(ColorPicker.swatchesChosen);
             
             } else if ($(e.target).parent().hasClass('palette')) {
             
+                // remove from array
+                ColorPicker.swatchesChosen.splice($.inArray(color, ColorPicker.swatchesChosen), 1);
+                
+                console.log(ColorPicker.swatchesChosen);
+                
+                // remove swatch from palette
                 $(this).remove();
-                console.log('removed');
+                //console.log('removed');
+            
             }
             
-            if (ColorPicker.firstPick === true) {
+            // deal with text in palette
+            if (ColorPicker.swatchesChosen.length > 0) {
                 $('.palette p').hide();
-                ColorPicker.firstPick = false;
+            } else if (ColorPicker.swatchesChosen.length === 0) {
+                $('.palette p').show();
             }
+            
         },
         
         initialize: function() {
@@ -173,6 +190,11 @@
                 ColorPicker.spacer();
             });
             
+            // fast button action
+            $(function() {
+                FastClick.attach(document.body);
+            });
+            
         }
         
     };
@@ -199,7 +221,7 @@
             
             // for each color, append a swatch
             $.each(value, function(key, value) {
-                $(id).append('<div class="swatch-container"><div class="swatch" style="background: ' + value.hex + '"></div></div>');
+                $(id).append('<div class="swatch-container"><div class="swatch" style="background-color: ' + value.hex + '"></div></div>');
                 //value.name
                 //value.hex
                 //value.rgb

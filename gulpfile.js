@@ -26,6 +26,7 @@ gulp.task('js', function() {
             'assets/bower/jquery-ui/jquery-ui.js',
             'assets/bower/bootstrap/js/tab.js',
             'assets/bower/randomcolor/randomColor.js',
+            'assets/bower/fastclick/lib/fastclick.js',
             'assets/js/color-picker.js'
             ])
         .pipe(concat('all.js'))
