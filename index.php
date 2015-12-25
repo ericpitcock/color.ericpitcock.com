@@ -19,7 +19,10 @@
         <h1><a href="/">Color Picker</a></h1>
         <ul class="nav nav-tabs" role="tablist"></ul>
     </header>
-    <div class="palette"><p>Select colors to build your palette</p></div>
+    <div class="palette">
+        <div class="clear-palette">Clear</div>
+        <p>Select colors to build your palette</p>
+    </div>
     <div class="tab-content"></div>
     <script>
         var colors = <?php echo printJSON(); ?>;

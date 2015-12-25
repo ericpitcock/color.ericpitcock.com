@@ -84,6 +84,19 @@
             
         },
         
+        clearPalette: function() {
+            
+            // clear array
+            ColorPicker.swatchesChosen = [];
+            console.log(ColorPicker.swatchesChosen);
+            
+            // remove swatches
+            $('.palette').children('.swatch').remove();
+            
+            // remove added class
+            $('.swatch').removeClass('added');
+        },
+        
         handleSwatchClick: function(e) {
             
             //console.log(e);
@@ -126,10 +139,12 @@
             if (ColorPicker.swatchesChosen.length > 0) {
                 
                 $('.palette p').hide();
+                $('.clear-palette').show();
             
             } else if (ColorPicker.swatchesChosen.length === 0) {
             
                 $('.palette p').show();
+                $('.clear-palette').hide();
             
             }
             
@@ -181,6 +196,9 @@
             
             // listen for click events
             $('.swatch').on('click', this.handleSwatchClick);
+            
+            // listen for click events
+            $('.clear-palette').on('click', this.clearPalette);
             
             // space swatches
             ColorPicker.spacer();
