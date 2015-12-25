@@ -5,8 +5,8 @@
 (function() {
     var ColorPicker = {
         
-        //defaults:,
-        
+        firstPick: true,
+        swatchesChosen: [],        
         presetColors: {
             'red': '#F00',
             'orange': '#FFA500',
@@ -85,8 +85,43 @@
             
         },
         
+        handleSwatchClick: function(e) {
+            
+            console.log(e);
+            
+            if ($(e.target).parent().hasClass('tab-pane')) {
+                // copy swatch to palette
+                $(this).clone(true).appendTo('.palette');
+                console.log('moved to palette');
+            
+            } else if ($(e.target).parent().hasClass('palette')) {
+            
+                $(this).remove();
+                console.log('removed');
+            }
+            
+            if (ColorPicker.firstPick === true) {
+                $('.palette p').hide();
+                ColorPicker.firstPick = false;
+            }
+        },
+        
         initialize: function() {
+            
+            // load preset colors
             ColorPicker.loadColors(ColorPicker.presetColors);
+            
+            // make swatches draggable
+/*
+            $('.swatch').draggable({
+                //snap: '.palette', grid: [ 90, 100 ]
+            });
+            
+            $('.palette').droppable({
+                accept: '.swatch',
+                activeClass: 'highlight'
+            });
+*/
             
             // highlight UNUSED
             $('ul.unstyled li').each(function() {
@@ -127,6 +162,10 @@
                 $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
             }
             
+            // listen for click events
+            $('.swatch').on('click', this.handleSwatchClick);
+            
+            // space swatches
             ColorPicker.spacer();
             
             $(window).resize(function() {
