@@ -95,6 +95,9 @@
             
             // remove added class
             $('.swatch').removeClass('added');
+            
+            // add text back
+            $('.palette p').show();
         },
         
         handleSwatchClick: function(e) {
@@ -154,6 +157,11 @@
         },
         
         initialize: function() {
+            
+            // test for touch
+            if (!('ontouchstart' in document.documentElement)) {
+                document.documentElement.className += 'no-touch';
+            }
             
             // load preset colors
             ColorPicker.loadColors(ColorPicker.presetColors);

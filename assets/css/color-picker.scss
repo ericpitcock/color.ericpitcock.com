@@ -170,12 +170,12 @@ h3 {
     }
     
     // hover in unselected state
-    &:hover {
+    html.no-touch &:hover {
         //transform: scale(1.3);
         cursor: pointer;
     }
     
-    .tab-pane &:not(.added):hover:after {
+    html.no-touch .tab-pane &:not(.added):hover:after {
             content: '+';
     }
     
@@ -184,7 +184,7 @@ h3 {
         margin-bottom: 0;
     }
     
-    .palette &:hover:after{
+    html.no-touch .palette &:hover:after{
         content: '-';
         margin-left: -6px;
         margin-top: -14px;
@@ -207,7 +207,7 @@ ul.unstyled {
         border-top: 1px solid #e3e3e3;
         padding: 5px 0;
         
-        &:hover {
+        html.no-touch &:hover {
             cursor: pointer;
             background: #f3f3f3;
         }
@@ -228,7 +228,7 @@ ul.unstyled {
             background: transparent;
             border: none;
             
-            &:hover {
+            html.no-touch &:hover {
                 cursor: pointer;
                 background: #f3f3f3;
             }
