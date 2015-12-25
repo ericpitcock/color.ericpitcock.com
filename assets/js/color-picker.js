@@ -90,17 +90,22 @@
             
             var color = $(this).data('swatch-color');
             
+            // swatch in collection 
             if ($(e.target).parent().hasClass('tab-pane')) {
                 
                 // copy swatch to palette
                 $(this).clone(true).appendTo('.palette');
                 //console.log('moved to palette');
                 
+                // add added class
+                $('.tab-pane').children('*[data-swatch-color="' + color + '"]').addClass('added');
+                
                 // add to swatches array
                 ColorPicker.swatchesChosen.push(color);
                 
                 console.log(ColorPicker.swatchesChosen);
             
+            // swatch in palette
             } else if ($(e.target).parent().hasClass('palette')) {
             
                 // remove from array
@@ -111,14 +116,21 @@
                 // remove swatch from palette
                 $(this).remove();
                 //console.log('removed');
+                
+                // remove added class
+                $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('added');
             
             }
             
-            // deal with text in palette
+            // deal with palette text
             if (ColorPicker.swatchesChosen.length > 0) {
+                
                 $('.palette p').hide();
+            
             } else if (ColorPicker.swatchesChosen.length === 0) {
+            
                 $('.palette p').show();
+            
             }
             
         },
@@ -127,18 +139,6 @@
             
             // load preset colors
             ColorPicker.loadColors(ColorPicker.presetColors);
-            
-            // make swatches draggable
-/*
-            $('.swatch').draggable({
-                //snap: '.palette', grid: [ 90, 100 ]
-            });
-            
-            $('.palette').droppable({
-                accept: '.swatch',
-                activeClass: 'highlight'
-            });
-*/
             
             // highlight UNUSED
             $('ul.unstyled li').each(function() {

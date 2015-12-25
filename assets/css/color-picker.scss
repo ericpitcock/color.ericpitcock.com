@@ -163,7 +163,7 @@ h3 {
         cursor: pointer;
     }
     
-    .tab-pane &:hover:after {
+    .tab-pane &:not(.added):hover:after {
             content: '+';
     }
     
@@ -176,6 +176,10 @@ h3 {
         content: '-';
         margin-left: -6px;
         margin-top: -14px;
+    }
+    
+    &.added:after {
+        content: 'v';
     }
 }
 
