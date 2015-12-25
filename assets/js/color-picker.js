@@ -106,17 +106,20 @@
             // swatch in collection 
             if ($(e.target).parent().hasClass('tab-pane')) {
                 
-                // copy swatch to palette
-                $(this).clone(true).appendTo('.palette');
-                //console.log('moved to palette');
-                
-                // add added class
-                $('.tab-pane').children('*[data-swatch-color="' + color + '"]').addClass('added');
-                
-                // add to swatches array
-                ColorPicker.swatchesChosen.push(color);
-                
-                console.log(ColorPicker.swatchesChosen);
+                if (!$(this).hasClass('added')) {
+                    
+                    // copy swatch to palette
+                    $(this).clone(true).appendTo('.palette');
+                    //console.log('moved to palette');
+                    
+                    // add added class
+                    $('.tab-pane').children('*[data-swatch-color="' + color + '"]').addClass('added');
+                    
+                    // add to swatches array
+                    ColorPicker.swatchesChosen.push(color);
+                    
+                    console.log(ColorPicker.swatchesChosen);
+                }
             
             // swatch in palette
             } else if ($(e.target).parent().hasClass('palette')) {
