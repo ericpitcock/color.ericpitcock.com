@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>Color Picker</title>
+    <title>Color</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="controls">
-        <h1><a href="/">Colors</a></h1>
+        <h1><a href="/">Color</a></h1>
         <h2>PRESET COLORS</h2>
         <ul class="nav nav-tabs" role="tablist"></ul>
         <h2>USER COLORS</h2>
