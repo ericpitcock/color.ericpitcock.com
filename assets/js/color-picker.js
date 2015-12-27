@@ -13,9 +13,10 @@
             'green': '#008000',
             'blue': '#00F',
             'purple': '#800080',
-            'pink': '#FFC0CB'
-            //'monochrome': '#000'
+            'pink': '#FFC0CB',
+            'monochrome': '#000'
         },
+        userColorSets: 1,
         
         spacer: function() {
             
@@ -63,7 +64,7 @@
                 //console.log(value);
                 
                 // create tab
-                $('.nav-tabs').append('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
+                $('.presets').append('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
                 
                 // create tab pane
                 $('.tab-content').append('<div class="tab-pane" id="' + key +'"></div>');
@@ -82,6 +83,25 @@
                 
             });
             
+        },
+        
+        addColorSet: function(e) {
+            
+            var count = ColorPicker.userColorSets++;
+            
+            // create tab
+            $('.presets').append('<li class="user-' + count + '"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>');
+            
+            // create tab pane
+            $('.tab-content').append('<div class="tab-pane" id="user-' + count + '"></div>');
+            
+            // remove current active
+            $('.active').removeClass('active');
+            
+            // activate tab
+            $('#user-' + count + ', .user-colors li.user-' + count + '').addClass('active');
+            
+            e.preventDefault();
         },
         
         clearPalette: function() {
@@ -183,13 +203,16 @@
             });
             
             // activate first tab
-            $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
+            $('.tab-content .tab-pane:first-child, .presets li:first-child').addClass('active');
             
             // listen for click events
             $('.swatch').on('click', this.handleSwatchClick);
             
             // listen for click events
             $('.clear-palette').on('click', this.clearPalette);
+            
+            // listen for click events
+            $('.add-color-set').on('click', this.addColorSet);
             
             // space swatches
             ColorPicker.spacer();

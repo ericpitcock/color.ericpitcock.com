@@ -60,14 +60,14 @@ body, input {
     
     h1 {
         font-size: 20px;
-        margin-bottom: 92px;
+        margin-bottom: 94px;
     }
     
     h2 {
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 1px;
-        margin-bottom: 20px;
+        margin-bottom: 12px;
     }
     
     // tabs
@@ -76,31 +76,40 @@ body, input {
         flex-direction: column;
         flex-grow: 1;
         justify-content: flex-start;
-        margin-bottom: 20px;
+        margin-bottom: 14px;
         
         li {
             flex-basis: 40px;
             
             a {
                 display: block;
-                height: 25px;
+                //height: 25px;
                 text-indent: 2px;
                 color: $black;
                 text-transform: capitalize;
+                
+                border-top: 1px solid #e6e6e6;
+                border-left: 1px solid #e6e6e6;
+                height: 40px;
+                line-height: 38px;
+                margin-left: -20px;
+                padding-left: 18px;
             
                 &:hover {
-                    background: yellow;
+                    background: #ffffc3;
                 }
             
             }
             
             &:last-child {
                 a {
+                    border-bottom: 1px solid #e6e6e6;
                 }
             }
         
             &.active {
                 a {
+                    background: #fdfd8a;
                 }
             }
         }
