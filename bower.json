@@ -1,5 +1,5 @@
 {
-  "name": "colorpicker.ericpitcock.com",
+  "name": "color.ericpitcock.com",
   "authors": [
     "Eric Pitcock <git-43p@ericpitcock.com>"
   ],
@@ -7,7 +7,7 @@
   "main": "index.php",
   "moduleType": [],
   "license": "MIT",
-  "homepage": "colorpicker.ericpitcock.com",
+  "homepage": "color.ericpitcock.com",
   "private": true,
   "devDependencies": {},
   "dependencies": {
