@@ -20,6 +20,7 @@
         <h2>PRESET COLORS</h2>
         <ul class="nav nav-tabs" role="tablist"></ul>
         <h2>USER COLORS</h2>
+        <button>Add</button>
     </div>
     <div class="colors">
         <div class="palette">

@@ -16,6 +16,7 @@
     "bootstrap": "~3.3.6",
     "randomcolor": "~0.4.1",
     "jquery-ui": "~1.11.4",
-    "fastclick": "~1.0.6"
+    "fastclick": "~1.0.6",
+    "jqueryui-touch-punch": "*"
   }
 }

@@ -23,7 +23,8 @@ gulp.task('sass', function() {
 gulp.task('js', function() {
     gulp.src([
             'assets/bower/jquery/dist/jquery.js',
-            //'assets/bower/jquery-ui/jquery-ui.js',
+            'assets/bower/jquery-ui/jquery-ui.js',
+            'assets/bower/jqueryui-touch-punch/jquery.ui.touch-punch.js',
             'assets/bower/bootstrap/js/tab.js',
             'assets/bower/randomcolor/randomColor.js',
             'assets/bower/fastclick/lib/fastclick.js',

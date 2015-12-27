@@ -72,7 +72,7 @@
                 var theColors = randomColor({
                     hue: key,
                     luminosity: 'bright',
-                    count: 40
+                    count: 20
                 });
                 
                 // output swatches
@@ -85,6 +85,9 @@
         },
         
         clearPalette: function() {
+            
+            // hide button
+            $('.clear-palette').hide();
             
             // clear array
             ColorPicker.swatchesChosen = [];
@@ -166,13 +169,6 @@
             // load preset colors
             ColorPicker.loadColors(ColorPicker.presetColors);
             
-            // highlight UNUSED
-            $('ul.unstyled li').each(function() {
-                $(this).click(function() {
-                    $(this).children('input').select();
-                });
-            });
-            
             // listen for tab switch and run spacer
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 
@@ -180,30 +176,14 @@
                 ColorPicker.spacer();
                 
                 // update URL
-                window.location.hash = e.target.hash;
+                //window.location.hash = e.target.hash;
                 
                 // scroll to top
                 window.scrollTo(0, 0);
             });
             
-            // activate appropriate tab
-            if (window.location.hash) {
-                
-                var hash = window.location.hash;
-                
-                // activate tab
-                $('.nav-tabs a[href=' + hash + ']').parent().addClass('active');
-                
-                // activate tab pane
-                $('.tab-content .tab-pane' + hash + '').addClass('active');
-                
-                // scroll to top
-                window.scrollTo(0, 0);
-                
-            } else {
-                
-                $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
-            }
+            // activate first tab
+            $('.tab-content .tab-pane:first-child, .nav-tabs li:first-child').addClass('active');
             
             // listen for click events
             $('.swatch').on('click', this.handleSwatchClick);
@@ -222,6 +202,12 @@
             // fast button action
             $(function() {
                 FastClick.attach(document.body);
+            });
+            
+            // initialize palette as sortable
+            $('.palette').sortable({
+                containment: '.palette',
+                tolerance: 'pointer'
             });
             
         }
