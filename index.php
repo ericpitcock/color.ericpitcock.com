@@ -18,7 +18,7 @@
     <div class="controls">
         <h1><a href="/">Color</a></h1>
         <h2>COLOR SETS</h2>
-        <ul class="presets nav nav-tabs"></ul>
+        <ul class="color-sets nav nav-tabs"></ul>
         <a class="add-color-set" href="">+ Add color set</a>
     </div>
     <div class="colors">

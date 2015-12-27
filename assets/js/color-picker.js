@@ -64,7 +64,7 @@
                 //console.log(value);
                 
                 // create tab
-                $('.presets').append('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
+                $('.color-sets').append('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
                 
                 // create tab pane
                 $('.tab-content').append('<div class="tab-pane" id="' + key +'"></div>');
@@ -89,17 +89,14 @@
             
             var count = ColorPicker.userColorSets++;
             
-            // create tab
-            $('.presets').append('<li class="user-' + count + '"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>');
-            
-            // create tab pane
-            $('.tab-content').append('<div class="tab-pane" id="user-' + count + '"></div>');
-            
             // remove current active
             $('.active').removeClass('active');
             
-            // activate tab
-            $('#user-' + count + ', .user-colors li.user-' + count + '').addClass('active');
+            // create tab
+            $('.color-sets').append('<li class="active"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>');
+            
+            // create tab pane
+            $('.tab-content').append('<div class="tab-pane active" id="user-' + count + '"><div class="swatch add"></div></div>');
             
             e.preventDefault();
         },
@@ -203,7 +200,7 @@
             });
             
             // activate first tab
-            $('.tab-content .tab-pane:first-child, .presets li:first-child').addClass('active');
+            $('.tab-content .tab-pane:first-child, .color-sets li:first-child').addClass('active');
             
             // listen for click events
             $('.swatch').on('click', this.handleSwatchClick);

@@ -212,7 +212,7 @@ body, input {
     }
     
     html.no-touch .tab-pane &:not(.added):hover:after {
-            content: '+';
+        content: '+';
     }
     
     .palette & {
@@ -228,5 +228,14 @@ body, input {
     
     &.added:after {
         content: 'v';
+    }
+    
+    &.add {
+        border: 1px solid $light-gray;
+        
+        &:after {
+            content: '+';
+            color: $light-gray;
+        }
     }
 }
