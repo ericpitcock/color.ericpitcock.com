@@ -38,7 +38,7 @@
     <div class="colors">
         <ul class="palette-tabs">
             <li class="active"><a href="#settings" data-target=".settings-tab">Palette 1</a></li>
-            <li><a href="#settings" data-target=".settings-tab">+ Add palette</a></li>
+            <li><a href="#settings" class="add-palette" data-target="">+ Add palette</a></li>
         </ul>
         <div class="palette">
             <div class="clear-palette">Clear</div>

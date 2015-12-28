@@ -27515,6 +27515,11 @@ var tooltip = $.widget( "ui.tooltip", {
             e.preventDefault();
         },
         
+        addPalette: function() {
+            $('.palette-tabs .active').removeClass('active');
+            $('<li class="active"><a href="#settings" data-target=".settings-tab">Palette 1</a></li>').insertBefore('.palette-tabs li:last-child');
+        },
+        
         clearPalette: function() {
             
             // hide button
@@ -27624,6 +27629,9 @@ var tooltip = $.widget( "ui.tooltip", {
             
             // listen for click events
             $('.add-color-set').on('click', this.addColorSet);
+            
+            // listen for click events
+            $('.add-palette').on('click', this.addPalette);
             
             // space swatches
             ColorPicker.spacer();
