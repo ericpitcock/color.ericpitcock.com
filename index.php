@@ -18,13 +18,27 @@
     <div class="controls">
         <h1><a href="/">Color</a></h1>
         <h2>COLOR SETS</h2>
-        <ul class="color-sets"></ul>
-        <a class="add-color-set" href="">+ Add color set</a>
+<!--
+        <ul class="color-sets">
+            <li><a class="add-color-set" href="">+ Add color set</a></li>
+        </ul>
+-->
+        <ul class="color-sets">
+            <li class="active"><a href="#red" data-toggle="tab">red</a></li>
+            <li><a href="#orange" data-toggle="tab">orange</a></li>
+            <li><a href="#yellow" data-toggle="tab">yellow</a></li>
+            <li><a href="#green" data-toggle="tab">green</a></li>
+            <li><a href="#blue" data-toggle="tab">blue</a></li>
+            <li><a href="#purple" data-toggle="tab">purple</a></li>
+            <li><a href="#pink" data-toggle="tab">pink</a></li>
+            <li><a href="#monochrome" data-toggle="tab">monochrome</a></li>
+            <li><a href="" class="add-color-set">+ Add color set</a></li>
+        </ul>
     </div>
     <div class="colors">
         <ul class="palette-tabs">
             <li class="active"><a href="#settings" data-target=".settings-tab">Palette 1</a></li>
-            <a href="#settings" data-target=".settings-tab">+ Add palette</a>
+            <li><a href="#settings" data-target=".settings-tab">+ Add palette</a></li>
         </ul>
         <div class="palette">
             <div class="clear-palette">Clear</div>

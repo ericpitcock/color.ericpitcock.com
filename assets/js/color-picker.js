@@ -64,7 +64,7 @@
                 //console.log(value);
                 
                 // create tab
-                $('.color-sets').append('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
+                //$('.color-sets').append('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
                 
                 // create tab pane
                 $('.tab-content').append('<div class="tab-pane" id="' + key +'"></div>');
@@ -93,7 +93,9 @@
             $('.active').removeClass('active');
             
             // create tab
-            $('.color-sets').append('<li class="active"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>');
+            //$('.color-sets').append('<li class="active"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>');
+            $('<li class="active"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>').insertBefore('.color-sets li:last-child');
+            
             
             // create tab pane
             $('.tab-content').append('<div class="tab-pane active" id="user-' + count + '"><div class="swatch add"></div></div>');
