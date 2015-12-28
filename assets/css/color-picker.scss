@@ -16,7 +16,9 @@
 
 $black: black;
 $light-gray: #e6e6e6;
-$palette-height: 180px;
+$palette-height: 210px;
+$yellow: #ffffc3;
+$button-height: 40px;
 
 //=============================================================================
 // STYLES
@@ -46,6 +48,21 @@ body, input {
     color: $black;
 }
 
+ul {
+    li {
+        a {
+            display: block;
+            height: $button-height;
+            line-height: $button-height - 2px;
+            padding-left: 18px;
+            
+            &:hover {
+                background: $yellow;
+            }
+        }
+    }
+}
+
 .controls {
     position: absolute;
     overflow-y: scroll;
@@ -71,7 +88,7 @@ body, input {
     }
     
     // tabs
-    .nav-tabs {
+    .color-sets {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
@@ -82,7 +99,7 @@ body, input {
             flex-basis: 40px;
             
             a {
-                display: block;
+                //display: block;
                 //height: 25px;
                 text-indent: 2px;
                 color: $black;
@@ -90,14 +107,16 @@ body, input {
                 
                 border-top: 1px solid #e6e6e6;
                 border-left: 1px solid #e6e6e6;
-                height: 40px;
-                line-height: 38px;
+                //height: 40px;
+                //line-height: 38px;
                 margin-left: -20px;
-                padding-left: 18px;
+                //padding-left: 18px;
             
+/*
                 &:hover {
                     background: #ffffc3;
                 }
+*/
             
             }
             
@@ -108,9 +127,11 @@ body, input {
             }
         
             &.active {
+/*
                 a {
                     background: #fdfd8a;
                 }
+*/
             }
         }
     }
@@ -124,16 +145,59 @@ body, input {
     left: 240px;
 }
 
-.colors {
+.palette-tabs {
+    display: flex;
+    overflow: hidden;
+    background: #f9f9f9;
     
+    li {
+        position: relative;
+        z-index: 1;
+    
+        a {
+            padding-right: 26px;
+            padding-left: 14px;
+        
+            &:after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: -6px;
+                z-index: -1;
+                transform: skewX(16deg);
+                border-right: 1px solid #e6e6e6;
+            }
+            
+            &:hover {
+                background: transparent;
+                
+                &:after {
+                    background: $yellow;
+                }
+            }
+        }
+        
+        &:first-child {
+            a {
+                padding-left: 18px;
+            }
+        }
+        
+        &.active {
+            a:after {
+                background: #fff;
+            }
+        }
+    }
 }
-
-
 
 .palette {
     position: absolute;
     z-index: 1;
-    top: 0;
+    top: 40px;
     right: 0;
     left: 0;
     display: flex;
@@ -141,6 +205,7 @@ body, input {
     width: 100%;
     height: $palette-height;
     padding: 0 40px;
+    border-top: 1px solid $light-gray;
     border-bottom: 1px solid $light-gray;
     background: url(../img/stripe_07124988ed2a06d6779512c020f61af9.png);
     
@@ -165,7 +230,7 @@ body, input {
 // tab content
 .tab-content {
     position: absolute;
-    top: $palette-height;
+    top: $palette-height + 40px;
     right: 0;
     bottom: 0;
     left: 0;

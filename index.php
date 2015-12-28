@@ -18,10 +18,14 @@
     <div class="controls">
         <h1><a href="/">Color</a></h1>
         <h2>COLOR SETS</h2>
-        <ul class="color-sets nav nav-tabs"></ul>
+        <ul class="color-sets"></ul>
         <a class="add-color-set" href="">+ Add color set</a>
     </div>
     <div class="colors">
+        <ul class="palette-tabs">
+            <li class="active"><a href="#settings" data-target=".settings-tab">Palette 1</a></li>
+            <a href="#settings" data-target=".settings-tab">+ Add palette</a>
+        </ul>
         <div class="palette">
             <div class="clear-palette">Clear</div>
             <p>Select colors to build your palette</p>
