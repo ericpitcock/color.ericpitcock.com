@@ -1,4 +1,4 @@
-<?php require_once('functions.php'); ?>
+<?php //require_once('functions.php'); ?>
 
 <!doctype html>
 <html lang="en">
@@ -46,9 +46,9 @@
         </div>
         <div class="tab-content"></div>
     </div>
-    <script>
-        var colors = <?php echo printJSON(); ?>;
-    </script>
+    <!--<script>
+        var colors = <?php //echo printJSON(); ?>;
+    </script>-->
     <script src="assets/js/color-picker.min.js"></script>
 </body>
 </html>

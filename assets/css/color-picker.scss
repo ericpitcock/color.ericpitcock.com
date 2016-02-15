@@ -15,6 +15,7 @@
 //=============================================================================
 
 $black: black;
+$lightest-gray: #f9f9f9;
 $light-gray: #e6e6e6;
 $palette-height: 210px;
 $yellow: #ffffc3;
@@ -48,216 +49,96 @@ body, input {
     color: $black;
 }
 
-ul {
-    li {
-        a {
-            display: block;
-            height: $button-height;
-            line-height: $button-height;
-            padding-left: 18px;
-        }
-        
-        &:not(:last-child):hover {
-            a {
-                background: $yellow;
-            }
-        }
-        
-        &:last-child {
-            a {
-                font-weight: 600;
-            }
-        }
-    }
-}
-
-.controls {
-    position: absolute;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    width: 240px;
-    top: 0;
-    bottom: 0;
-    padding: 60px 0 0 60px;
-    border-right: 1px solid $light-gray;
-    
-    &::-webkit-scrollbar { width: 0 !important }
+header {
+    height: 61px;
+    background: $lightest-gray;
+    border-bottom: 1px solid $light-gray;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     
     h1 {
-        font-size: 20px;
-        margin-bottom: 94px;
+        height: 20px;
+        line-height: 20px;
+        padding-left: 35px;
+        background: url(../img/e.svg) left center no-repeat;
+        margin-top: 20px;
     }
     
-    h2 {
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 1px;
-        margin-bottom: 12px;
-    }
-    
-    // tabs
-    .color-sets {
+    .palette-tabs {
         display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        justify-content: flex-start;
-        margin-bottom: 14px;
+        align-items: flex-end;
+        height: 61px;
+        overflow: hidden;
+        //background: #f9f9f9;
         
         li {
-            flex-basis: 40px;
             
+            // styles everything
             a {
-                //display: block;
-                //height: 25px;
-                text-indent: 2px;
-                color: $black;
-                text-transform: capitalize;
-                
-                border-top: 1px solid #e6e6e6;
-                border-left: 1px solid #e6e6e6;
-                //height: 40px;
-                //line-height: 38px;
-                margin-left: -20px;
-                //padding-left: 18px;
-            
-/*
-                &:hover {
-                    background: #ffffc3;
-                }
-*/
-            
+                display: block;
+                height: $button-height;
+                line-height: 38px;
             }
             
-            &:last-child {
-                a {
-                    border: 0;
-                    border-top: 1px solid #e6e6e6;
-                }
-            }
-        
-            &.active {
-/*
-                a {
-                    background: #fdfd8a;
-                }
-*/
-            }
-        }
-    }
-}
-
-.colors {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 240px;
-}
-
-.palette-tabs {
-    display: flex;
-    overflow: hidden;
-    background: #f9f9f9;
-    
-    li {
-        position: relative;
-        z-index: 1;
-    
-        &:not(:last-child) {
-            a { 
-                padding-right: 26px;
-                padding-left: 14px;
+            // styles the palette tabs
+            &:not(:last-child) {
                 
-                &:after {
-                    content: '';
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                    position: absolute;
-                    top: 0;
-                    left: -6px;
-                    z-index: -1;
-                    transform: skewX(16deg);
-                    border-right: 1px solid #e6e6e6;
-                }
+                margin-right: 10px;
                 
-                &:hover {
-                    background: transparent;
+                a { 
+                    border: 1px solid $light-gray;
+                    padding: 0 20px;
                     
-                    &:after {
-                        background: $yellow;
+                    &:hover {
+                        background: red;
+                    }
+                }
+                
+                &.active {
+                    a {
+                        background: #fff;
+                        border-bottom-color: #fff;
                     }
                 }
             }
-        }
-        
-        &:first-child {
-            a {
-                padding-left: 18px;
+            
+            // styles just the add palette button
+            &:last-child {
+                a {
+                    font-weight: 600;
+                    padding-left: 10px;
+                }
             }
-        }
-        
-        &.active {
-            a:after {
-                background: #fff;
-            }
+            
         }
     }
 }
 
-.palette {
-    position: absolute;
-    z-index: 1;
-    top: 40px;
-    right: 0;
-    left: 0;
-    display: flex;
-    align-content: flex-start;
-    width: 100%;
-    height: $palette-height;
-    padding: 0 40px;
-    border-top: 1px solid $light-gray;
-    border-bottom: 1px solid $light-gray;
+.palette-container {
+    position: relative;
+    height: 200px;
     background: url(../img/stripe_07124988ed2a06d6779512c020f61af9.png);
+    border-bottom: 1px solid $light-gray;
     
-    p {
-        flex: 1;
-        align-self: center;
-        text-align: center;
-    }
-    
-    .clear-palette {
-        display: none;
+    .gradient-overlay {
         position: absolute;
+        top: 0;
         right: 0;
-        padding: 5px 10px;
-        border-left: 1px solid $light-gray;
-        border-bottom: 1px solid $light-gray;
-        background: #fff;
-        cursor: pointer;
+        bottom: 0;
+        left: 0;
+        background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+        background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+        background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );
     }
-}
 
-// tab content
-.tab-content {
-    position: absolute;
-    top: $palette-height + 40px;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    padding: 40px;
-    
-    &::-webkit-scrollbar { width: 0 !important }
-    
-    .tab-pane {
-        display: none;
-        flex-wrap: wrap;
-        
-        &.active {
-            display: flex;
-        }
+    .palette {
+        display: flex;
+        align-content: flex-start;
     }
 }
 
@@ -312,6 +193,42 @@ ul {
         &:after {
             content: '+';
             color: $light-gray;
+        }
+    }
+}
+
+h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+ul.color-sets {
+    
+}
+
+.colors {
+    // tab content
+    .tab-content {
+        //position: absolute;
+        //top: $palette-height + 40px;
+        //right: 0;
+        //bottom: 0;
+        //left: 0;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        //padding-top: 40px;
+        
+        &::-webkit-scrollbar { width: 0 !important }
+        
+        .tab-pane {
+            display: none;
+            flex-wrap: wrap;
+            
+            &.active {
+                display: flex;
+            }
         }
     }
 }
