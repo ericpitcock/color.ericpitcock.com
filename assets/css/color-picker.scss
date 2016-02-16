@@ -15,8 +15,9 @@
 //=============================================================================
 
 $black: black;
-$lightest-gray: #f9f9f9;
+$gray: #adadad;
 $light-gray: #e6e6e6;
+$lightest-gray: #f9f9f9;
 $palette-height: 210px;
 $yellow: #ffffc3;
 $button-height: 40px;
@@ -110,14 +111,12 @@ header {
                     padding-left: 10px;
                 }
             }
-            
         }
     }
 }
 
 .palette-container {
     position: relative;
-    height: 200px;
     background: url(../img/stripe_07124988ed2a06d6779512c020f61af9.png);
     border-bottom: 1px solid $light-gray;
     
@@ -134,8 +133,13 @@ header {
     }
 
     .palette {
-        display: flex;
+        display: none;
         align-content: flex-start;
+        height: 200px;
+        
+        &.active {
+            display: flex;
+        }
     }
 }
 
@@ -175,13 +179,13 @@ header {
     }
     
     html.no-touch .palette &:hover:after{
-        content: '-';
-        margin-left: -6px;
-        margin-top: -14px;
+        content: '×';
+        margin-left: -10px;
+        margin-top: -10px;
     }
     
     &.added:after {
-        content: 'v';
+        content: '✓';
     }
     
     &.add {
@@ -194,21 +198,9 @@ header {
     }
 }
 
-h2 {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-}
-
-ul.color-sets {
-    
-}
-
 .color-sets-container {
     flex: 1;
     position: relative;
-    margin-top: 40px;
     
     .container {
         position: absolute;
@@ -223,22 +215,52 @@ ul.color-sets {
         
         .col-sm-2 {
             position: fixed;
+            padding-top: 40px;
         }
     }
-}
-
-.colors {
-    position: relative;
     
-    // tab content
-    .tab-content {
-
-        .tab-pane {
-            display: none;
-            flex-wrap: wrap;
+    h2 {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 30px;
+    }
+    
+    ul.color-sets {
+        li {
+            text-transform: capitalize;
             
             &.active {
-                display: flex;
+                
+                font-weight: 600;
+                
+                a {
+                    color: $black;
+                }
+            }
+            
+            a {
+                display: block;
+                height: $button-height;
+                color: $gray;
+            }
+        }
+    }
+
+    .colors {
+        position: relative;
+        
+        // tab content
+        .tab-content {
+            padding-top: 40px;
+    
+            .tab-pane {
+                display: none;
+                flex-wrap: wrap;
+                
+                &.active {
+                    display: flex;
+                }
             }
         }
     }

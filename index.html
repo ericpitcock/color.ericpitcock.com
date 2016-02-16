@@ -21,9 +21,8 @@
                 </div>
                 <div class="col-sm-9">
                     <ul class="palette-tabs">
-                        <li class="active"><a href="#settings" data-target=".settings-tab">Palette 1</a></li>
-                        <li><a href="#settings" data-target=".settings-tab">Palette 1</a></li>
-                        <li><a href="#settings" class="add-palette" data-target="">+ Add palette</a></li>
+                        <li class="active"><a href="#palette-1" data-toggle="tab" data-target="#palette-1">Palette 1</a></li>
+                        <li><a href="#" class="add-palette">+ Add palette</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-1">Export</div>
@@ -34,7 +33,9 @@
         <div class="gradient-overlay"></div>
         <div class="container">
             <div class="row">
-                <div class="palette col-sm-10 col-sm-offset-2"></div>
+                <div class="palettes col-sm-10 col-sm-offset-2">
+                    <div id="palette-1" class="palette active"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -52,13 +53,11 @@
                         <li><a href="#purple" data-toggle="tab">purple</a></li>
                         <li><a href="#pink" data-toggle="tab">pink</a></li>
                         <li><a href="#monochrome" data-toggle="tab">monochrome</a></li>
-                        <li><a href="" class="add-color-set">+ Add color set</a></li>
+                        <!--<li><a href="" class="add-color-set">+ Add color set</a></li>-->
                     </ul>
                 </div>
                 <div class="colors col-sm-10 col-sm-offset-2">
-                    <div>
                     <div class="tab-content"></div>
-                    </div>
                 </div>
             </div>
         </div>

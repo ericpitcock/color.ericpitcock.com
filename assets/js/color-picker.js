@@ -5,7 +5,6 @@
 (function() {
     var ColorPicker = {
         
-        swatchesChosen: [],        
         presetColors: {
             'red': '#F00',
             'orange': '#FFA500',
@@ -16,7 +15,9 @@
             'pink': '#FFC0CB',
             'monochrome': '#000'
         },
+        swatchesChosen: [],
         userColorSets: 1,
+        paletteCount: 1,
         
         spacer: function() {
             
@@ -103,9 +104,27 @@
             e.preventDefault();
         },
         
-        addPalette: function() {
+        addPalette: function(e) {
+            
+            // increment palette count
+            var count = ++ColorPicker.paletteCount;
+            
+            // remove active tab
             $('.palette-tabs .active').removeClass('active');
-            $('<li class="active"><a href="#settings" data-target=".settings-tab">Palette 1</a></li>').insertBefore('.palette-tabs li:last-child');
+            
+            // remove active palette
+            $('.palettes .active').removeClass('active');
+            
+            // create new palette container
+            $('<div id="palette-' + count + '" class="palette active"></div>').appendTo('.palettes');
+            
+            // create new tab, make active
+            $('<li class="active"><a href="#palette-' + count + '" data-toggle="tab" data-target="#palette-' + count + '">Palette ' + count + '</a></li>').insertBefore('.palette-tabs li:last-child').tab('show');
+            
+            // refresh sortable palettes
+            $('.palette').sortable('refresh');
+            
+            e.preventDefault();
         },
         
         clearPalette: function() {
@@ -133,13 +152,13 @@
             
             var color = $(this).data('swatch-color');
             
-            // swatch in collection 
+            // swatch in color set 
             if ($(e.target).parent().hasClass('tab-pane')) {
                 
                 if (!$(this).hasClass('added')) {
                     
                     // copy swatch to palette
-                    $(this).clone(true).appendTo('.palette');
+                    $(this).clone(true).appendTo('.palette.active');
                     //console.log('moved to palette');
                     
                     // add added class
@@ -236,6 +255,7 @@
             
             // initialize palette as sortable
             $('.palette').sortable({
+                //handle: '> .palette',
                 containment: '.palette',
                 tolerance: 'pointer'
             });
