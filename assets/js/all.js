@@ -27424,8 +27424,8 @@ var tooltip = $.widget( "ui.tooltip", {
             'green': '#008000',
             'blue': '#00F',
             'purple': '#800080',
-            'pink': '#FFC0CB',
-            'monochrome': '#000'
+            'pink': '#FFC0CB'
+            //'monochrome': '#000'
         },
         currentPalette: 'palette-1',
         paletteCount: 1,
@@ -27516,6 +27516,38 @@ var tooltip = $.widget( "ui.tooltip", {
                 
             });
             
+        },
+        
+        loadMonochromeColors: function() {
+            var monochrome = [
+                '#000000',
+                '#0d0d0d',
+                '#191919',
+                '#262626',
+                '#333333',
+                '#404040',
+                '#4c4c4c',
+                '#595959',
+                '#666666',
+                '#737373',
+                '#7f7f7f',
+                '#8c8c8c',
+                '#999999',
+                '#a6a6a6',
+                '#b2b2b2',
+                '#bfbfbf',
+                '#cccccc',
+                '#d9d9d9',
+                '#e5e5e5',
+                '#f2f2f2'
+            ];
+            
+            // create tab pane
+            $('.tab-content').append('<div class="tab-pane" id="monochrome"></div>');
+            
+            $.each(monochrome, function(index, value) {
+                $('#monochrome').append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
+            });
         },
         
         addColorSet: function(e) {
@@ -27676,9 +27708,12 @@ var tooltip = $.widget( "ui.tooltip", {
             
             // load preset colors
             Color.loadColors(Color.presetColors);
+
+            // load monochrome manually
+            Color.loadMonochromeColors();
             
             // listen for tab switch and run spacer
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            $('ul.color-sets li a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 
                 // run spacer
                 Color.spacer();
@@ -27691,7 +27726,7 @@ var tooltip = $.widget( "ui.tooltip", {
             });
             
             // activate first tab
-            $('.tab-content .tab-pane:first-child, .color-sets li:first-child').addClass('active');
+            $('.tab-content .tab-pane:first-child').addClass('active');
             
             // listen for click events
             $('.swatch').on('click', this.handleSwatchClick);
@@ -27706,7 +27741,7 @@ var tooltip = $.widget( "ui.tooltip", {
             $('.add-palette').on('click', this.addPalette);
             
             // listen for palette switching
-            $('body').on('click', '.palette-tabs li a:not(.add-palette)', this.handlePaletteSwitch);
+            $('.palette-tabs').on('click', 'li a:not(.add-palette)', this.handlePaletteSwitch);
             
             // space swatches
             Color.spacer();
