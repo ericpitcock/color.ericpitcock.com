@@ -126,7 +126,13 @@
             });
             
             // create new tab, make active
-            $('<li class="active"><a href="#palette-' + count + '" data-toggle="tab" data-target="#palette-' + count + '">Palette ' + count + '</a></li>').insertBefore('.palette-tabs li:last-child');
+            $('<li class="active"><a data-toggle="tab" data-target="#palette-' + count + '">Palette ' + count + '</a></li>').insertBefore('.palette-tabs li:last-child');
+            
+            if (count >= 6) {
+                $('.add-palette').addClass('disabled');
+            } else {
+                $('.add-palette').removeClass('disabled');
+            }
             
             e.preventDefault();
         },
