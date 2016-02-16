@@ -200,21 +200,20 @@
             
             var color = $(this).data('swatch-color');
             
-            // swatch in color set 
+            // if clicked swatch is in a color set (aka, adding)
             if ($(e.target).parent().hasClass('tab-pane')) {
                 
+                // if the color doesn't exist in the current palette
                 if (!$(this).hasClass('in-' + Color.currentPalette)) {
                     
                     // copy swatch to palette
                     $(this).clone(true).appendTo('.palettes .active .palette');
-                    //console.log('moved to palette');
                     
+                    // add class noting which palette it's been added to
                     $(this).addClass('in-' + Color.currentPalette);
                     
-                    // add added class
-                    //$('.tab-pane').children('*[data-swatch-color="' + color + '"]').addClass('added');
-                    
-                    $('<span>' + Color.currentPalette.replace('palette-', '') + '</span>').appendTo($('.tab-pane').children('*[data-swatch-color="' + color + '"]'));
+                    // add visual indicator of what palette it's been added to
+                    $('<span class="' + Color.currentPalette + '">' + Color.currentPalette.replace('palette-', '') + '</span>').appendTo($('.tab-pane').children('*[data-swatch-color="' + color + '"]'));
                     
                     // add to swatches array for current palette
                     Color.swatchesChosen[Color.currentPalette].push(color);
@@ -223,7 +222,7 @@
                     console.log(Color.swatchesChosen);
                 }
             
-            // swatch in palette
+            // if clicked swatch is in a palette (aka, removing)
             } else if ($(e.target).parent().hasClass('palette')) {
             
                 // remove from array
@@ -238,7 +237,7 @@
                 $(this).remove();
                 
                 // remove added class
-                $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('added');
+                $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('in-' + Color.currentPalette).find('span.'+ Color.currentPalette).remove();
             
             }
             
