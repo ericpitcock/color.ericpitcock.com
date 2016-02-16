@@ -147,13 +147,18 @@ header {
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );
     }
 
-    .palette {
+    .palettes > div {
         display: none;
-        align-content: flex-start;
-        height: 200px;
+        //height: 200px;
         
         &.active {
+            display: block;
+        }
+        
+        .palette {
             display: flex;
+            align-content: flex-start;
+            height: 200px;
         }
     }
 }
@@ -210,6 +215,11 @@ header {
             content: '+';
             color: $light-gray;
         }
+    }
+    
+    &.spacer {
+        cursor: default;
+        pointer-events: none;
     }
 }
 

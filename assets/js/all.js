@@ -27527,12 +27527,21 @@ var tooltip = $.widget( "ui.tooltip", {
             // remove active palette
             $('.palettes .active').removeClass('active');
             
-            // make new palette active
-            $('#palette-' + count + '').addClass('active');
+            // clone palette 1, empty, and append
+            /*jshint multistr: true */
+            $('<div id="palette-' + count + '" class="active">\
+                    <div class="col-sm-2">\
+                        Clear<br>\
+                        Delete<br>\
+                        Duplicate<br>\
+                        Get CSS\
+                    </div>\
+                    <div class="palette col-sm-10"></div>\
+                </div>').appendTo('.palettes');
             
             // initialize palette as sortable
-            $('#palette-' + count + '').sortable({
-                containment: '#palette-' + count + '',
+            $('#palette-' + count + ' .palette').sortable({
+                containment: '#palette-' + count + ' .palette',
                 tolerance: 'pointer',
                 opacity: 0.5
             });
@@ -27580,7 +27589,7 @@ var tooltip = $.widget( "ui.tooltip", {
                 if (!$(this).hasClass('added')) {
                     
                     // copy swatch to palette
-                    $(this).clone(true).appendTo('.palette.active');
+                    $(this).clone(true).appendTo('.palettes .active .palette');
                     //console.log('moved to palette');
                     
                     // add added class
@@ -27675,9 +27684,9 @@ var tooltip = $.widget( "ui.tooltip", {
                 FastClick.attach(document.body);
             });
             
-            // initialize palette as sortable
-            $('#palette-1').sortable({
-                containment: '#palette-1',
+            // initialize first palette as sortable
+            $('#palette-1 .palette').sortable({
+                containment: '#palette-1 .palette',
                 tolerance: 'pointer',
                 opacity: 0.5
             });
