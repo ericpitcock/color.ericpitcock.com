@@ -115,14 +115,18 @@
             // remove active palette
             $('.palettes .active').removeClass('active');
             
-            // create new palette container
-            $('<div id="palette-' + count + '" class="palette active"></div>').appendTo('.palettes');
+            // make new palette active
+            $('#palette-' + count + '').addClass('active');
+            
+            // initialize palette as sortable
+            $('#palette-' + count + '').sortable({
+                containment: '#palette-' + count + '',
+                tolerance: 'pointer',
+                opacity: 0.5
+            });
             
             // create new tab, make active
-            $('<li class="active"><a href="#palette-' + count + '" data-toggle="tab" data-target="#palette-' + count + '">Palette ' + count + '</a></li>').insertBefore('.palette-tabs li:last-child').tab('show');
-            
-            // refresh sortable palettes
-            $('.palette').sortable('refresh');
+            $('<li class="active"><a href="#palette-' + count + '" data-toggle="tab" data-target="#palette-' + count + '">Palette ' + count + '</a></li>').insertBefore('.palette-tabs li:last-child');
             
             e.preventDefault();
         },
@@ -254,10 +258,10 @@
             });
             
             // initialize palette as sortable
-            $('.palette').sortable({
-                //handle: '> .palette',
-                containment: '.palette',
-                tolerance: 'pointer'
+            $('#palette-1').sortable({
+                containment: '#palette-1',
+                tolerance: 'pointer',
+                opacity: 0.5
             });
             
         }
