@@ -203,14 +203,18 @@
             // swatch in color set 
             if ($(e.target).parent().hasClass('tab-pane')) {
                 
-                if (!$(this).hasClass('added')) {
+                if (!$(this).hasClass('in-' + Color.currentPalette)) {
                     
                     // copy swatch to palette
                     $(this).clone(true).appendTo('.palettes .active .palette');
                     //console.log('moved to palette');
                     
+                    $(this).addClass('in-' + Color.currentPalette);
+                    
                     // add added class
-                    $('.tab-pane').children('*[data-swatch-color="' + color + '"]').addClass('added');
+                    //$('.tab-pane').children('*[data-swatch-color="' + color + '"]').addClass('added');
+                    
+                    $('<span>' + Color.currentPalette.replace('palette-', '') + '</span>').appendTo($('.tab-pane').children('*[data-swatch-color="' + color + '"]'));
                     
                     // add to swatches array for current palette
                     Color.swatchesChosen[Color.currentPalette].push(color);
