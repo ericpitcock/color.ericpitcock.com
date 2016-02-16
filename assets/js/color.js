@@ -207,7 +207,7 @@
                 if (!$(this).hasClass('in-' + Color.currentPalette)) {
                     
                     // copy swatch to palette
-                    $(this).clone(true).appendTo('.palettes .active .palette');
+                    $(this).clone(true).empty().appendTo('.palettes .active .palette');
                     
                     // add class noting which palette it's been added to
                     $(this).addClass('in-' + Color.currentPalette);
