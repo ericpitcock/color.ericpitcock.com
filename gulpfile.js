@@ -8,13 +8,13 @@ var rename = require('gulp-rename');
 var autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('jshint', function() {
-    gulp.src('assets/js/color-picker.js')
+    gulp.src('assets/js/color.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 gulp.task('sass', function() {
-    gulp.src('assets/css/color-picker.scss')
+    gulp.src('assets/css/color.scss')
         .pipe(sass({outputStyle: 'compressed'}))
         .pipe(autoprefixer())
         .pipe(gulp.dest('assets/css'));
@@ -28,18 +28,18 @@ gulp.task('js', function() {
             'assets/bower/bootstrap/js/tab.js',
             'assets/bower/randomcolor/randomColor.js',
             'assets/bower/fastclick/lib/fastclick.js',
-            'assets/js/color-picker.js'
+            'assets/js/color.js'
             ])
         .pipe(concat('all.js'))
         .pipe(gulp.dest('assets/js'))
-        .pipe(rename('color-picker.min.js'))
+        .pipe(rename('color.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('assets/js'));
 });
 
 gulp.task('watch', function() {
-    gulp.watch('assets/js/color-picker.js', ['jshint', 'js']);
-    gulp.watch('assets/css/color-picker.scss', ['sass']);
+    gulp.watch('assets/js/color.js', ['jshint', 'js']);
+    gulp.watch('assets/css/color.scss', ['sass']);
 });
 
 gulp.task('default', ['jshint', 'sass', 'js', 'watch']);
