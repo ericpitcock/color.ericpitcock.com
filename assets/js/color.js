@@ -3,7 +3,7 @@
 //=============================================================================
 
 (function() {
-    var ColorPicker = {
+    var Color = {
         
         presetColors: {
             'red': '#F00',
@@ -15,9 +15,29 @@
             'pink': '#FFC0CB',
             'monochrome': '#000'
         },
-        swatchesChosen: [],
-        userColorSets: 1,
+        currentPalette: 'palette-1',
         paletteCount: 1,
+        swatchesChosen: {
+            'palette-1': [
+                
+            ],
+            'palette-2': [
+                
+            ],
+            'palette-3': [
+                
+            ],
+            'palette-4': [
+                
+            ],
+            'palette-5': [
+                
+            ],
+            'palette-6': [
+                
+            ]
+        },
+        //userColorSets: 1,
         
         spacer: function() {
             
@@ -88,7 +108,7 @@
         
         addColorSet: function(e) {
             
-            var count = ColorPicker.userColorSets++;
+            var count = Color.userColorSets++;
             
             // remove current active
             $('.active').removeClass('active');
@@ -107,7 +127,7 @@
         addPalette: function(e) {
             
             // increment palette count
-            var count = ++ColorPicker.paletteCount;
+            var count = ++Color.paletteCount;
             
             // remove active tab
             $('.palette-tabs .active').removeClass('active');
@@ -137,6 +157,10 @@
             // create new tab, make active
             $('<li class="active"><a data-toggle="tab" data-target="#palette-' + count + '">Palette ' + count + '</a></li>').insertBefore('.palette-tabs li:last-child');
             
+            // mark as current
+            Color.currentPalette = 'palette-' + count;
+            console.log('Current palette: palette-' + count);
+            
             if (count >= 6) {
                 $('.add-palette').addClass('disabled');
             } else {
@@ -152,8 +176,8 @@
             $('.clear-palette').hide();
             
             // clear array
-            ColorPicker.swatchesChosen = [];
-            console.log(ColorPicker.swatchesChosen);
+            Color.swatchesChosen = [];
+            console.log(Color.swatchesChosen);
             
             // remove swatches
             $('.palette').children('.swatch').remove();
@@ -163,6 +187,11 @@
             
             // add text back
             $('.palette p').show();
+        },
+        
+        handlePaletteSwitch: function(e) {
+            Color.currentPalette = $(e.target).attr('data-target').replace('#','');
+            console.log('Current palette: ' + Color.currentPalette);
         },
         
         handleSwatchClick: function(e) {
@@ -183,39 +212,41 @@
                     // add added class
                     $('.tab-pane').children('*[data-swatch-color="' + color + '"]').addClass('added');
                     
-                    // add to swatches array
-                    ColorPicker.swatchesChosen.push(color);
+                    // add to swatches array for current palette
+                    Color.swatchesChosen[Color.currentPalette].push(color);
                     
-                    console.log(ColorPicker.swatchesChosen);
+                    //console.log(Color.swatchesChosen[Color.currentPalette]);
+                    console.log(Color.swatchesChosen);
                 }
             
             // swatch in palette
             } else if ($(e.target).parent().hasClass('palette')) {
             
                 // remove from array
-                ColorPicker.swatchesChosen.splice($.inArray(color, ColorPicker.swatchesChosen), 1);
+                var i = Color.swatchesChosen[Color.currentPalette].indexOf(color);
+                if (i != -1) {
+                    Color.swatchesChosen[Color.currentPalette].splice(i, 1);
+                }
                 
-                console.log(ColorPicker.swatchesChosen);
+                console.log(Color.swatchesChosen);
                 
                 // remove swatch from palette
                 $(this).remove();
-                //console.log('removed');
                 
                 // remove added class
                 $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('added');
             
             }
             
-            // deal with palette text
-            if (ColorPicker.swatchesChosen.length > 0) {
+            // palette has swatches
+            if (Color.swatchesChosen[Color.currentPalette].length > 0) {
                 
-                $('.palette p').hide();
-                $('.clear-palette').show();
+                console.log(Color.currentPalette + ' has swatches');
+                
+            // if palette is empty
+            } else if (Color.swatchesChosen[Color.currentPalette].length === 0) {
             
-            } else if (ColorPicker.swatchesChosen.length === 0) {
-            
-                $('.palette p').show();
-                $('.clear-palette').hide();
+                console.log(Color.currentPalette + ' is empty');
             
             }
             
@@ -229,13 +260,13 @@
             }
             
             // load preset colors
-            ColorPicker.loadColors(ColorPicker.presetColors);
+            Color.loadColors(Color.presetColors);
             
             // listen for tab switch and run spacer
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 
                 // run spacer
-                ColorPicker.spacer();
+                Color.spacer();
                 
                 // update URL
                 //window.location.hash = e.target.hash;
@@ -259,12 +290,15 @@
             // listen for click events
             $('.add-palette').on('click', this.addPalette);
             
+            // listen for palette switching
+            $('body').on('click', '.palette-tabs li a:not(.add-palette)', this.handlePaletteSwitch);
+            
             // space swatches
-            ColorPicker.spacer();
+            Color.spacer();
             
             $(window).resize(function() {
                 console.clear();
-                ColorPicker.spacer();
+                Color.spacer();
             });
             
             // fast button action
@@ -283,7 +317,7 @@
         
     };
     
-    $(document).ready(function() { ColorPicker.initialize(); });
+    $(document).ready(function() { Color.initialize(); });
     
 })();
 
