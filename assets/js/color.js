@@ -161,8 +161,8 @@
             $('<div id="palette-' + count + '" class="active"></div>').appendTo('.palettes');
             
             // initialize palette as sortable
-            $('#palette-' + count + ' .palette').sortable({
-                containment: '#palette-' + count + ' .palette',
+            $('#palette-' + count).sortable({
+                containment: '#palette-' + count,
                 tolerance: 'pointer',
                 opacity: 0.5
             });
@@ -186,20 +186,26 @@
         clearPalette: function() {
             
             // hide button
-            $('.clear-palette').hide();
+            //$('.clear-palette').hide();
             
             // clear array
-            Color.swatchesChosen = [];
-            console.log(Color.swatchesChosen);
+            Color.swatchesChosen[Color.currentPalette] = [];
+            //console.log(Color.swatchesChosen);
+            
+            // clear indicators
+            $('span.' + Color.currentPalette).remove();
+            
+            // remove in class
+            $('.in-' + Color.currentPalette).removeClass('in-' + Color.currentPalette);
             
             // remove swatches
-            $('.palette').children('.swatch').remove();
+            $('.palettes .active').children('.swatch').remove();
             
             // remove added class
-            $('.swatch').removeClass('added');
+            //$('.swatch').removeClass('added');
             
             // add text back
-            $('.palette p').show();
+            //$('.palette p').show();
         },
         
         handlePaletteSwitch: function(e) {
@@ -326,8 +332,8 @@
             });
             
             // initialize first palette as sortable
-            $('#palette-1 .palette').sortable({
-                containment: '#palette-1 .palette',
+            $('#palette-1').sortable({
+                containment: '#palette-1',
                 tolerance: 'pointer',
                 opacity: 0.5
             });
