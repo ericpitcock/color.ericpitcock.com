@@ -27558,43 +27558,6 @@ var tooltip = $.widget( "ui.tooltip", {
             e.preventDefault();
         },
         
-        addPalette: function(e) {
-            
-            // increment palette count
-            var count = ++Color.paletteCount;
-            
-            // remove active tab
-            $('.palette-tabs .active').removeClass('active');
-            
-            // remove active palette
-            $('.palettes .active').removeClass('active');
-            
-            // clone palette 1, empty, and append
-            $('<div id="palette-' + count + '" class="active"></div>').appendTo('.palettes');
-            
-            // initialize palette as sortable
-            $('#palette-' + count).sortable({
-                containment: '#palette-' + count,
-                tolerance: 'pointer',
-                opacity: 0.5
-            });
-            
-            // create new tab, make active
-            $('<li class="active"><a data-toggle="tab" data-target="#palette-' + count + '">Palette ' + count + '</a></li>').insertBefore('.palette-tabs li:last-child');
-            
-            // mark as current
-            Color.currentPalette = 'palette-' + count;
-            console.log('Current palette: palette-' + count);
-            
-            if (count >= 6) {
-                $('.add-palette').addClass('disabled');
-            } else {
-                $('.add-palette').removeClass('disabled');
-            }
-            
-            e.preventDefault();
-        },
-        
         clearPalette: function() {
             
             // clear array
@@ -27717,9 +27680,6 @@ var tooltip = $.widget( "ui.tooltip", {
             // listen for click events
             $('.add-color-set').on('click', this.addColorSet);
             
-            // listen for click events
-            $('.add-palette').on('click', this.addPalette);
-            
             // listen for palette switching
             $('.palette-tabs').on('click', 'li a:not(.add-palette)', this.handlePaletteSwitch);
             
@@ -27737,10 +27697,10 @@ var tooltip = $.widget( "ui.tooltip", {
             });
             
             // initialize first palette as sortable
-            $('#palette-1').sortable({
-                containment: '#palette-1',
-                tolerance: 'pointer',
-                opacity: 0.5
+            $('.palettes > div').sortable({
+                containment: '.palettes',
+                opacity: 0.5,
+                tolerance: 'pointer'
             });
             
         }
