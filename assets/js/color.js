@@ -18,24 +18,12 @@
         currentPalette: 'palette-1',
         paletteCount: 1,
         swatchesChosen: {
-            'palette-1': [
-                
-            ],
-            'palette-2': [
-                
-            ],
-            'palette-3': [
-                
-            ],
-            'palette-4': [
-                
-            ],
-            'palette-5': [
-                
-            ],
-            'palette-6': [
-                
-            ]
+            'palette-1': [],
+            'palette-2': [],
+            'palette-3': [],
+            'palette-4': [],
+            'palette-5': [],
+            'palette-6': []
         },
         //userColorSets: 1,
         
@@ -128,24 +116,6 @@
             });
         },
         
-        addColorSet: function(e) {
-            
-            var count = Color.userColorSets++;
-            
-            // remove current active
-            $('.active').removeClass('active');
-            
-            // create tab
-            //$('.color-sets').append('<li class="active"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>');
-            $('<li class="active"><a href="#user-' + count + '" data-toggle="tab">User Color ' + count + '</a></li>').insertBefore('.color-sets li:last-child');
-            
-            
-            // create tab pane
-            $('.tab-content').append('<div class="tab-pane active" id="user-' + count + '"><div class="swatch add"></div></div>');
-            
-            e.preventDefault();
-        },
-        
         clearPalette: function() {
             
             // clear array
@@ -161,6 +131,8 @@
                 .show(0)
                 .find('span.' + Color.currentPalette)
                 .remove();
+                
+            Color.paletteCheck();
             
         },
         
@@ -211,20 +183,26 @@
                 // remove swatch from palette
                 $(this).remove();
                 
-                // remove added class
+                // remove indicator
                 $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('in-' + Color.currentPalette).find('span.'+ Color.currentPalette).remove();
             
             }
             
+            Color.paletteCheck();
+        
+        },
+        
+        paletteCheck: function() {
+            
             // palette has swatches
             if (Color.swatchesChosen[Color.currentPalette].length > 0) {
                 
-                console.log(Color.currentPalette + ' has swatches');
+                $('.palette-tabs .active').addClass('has-swatches');
                 
             // if palette is empty
             } else if (Color.swatchesChosen[Color.currentPalette].length === 0) {
             
-                console.log(Color.currentPalette + ' is empty');
+				$('.palette-tabs .active').removeClass('has-swatches');
             
             }
             
