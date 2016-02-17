@@ -99,7 +99,7 @@ header {
                     border-radius: 3px;
                 }
             
-                &:hover {
+                html.no-touch &:hover {
                     background: $hover;
                 }
             }
@@ -154,7 +154,7 @@ header {
                 margin-top: 0;
             }
             
-            &:hover {
+            html.no-touch &:hover {
                 background: $hover;
             }
             
@@ -316,7 +316,7 @@ header {
                 color: $gray;
                 cursor: pointer;
                 
-                &:hover {
+                html.no-touch &:hover {
                     color: $black;
                 }
             }
