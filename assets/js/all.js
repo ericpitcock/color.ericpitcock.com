@@ -28347,7 +28347,7 @@ module.exports = exports['default'];
                     // localStorage.setItem('swatches', JSON.stringify(Color.swatchesChosen));
                     
                     //console.log(Color.swatchesChosen[Color.currentPalette]);
-                    console.log(Color.swatchesChosen);
+                    //console.log(Color.swatchesChosen);
                 }
             
             // if clicked swatch is in a palette (aka, removing)

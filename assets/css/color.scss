@@ -19,7 +19,7 @@ $gray: #adadad;
 $light-gray: #e6e6e6;
 $lightest-gray: #f9f9f9;
 $palette-height: 210px;
-$yellow: #ffffc3;
+$hover: #f2f2f2;
 $button-height: 40px;
 
 //=============================================================================
@@ -98,6 +98,10 @@ header {
                     background: #a2e06e;
                     border-radius: 3px;
                 }
+            
+                &:hover {
+                    background: $hover;
+                }
             }
             
             &.active {
@@ -148,6 +152,14 @@ header {
             
             &:first-child {
                 margin-top: 0;
+            }
+            
+            &:hover {
+                background: $hover;
+            }
+            
+            &:active {
+                background: darken($hover, 10%);
             }
             
             &:focus {
@@ -303,6 +315,10 @@ header {
                 height: $button-height;
                 color: $gray;
                 cursor: pointer;
+                
+                &:hover {
+                    color: $black;
+                }
             }
         }
     }
