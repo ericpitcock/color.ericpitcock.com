@@ -27597,27 +27597,15 @@ var tooltip = $.widget( "ui.tooltip", {
         
         clearPalette: function() {
             
-            // hide button
-            //$('.clear-palette').hide();
-            
             // clear array
             Color.swatchesChosen[Color.currentPalette] = [];
-            //console.log(Color.swatchesChosen);
-            
-            // clear indicators
-            $('span.' + Color.currentPalette).remove();
-            
-            // remove in class
-            $('.in-' + Color.currentPalette).removeClass('in-' + Color.currentPalette);
             
             // remove swatches
-            $('.palettes .active').children('.swatch').remove();
+            $('.palettes .active').empty();
             
-            // remove added class
-            //$('.swatch').removeClass('added');
+            // clear indicators
+            $('.in-' + Color.currentPalette).empty().removeClass('in-' + Color.currentPalette).hide().show(0);
             
-            // add text back
-            //$('.palette p').show();
         },
         
         handlePaletteSwitch: function(e) {
@@ -27644,7 +27632,7 @@ var tooltip = $.widget( "ui.tooltip", {
                     $(this).addClass('in-' + Color.currentPalette);
                     
                     // add visual indicator of what palette it's been added to
-                    $('<span class="' + Color.currentPalette + '">' + Color.currentPalette.replace('palette-', '') + '</span>').appendTo($('.tab-pane').children('*[data-swatch-color="' + color + '"]'));
+                    $(this).append('<span class="' + Color.currentPalette + '">' + Color.currentPalette.replace('palette-', '') + '</span>');
                     
                     // add to swatches array for current palette
                     Color.swatchesChosen[Color.currentPalette].push(color);
