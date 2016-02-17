@@ -149,16 +149,11 @@ header {
 
     .palettes > div {
         display: none;
-        //height: 200px;
+        align-content: flex-start;
+        height: 200px;
         
         &.active {
-            display: block;
-        }
-        
-        .palette {
             display: flex;
-            align-content: flex-start;
-            height: 200px;
         }
     }
 }
@@ -193,12 +188,12 @@ header {
         content: '+';
     }
     
-    .palette & {
+    .palettes > div & {
         align-self: center;
         margin-bottom: 0;
     }
     
-    html.no-touch .palette &:hover:after{
+    html.no-touch .palettes &:hover:after {
         content: '×';
         margin-left: -10px;
         margin-top: -10px;

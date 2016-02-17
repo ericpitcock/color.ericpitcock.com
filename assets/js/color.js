@@ -106,8 +106,8 @@
             
         },
         
-        loadMonochromeColors: function() {
-            var monochrome = [
+        loadGrayscaleColors: function() {
+            var grayscale = [
                 '#000000',
                 '#1b1b1b',
                 '#363636',
@@ -121,10 +121,10 @@
             ];
             
             // create tab pane
-            $('.tab-content').append('<div class="tab-pane" id="monochrome"></div>');
+            $('.tab-content').append('<div class="tab-pane" id="grayscale"></div>');
             
-            $.each(monochrome, function(index, value) {
-                $('#monochrome').append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
+            $.each(grayscale, function(index, value) {
+                $('#grayscale').append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
             });
         },
         
@@ -158,16 +158,7 @@
             $('.palettes .active').removeClass('active');
             
             // clone palette 1, empty, and append
-            /*jshint multistr: true */
-            $('<div id="palette-' + count + '" class="active">\
-                    <div class="col-sm-2">\
-                        Clear<br>\
-                        Delete<br>\
-                        Duplicate<br>\
-                        Get CSS\
-                    </div>\
-                    <div class="palette col-sm-10"></div>\
-                </div>').appendTo('.palettes');
+            $('<div id="palette-' + count + '" class="active"></div>').appendTo('.palettes');
             
             // initialize palette as sortable
             $('#palette-' + count + ' .palette').sortable({
@@ -229,7 +220,7 @@
                 if (!$(this).hasClass('in-' + Color.currentPalette)) {
                     
                     // copy swatch to palette
-                    $(this).clone(true).empty().appendTo('.palettes .active .palette');
+                    $(this).clone(true).empty().appendTo('.palettes .active');
                     
                     // add class noting which palette it's been added to
                     $(this).addClass('in-' + Color.currentPalette);
@@ -245,7 +236,7 @@
                 }
             
             // if clicked swatch is in a palette (aka, removing)
-            } else if ($(e.target).parent().hasClass('palette')) {
+            } else if ($(e.target).parents().hasClass('palettes')) {
             
                 // remove from array
                 var i = Color.swatchesChosen[Color.currentPalette].indexOf(color);
@@ -287,8 +278,8 @@
             // load preset colors
             Color.loadColors(Color.presetColors);
 
-            // load monochrome manually
-            Color.loadMonochromeColors();
+            // load grayscale manually
+            Color.loadGrayscaleColors();
             
             // listen for tab switch and run spacer
             $('ul.color-sets li a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
