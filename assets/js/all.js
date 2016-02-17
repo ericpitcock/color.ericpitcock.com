@@ -27549,8 +27549,14 @@ var tooltip = $.widget( "ui.tooltip", {
         },
         
         handlePaletteSwitch: function(e) {
+            
+            // get current palette based on tab clicked
             Color.currentPalette = $(e.target).attr('data-target').replace('#','');
-            console.log('Current palette: ' + Color.currentPalette);
+            
+            //console.log('Current palette: ' + Color.currentPalette);
+            
+            // run palette check
+            Color.paletteCheck();
         },
         
         handleSwatchClick: function(e) {
@@ -27609,12 +27615,14 @@ var tooltip = $.widget( "ui.tooltip", {
             // palette has swatches
             if (Color.swatchesChosen[Color.currentPalette].length > 0) {
                 
-                $('.palette-tabs .active').addClass('has-swatches');
+                $('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]').addClass('has-swatches');
+                $('.palette-control button').removeClass('disabled');
                 
             // if palette is empty
             } else if (Color.swatchesChosen[Color.currentPalette].length === 0) {
             
-				$('.palette-tabs .active').removeClass('has-swatches');
+				$('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]').removeClass('has-swatches');
+				$('.palette-control button').addClass('disabled');
             
             }
             
