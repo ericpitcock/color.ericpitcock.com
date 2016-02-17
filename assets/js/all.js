@@ -28391,7 +28391,16 @@ module.exports = exports['default'];
             
         },
         
+        clipboardNotification: function() {
+            $('.clipboard-notification').fadeIn().delay(2000).fadeOut('slow');
+        },
+        
         initialize: function() {
+            
+            // safari doesnt support clipboard action, so don't show the button
+            if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+                $('.copy-css').hide();
+            }
             
             // test for touch
             if (!('ontouchstart' in document.documentElement)) {
@@ -28445,6 +28454,9 @@ module.exports = exports['default'];
             
             // listen for click events
             $('.clear-palette').on('click', this.clearPalette);
+            
+            // listen for click events
+            $('.copy-css').on('click', this.clipboardNotification);
             
             // listen for click events
             $('.add-color-set').on('click', this.addColorSet);

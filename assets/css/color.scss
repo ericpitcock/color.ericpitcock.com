@@ -191,6 +191,11 @@ header {
     textarea.css {
         position: absolute;
         z-index: -1;
+        border: 0;
+        outline: 0;
+        padding: 0;
+        -webkit-appearance: none;
+        resize: none;
     }
 }
 
@@ -340,4 +345,17 @@ header {
             }
         }
     }
+}
+
+.clipboard-notification {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+    width: 250px;
+    padding: 20px;
+    background: lighten(#ffd900, 30%);
+    border-radius: 5px;
+    text-align: center;
 }
