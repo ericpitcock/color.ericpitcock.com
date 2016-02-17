@@ -232,6 +232,7 @@
             // load grayscale manually
             Color.loadGrayscaleColors();
             
+            /* LOCAL STORAGE
             // add stored swatches
             if (window.localStorage.getItem('swatches') === null) {
                 // nuttin
@@ -249,6 +250,7 @@
                     });
                 });
             }
+            */
             
             // listen for tab switch and run spacer
             $('ul.color-sets li a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
