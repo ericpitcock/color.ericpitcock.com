@@ -38,11 +38,11 @@
             <div class="row">
                 <div class="palette-control col-sm-2">
                     <button type="button" class="clear-palette disabled">Clear</button>
-                    <button type="button" class="duplicate-palette disabled">Duplicate</button>
-                    <button type="button" class="get-css disabled">Get CSS</button>
+                    <!--<button type="button" class="duplicate-palette disabled">Duplicate</button>-->
+                    <button type="button" class="copy-css disabled" data-clipboard-target=".active textarea">Copy CSS</button>
                 </div>
                 <div class="palettes col-sm-10">
-                    <div id="palette-1" class="active"></div>
+                    <div id="palette-1" class="active"><textarea class="css"></textarea></div>
                     <div id="palette-2"></div>
                     <div id="palette-3"></div>
                     <div id="palette-4"></div>

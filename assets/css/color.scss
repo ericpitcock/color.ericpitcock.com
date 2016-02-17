@@ -175,6 +175,11 @@ header {
             display: flex;
         }
     }
+    
+    textarea.css {
+        position: absolute;
+        z-index: -1;
+    }
 }
 
 .swatch {

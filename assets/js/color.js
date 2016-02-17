@@ -56,7 +56,7 @@
             // if we need spacers, add them
             if (spacersNeeded > 0) {
                 
-                console.log('added ' + spacersNeeded + ' spacers');
+                //console.log('added ' + spacersNeeded + ' spacers');
                 
                 for (i = 0; i < spacersNeeded; i++) { 
                     $('.tab-pane.active').append('<div class="swatch spacer" style="background-color: #fff"></div>');
@@ -171,8 +171,13 @@
                     // add to swatches array for current palette
                     Color.swatchesChosen[Color.currentPalette].push(color);
                     
+                    // do CSS thing
+                    var hue = $(e.target).parent().attr('id');
+                    
+                    $('.palettes .active textarea').append('.' + hue + ' { background-color: ' + color + '; }\n');
+                    
                     // add swatches to local storage
-                    localStorage.setItem('swatches', JSON.stringify(Color.swatchesChosen));
+                    // localStorage.setItem('swatches', JSON.stringify(Color.swatchesChosen));
                     
                     //console.log(Color.swatchesChosen[Color.currentPalette]);
                     console.log(Color.swatchesChosen);
@@ -299,6 +304,9 @@
                 opacity: 0.5,
                 tolerance: 'pointer'
             });
+            
+            // instatiate clipboard action
+            new Clipboard('.copy-css');
             
         }
         
