@@ -27604,7 +27604,12 @@ var tooltip = $.widget( "ui.tooltip", {
             $('.palettes .active').empty();
             
             // clear indicators
-            $('.in-' + Color.currentPalette).removeClass('in-' + Color.currentPalette).find('span.' + Color.currentPalette).remove().hide().show(0);
+            $('.in-' + Color.currentPalette)
+                .removeClass('in-' + Color.currentPalette)
+                .hide()
+                .show(0)
+                .find('span.' + Color.currentPalette)
+                .remove();
             
         },
         
