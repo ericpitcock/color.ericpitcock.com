@@ -27583,6 +27583,9 @@ var tooltip = $.widget( "ui.tooltip", {
                     // add to swatches array for current palette
                     Color.swatchesChosen[Color.currentPalette].push(color);
                     
+                    // add swatches to local storage
+                    localStorage.setItem('swatches', JSON.stringify(Color.swatchesChosen));
+                    
                     //console.log(Color.swatchesChosen[Color.currentPalette]);
                     console.log(Color.swatchesChosen);
                 }
@@ -27640,6 +27643,24 @@ var tooltip = $.widget( "ui.tooltip", {
 
             // load grayscale manually
             Color.loadGrayscaleColors();
+            
+            // add stored swatches
+            if (window.localStorage.getItem('swatches') === null) {
+                // nuttin
+            } else {
+                var swatches = JSON.parse(localStorage.getItem('swatches'));
+                //console.log(swatches);
+                
+                // for each array
+                $.each(swatches, function(key, value) {
+                    //console.log(key + ': ' + value);
+                    
+                    $.each(value, function(index, value) {
+                        //console.log(value);
+                        $('.palettes #' + key).append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
+                    });
+                });
+            }
             
             // listen for tab switch and run spacer
             $('ul.color-sets li a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
