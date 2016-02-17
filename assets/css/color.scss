@@ -94,6 +94,10 @@ header {
                     cursor: default;
                 }
             }
+            
+            &.has-swatches {
+                color: green;
+            }
         }
     }
 }
@@ -188,13 +192,13 @@ header {
     // palette indicators
     span {
         display: block;
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
         background: rgba(255,255,255,0.3);
-        border-radius: 8px;
+        border-radius: 7px;
         margin: 5px;
         text-align: center;
-        line-height: 15px;
+        line-height: 13px;
         font-size: 10px;
         font-weight: 600;
     }
