@@ -64,6 +64,7 @@ header {
         padding-left: 35px;
         background: url(../img/e.svg) left center no-repeat;
         margin-top: 20px;
+        cursor: pointer;
     }
     
     .palette-tabs {
@@ -378,4 +379,47 @@ header {
     background: lighten(#ffd900, 30%);
     border-radius: 5px;
     text-align: center;
+}
+
+.about-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background: rgba(0,0,0,0.3);
+    cursor: pointer;
+    
+    .about {
+        position: relative;
+        width: 400px;
+        top: 100px;
+        left: 50%;
+        margin-left: -200px;
+        padding: 40px 50px;
+        background: #fff;
+        cursor: default;
+        
+        h3 {
+            font-size: 20px;
+        }
+        
+        h3, p {
+            margin-bottom: 10px;
+        }
+        
+        p {
+            line-height: 20px;
+        }
+        
+        a {
+            border-bottom: 1px solid #f5c1c1;
+            
+            &:hover {
+                border-bottom-color: red;
+            }
+        }
+    }
 }

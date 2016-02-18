@@ -299,6 +299,19 @@
             // listen for palette switching
             $('.palette-tabs').on('click', 'li a:not(.add-palette)', this.handlePaletteSwitch);
             
+            // about panel
+            $('h1').click(function() {
+                $('.about-overlay').fadeIn();
+            });
+            
+            $('.about-overlay').click(function(e) {
+                if (e.target !== this) {
+                    return;
+                } else {
+                    $(this).fadeOut(); 
+                }
+            });
+            
             // space swatches
             Color.spacer();
             
