@@ -111,6 +111,10 @@ header {
                     border-bottom-color: #fff;
                     cursor: default;
                     color: $black;
+                    
+                    html.no-touch &:hover {
+                        background: #fff;
+                    }
                 }
             }
         }
@@ -178,13 +182,30 @@ header {
         }
     }
 
-    .palettes > div {
-        display: none;
-        align-content: flex-start;
-        height: 200px;
+    .palettes {
+    
+        & > div {
+            display: none;
+            align-content: flex-start;
+            height: 200px;
+            
+            &.active {
+                display: flex;
+            }
+        }
         
-        &.active {
-            display: flex;
+        p {
+            display: block;
+            position: absolute;
+            width: 300px;
+            height: 40px;
+            background: #fff;
+            border: 1px solid #e6e6e6;
+            top: 80px;
+            left: 50%;
+            margin-left: -150px;
+            text-align: center;
+            line-height: 37px;
         }
     }
     

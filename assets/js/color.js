@@ -213,12 +213,14 @@
                 
                 $('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]').addClass('has-swatches');
                 $('.palette-control button').removeClass('disabled');
+                $('.palettes p').hide();
                 
             // if palette is empty
             } else if (Color.swatchesChosen[Color.currentPalette].length === 0) {
             
 				$('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]').removeClass('has-swatches');
 				$('.palette-control button').addClass('disabled');
+				$('.palettes p').show();
             
             }
             
