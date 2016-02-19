@@ -28359,7 +28359,7 @@ module.exports = exports['default'];
                     Color.swatchesChosen[Color.currentPalette].splice(i, 1);
                 }
                 
-                console.log(Color.swatchesChosen);
+                //console.log(Color.swatchesChosen);
                 
                 // remove swatch from palette
                 $(this).remove();
@@ -28483,7 +28483,7 @@ module.exports = exports['default'];
             Color.spacer();
             
             $(window).resize(function() {
-                console.clear();
+                //console.clear();
                 Color.spacer();
             });
             
@@ -28499,7 +28499,7 @@ module.exports = exports['default'];
                 tolerance: 'pointer'
             });
             
-            // instatiate clipboard action
+            // instantiate clipboard action
             new Clipboard('.copy-css');
             
         }
