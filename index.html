@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Color - A simple color palette creator</title>
+    <meta name="title" content="Color - A simple color palette creator">
+    <meta name="author" content="Eric Pitcock" />
+    <meta name="description" content="Color - A simple color palette creator">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<link rel="shortcut icon" href="favicon.ico" />-->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600">
+    <link rel="stylesheet" href="assets/css/color.css">
+</head>
+<body>
+    <div class="about-overlay">
+        <div class="about">
+            <h3>Color</h3>
+            <p>Designed and developed by <a href="http://ericpitcock.com">Eric Pitcock.</a></p>
+            <p>Special thanks to David Mer­ﬁeld’s <a href="https://randomcolor.llllll.li/">randomColor</a> and Zeno Rocha’s <a href="https://clipboardjs.com/">clipboard.js.</a></p>
+        </div>
+    </div>
+    <div class="clipboard-notification">CSS copied to clipboard</div>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <h1>Color</h1>
+                </div>
+                <div class="col-sm-10">
+                    <ul class="palette-tabs">
+                        <li class="active"><a data-toggle="tab" data-target="#palette-1">Palette 1</a></li>
+                        <li><a data-toggle="tab" data-target="#palette-2">Palette 2</a></li>
+                        <li><a data-toggle="tab" data-target="#palette-3">Palette 3</a></li>
+                        <li><a data-toggle="tab" data-target="#palette-4">Palette 4</a></li>
+                        <li><a data-toggle="tab" data-target="#palette-5">Palette 5</a></li>
+                        <li><a data-toggle="tab" data-target="#palette-6">Palette 6</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="palette-container">
+        <div class="gradient-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="palette-control col-sm-2">
+                    <button type="button" class="clear-palette disabled">Clear</button>
+                    <!--<button type="button" class="duplicate-palette disabled">Duplicate</button>-->
+                    <button type="button" class="copy-css disabled" data-clipboard-target=".active textarea">Copy CSS</button>
+                </div>
+                <div class="palettes col-sm-10">
+                    <p>Add swatches to build your palette</p>
+                    <div id="palette-1" class="active"><textarea class="css"></textarea></div>
+                    <div id="palette-2"><textarea class="css"></textarea></div>
+                    <div id="palette-3"><textarea class="css"></textarea></div>
+                    <div id="palette-4"><textarea class="css"></textarea></div>
+                    <div id="palette-5"><textarea class="css"></textarea></div>
+                    <div id="palette-6"><textarea class="css"></textarea></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="color-sets-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <h2>COLOR SETS</h2>
+                    <ul class="color-sets">
+                        <li class="active"><a data-toggle="tab" data-target="#red">red</a></li>
+                        <li><a data-toggle="tab" data-target="#orange">orange</a></li>
+                        <li><a data-toggle="tab" data-target="#yellow">yellow</a></li>
+                        <li><a data-toggle="tab" data-target="#green">green</a></li>
+                        <li><a data-toggle="tab" data-target="#blue">blue</a></li>
+                        <li><a data-toggle="tab" data-target="#purple">indigo</a></li>
+                        <li><a data-toggle="tab" data-target="#pink">violet</a></li>
+                        <li><a data-toggle="tab" data-target="#grayscale">grayscale</a></li>
+                        <!--<li><a href="" class="add-color-set">+ Add color set</a></li>-->
+                    </ul>
+                </div>
+                <div class="colors col-sm-10 col-sm-offset-2">
+                    <div class="tab-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/color.min.js"></script>
+</body>
+</html>
