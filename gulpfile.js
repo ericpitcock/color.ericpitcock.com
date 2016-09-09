@@ -1,11 +1,20 @@
-var gulp = require('gulp'); 
+var gulp = require('gulp'),
+    browserSync = require('browser-sync').create(),
+    jshint = require('gulp-jshint'),
+    sass = require('gulp-sass'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify'),
+    rename = require('gulp-rename'),
+    sourcemaps = require('gulp-sourcemaps'),
+    autoprefixer = require('gulp-autoprefixer');
 
-var jshint = require('gulp-jshint');
-var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var autoprefixer = require('gulp-autoprefixer');
+gulp.task('browser-sync', function() {
+    browserSync.init({
+        port: 3002,
+        proxy: 'color.ericpitcock.dev',
+        notify: false
+    });
+});
 
 gulp.task('jshint', function() {
     gulp.src('assets/js/color.js')
@@ -31,16 +40,19 @@ gulp.task('js', function() {
             'assets/bower/clipboard/dist/clipboard.js',
             'assets/js/color.js'
             ])
+        .pipe(sourcemaps.init())
         .pipe(concat('all.js'))
         .pipe(gulp.dest('assets/js'))
         .pipe(rename('color.min.js'))
         .pipe(uglify())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('assets/js'));
 });
 
 gulp.task('watch', function() {
     gulp.watch('assets/js/color.js', ['jshint', 'js']);
     gulp.watch('assets/css/color.scss', ['sass']);
+    gulp.watch(['index.html', 'assets/css/color.scss', 'assets/js/color.js']).on('change', browserSync.reload);
 });
 
 gulp.task('default', ['jshint', 'sass', 'js', 'watch']);
