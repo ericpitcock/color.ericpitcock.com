@@ -39,15 +39,12 @@ var Color = {
                 return true;
             }
 
-            // generate the random colors
-            var colors = randomColor({
+            // populate the array with random colors
+            Color.colors[hue] = randomColor({
                 hue: hue,
                 luminosity: 'bright',
                 count: 12
             });
-
-            // populate the array with hex values
-            Color.colors[hue] = colors;
         }
     },
 
@@ -101,18 +98,26 @@ var Color = {
         if ($(e.target).parent().hasClass('tab-pane')) {
 
             // if the color doesn't exist in the current palette
+            //********** NEED TO CHECK AGAINST THE ARRAY INSTEAD
             if (!$this.hasClass('in-' + currentPalette)) {
                 // copy swatch to palette
-                $this.clone(true).empty().appendTo('.palettes .active');
+                $this
+                    .clone(true)
+                    .empty()
+                    .appendTo('.palettes .active');
 
                 // add class noting which palette it's been added to
                 $this.addClass('in-' + currentPalette);
 
                 // add visual indicator of what palette it's been added to
-                $this.append('<span class="' + currentPalette + '">' + currentPalette.replace('palette-', '') + '</span>');
+                //$this.append('<span class="' + currentPalette + '">' + currentPalette.replace('palette-', '') + '</span>');
 
                 // add to swatches array for current palette
                 palette.push(color);
+            } else {
+                $('#' + currentPalette + '.active')
+                    .find('.swatch:not([data-swatch-color="' + color + '"])')
+                    .css('opacity', '0.5');
             }
 
         // if clicked swatch is in a palette (aka, removing)
@@ -126,14 +131,11 @@ var Color = {
             $this.remove();
 
             // remove indicator
-            $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('in-' + currentPalette).find('span.'+ currentPalette).remove();
+            //$('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('in-' + currentPalette).find('span.'+ currentPalette).remove();
         }
-
-        // console.log(palette);
 
         // run palette check
         Color.paletteCheck();
-
     },
 
     paletteCheck: function() {
@@ -158,15 +160,18 @@ var Color = {
     },
 
     clipboardNotification: function() {
-        $('.clipboard-notification').fadeIn().delay(2000).fadeOut('slow');
+        $('.clipboard-notification')
+            .fadeIn()
+            .delay(2000)
+            .fadeOut('slow');
     },
 
     initialize: function() {
 
         // safari doesnt support clipboard action, so don't show the button
-        if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
-            $('.copy-css').hide();
-        }
+        //if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+        //    $('.copy-css').hide();
+        //}
 
         // test for touch
         if (!('ontouchstart' in document.documentElement)) {
@@ -179,49 +184,15 @@ var Color = {
         // create swatches
         this.createSwatches(Color.colors);
 
-        /* LOCAL STORAGE
-        // add stored swatches
-        if (window.localStorage.getItem('swatches') === null) {
-            // nuttin
-        } else {
-            var swatches = JSON.parse(localStorage.getItem('swatches'));
-            //console.log(swatches);
-
-            // for each array
-            $.each(swatches, function(key, value) {
-                //console.log(key + ': ' + value);
-
-                $.each(value, function(index, value) {
-                    //console.log(value);
-                    $('.palettes #' + key).append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
-                });
-            });
-        }
-        */
-
         // listen for tab switch
         $('ul.color-sets li a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-
-            // update URL
-            //window.location.hash = e.target.hash;
-
             // scroll to top
             window.scrollTo(0, 0);
         });
 
-        // activate first tab
-        $('.tab-content .tab-pane:first-child').addClass('active');
-
         // listen for click events
         $('.swatch').on('click', this.handleSwatchClick);
-
-        // listen for click events
         $('.clear-palette').on('click', this.clearPalette);
-
-        // listen for click events
-        $('.copy-css').on('click', this.clipboardNotification);
-
-        // listen for click events
         $('.add-color-set').on('click', this.addColorSet);
 
         // listen for palette switching
@@ -254,36 +225,7 @@ var Color = {
 
         // instantiate clipboard action
         new Clipboard('.copy-css');
-
     }
-
 };
 
 $(document).ready(function() { Color.initialize(); });
-
-
-
-/* iterate over the LESS GENERATED JSON
-$(colors).each(function(key, value) {
-    // for each 'file'
-    $.each(value, function(key, value) {
-        //console.log('this is file ' + k);
-
-        // create tabs
-        $('.nav-tabs').prepend('<li><a href="#' + key +'" data-toggle="tab">' + key +'</a></li>');
-
-        // create tab pane
-        $('.tab-content').prepend('<div class="tab-pane" id="' + key +'"></div>');
-
-        var id = '#' + key;
-
-        // for each color, append a swatch
-        $.each(value, function(key, value) {
-            $(id).append('<div class="swatch-container"><div class="swatch" style="background-color: ' + value.hex + '"></div></div>');
-            //value.name
-            //value.hex
-            //value.rgb
-        });
-    });
-});
-*/
