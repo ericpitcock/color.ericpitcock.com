@@ -54,26 +54,11 @@ var Color = {
     createSwatches: function(object) {
         // for every key (hue) in the object
         for (var hue in object) {
-            //console.log(key);
-            //var obj = object[key];
-            //console.log('object[hue]' + object[hue]);
-
             // for every value in each hue
             for (var value in object[hue]) {
-
-                console.log('object[hue][value]' + object[hue][value]);
                 $('#' + hue).append('<div class="swatch ' + hue + '" data-swatch-color="' + object[hue][value] + '" style="background-color: ' + object[hue][value] + '"></div>');
             }
-
         }
-
-        // console.log(object);
-        // $.each(object, function(key, value) {
-        //     // create a swatch for each
-        //     $.each(value, function(index, value) {
-        //         $('#' + key).append('<div class="swatch ' + key + '" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
-        //     });
-        // });
     },
 
     clearPalette: function() {
