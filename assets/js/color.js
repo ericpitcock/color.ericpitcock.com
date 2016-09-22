@@ -176,10 +176,10 @@ var Color = {
         }
 
         // generate colors
-        this.generateColors(Color.colors);
+        Color.generateColors(Color.colors);
 
         // create swatches
-        this.createSwatches(Color.colors);
+        Color.createSwatches(Color.colors);
 
         // listen for tab switch
         $('ul.color-sets li a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -188,12 +188,12 @@ var Color = {
         });
 
         // listen for click events
-        $('.swatch').on('click', this.handleSwatchClick);
-        $('.clear-palette').on('click', this.clearPalette);
-        $('.add-color-set').on('click', this.addColorSet);
+        $('.swatch').on('click', Color.handleSwatchClick);
+        $('.clear-palette').on('click', Color.clearPalette);
+        $('.add-color-set').on('click', Color.addColorSet);
 
         // listen for palette switching
-        $('.palette-tabs').on('click', 'li a:not(.add-palette)', this.handlePaletteSwitch);
+        $('.palette-tabs').on('click', 'li a:not(.add-palette)', Color.handlePaletteSwitch);
 
         // about panel
         $('h1').click(function() {
