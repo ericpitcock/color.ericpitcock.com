@@ -28171,7 +28171,7 @@ module.exports = exports['default'];
 
 var Color = {
 
-    hues: {
+    colors: {
         'red': [],
         'orange': [],
         'yellow': [],
@@ -28194,22 +28194,34 @@ var Color = {
     },
     currentPalette: 'palette-1',
     paletteCount: 1,
+    swatchesChosen: {
+        'palette-1': [],
+        'palette-2': [],
+        'palette-3': [],
+        'palette-4': [],
+        'palette-5': [],
+        'palette-6': []
+    },
 
-    //userColorSets: 1,
+    generateColors: function(source) {
+        for (var prop in source) {
 
-    generateColors: function() {
-        $.each(Color.hues, function(key, value) {
-            if (value.grayscale){
+            // skip grayscale since it's already defined
+            if (prop == 'grayscale') {
                 return true;
             }
+
+            // generate the random colors
             var colors = randomColor({
-                hue: key,
+                hue: prop,
                 luminosity: 'bright',
                 count: 20
             });
-            Color.hues[key] = colors;
-        });
-        console.log(Color.hues);
+
+            // populate the array with hex values
+            Color.colors[prop] = colors;
+        }
+        // console.log(Color.colors);
     },
 
     displayColors: function(object) {
@@ -28220,7 +28232,7 @@ var Color = {
             var id = '#' + key;
 
             // create tab pane
-            $('.tab-content').append('<div class="tab-pane" id="' + key +'"></div>');
+            //$('.tab-content').append('<div class="tab-pane" id="' + key +'"></div>');
 
             //console.log(value);
             // output swatches
@@ -28285,14 +28297,13 @@ var Color = {
             if (!$(this).hasClass('in-' + Color.currentPalette)) {
 
                 // copy swatch to palette
-                $(this)
-                    .clone(true)
-                    .empty()
-                    .appendTo('.palettes .active')
-                    // add class noting which palette it's been added to
-                    .addClass('in-' + Color.currentPalette)
-                    // add visual indicator of what palette it's been added to
-                    .append('<span class="' + Color.currentPalette + '">' + Color.currentPalette.replace('palette-', '') + '</span>');
+                $(this).clone(true).empty().appendTo('.palettes .active');
+
+                // add class noting which palette it's been added to
+                $(this).addClass('in-' + Color.currentPalette);
+
+                // add visual indicator of what palette it's been added to
+                $(this).append('<span class="' + Color.currentPalette + '">' + Color.currentPalette.replace('palette-', '') + '</span>');
 
                 // add to swatches array for current palette
                 Color.swatchesChosen[Color.currentPalette].push(color);
@@ -28369,10 +28380,10 @@ var Color = {
         }
 
         // generate colors
-        this.generateColors();
+        this.generateColors(Color.colors);
 
         // load preset colors
-        this.displayColors(Color.hues);
+        this.displayColors(Color.colors);
 
         // load grayscale manually
         //this.loadGrayscaleColors();
