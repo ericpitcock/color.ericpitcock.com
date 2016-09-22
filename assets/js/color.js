@@ -59,7 +59,6 @@ var Color = {
     },
 
     clearPalette: function() {
-
         var currentPalette = Color.currentPalette;
 
         // clear array
@@ -139,7 +138,6 @@ var Color = {
     },
 
     paletteCheck: function() {
-
         var currentPalette = Color.palettes[Color.currentPalette],
             $activePaletteTab = $('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]'),
             $paletteControlsButtons = $('.palette-control button'),
@@ -167,7 +165,6 @@ var Color = {
     },
 
     initialize: function() {
-
         // safari doesnt support clipboard action, so don't show the button
         //if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
         //    $('.copy-css').hide();
