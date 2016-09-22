@@ -14,20 +14,15 @@ var Color = {
         'pink': [],
         'grayscale': [
             '#000000',
-            '#1b1b1b',
-            '#363636',
-            '#515151',
-            '#6c6c6c',
-            '#868686',
-            '#a1a1a1',
-            '#bcbcbc',
-            '#d7d7d7',
-            '#f2f2f2'
+            '#303030',
+        	'#616161',
+        	'#919191',
+        	'#C2C2C2',
+        	'#F2F2F2'
         ]
     },
     currentPalette: 'palette-1',
-    paletteCount: 1,
-    swatchesChosen: {
+    palettes: {
         'palette-1': [],
         'palette-2': [],
         'palette-3': [],
@@ -36,164 +31,145 @@ var Color = {
         'palette-6': []
     },
 
-    generateColors: function(source) {
-        for (var prop in source) {
-
+    generateColors: function(object) {
+        // for each hue, populate its array with random values
+        for (var hue in object) {
             // skip grayscale since it's already defined
-            if (prop == 'grayscale') {
+            if (hue == 'grayscale') {
                 return true;
             }
 
             // generate the random colors
             var colors = randomColor({
-                hue: prop,
+                hue: hue,
                 luminosity: 'bright',
-                count: 20
+                count: 12
             });
 
             // populate the array with hex values
-            Color.colors[prop] = colors;
+            Color.colors[hue] = colors;
         }
-        // console.log(Color.colors);
     },
 
-    displayColors: function(object) {
+    createSwatches: function(object) {
+        // for every key (hue) in the object
+        for (var hue in object) {
+            //console.log(key);
+            //var obj = object[key];
+            //console.log('object[hue]' + object[hue]);
 
-        //console.log(object);
-        $.each(object, function(key, value) {
+            // for every value in each hue
+            for (var value in object[hue]) {
 
-            var id = '#' + key;
+                console.log('object[hue][value]' + object[hue][value]);
+                $('#' + hue).append('<div class="swatch ' + hue + '" data-swatch-color="' + object[hue][value] + '" style="background-color: ' + object[hue][value] + '"></div>');
+            }
 
-            // create tab pane
-            //$('.tab-content').append('<div class="tab-pane" id="' + key +'"></div>');
+        }
 
-            //console.log(value);
-            // output swatches
-            $.each(value, function(index, value) {
-                $(id).append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
-            });
-
-        });
-    },
-
-    loadGrayscaleColors: function() {
-
-        // create tab pane
-        $('.tab-content').append('<div class="tab-pane" id="grayscale"></div>');
-
-        $.each(grayscale, function(index, value) {
-            $('#grayscale').append('<div class="swatch" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
-        });
+        // console.log(object);
+        // $.each(object, function(key, value) {
+        //     // create a swatch for each
+        //     $.each(value, function(index, value) {
+        //         $('#' + key).append('<div class="swatch ' + key + '" data-swatch-color="' + value + '" style="background-color: ' + value + '"></div>');
+        //     });
+        // });
     },
 
     clearPalette: function() {
 
+        var currentPalette = Color.currentPalette;
+
         // clear array
-        Color.swatchesChosen[Color.currentPalette] = [];
+        Color.palettes[currentPalette] = [];
 
         // remove swatches
         $('.palettes .active').empty();
 
         // clear indicators
-        $('.in-' + Color.currentPalette)
-            .removeClass('in-' + Color.currentPalette)
+        $('.in-' + currentPalette)
+            .removeClass('in-' + currentPalette)
             .hide()
             .show(0)
-            .find('span.' + Color.currentPalette)
+            .find('span.' + currentPalette)
             .remove();
 
+        // check palettes
         Color.paletteCheck();
-
     },
 
     handlePaletteSwitch: function(e) {
-
         // get current palette based on tab clicked
         Color.currentPalette = $(e.target).attr('data-target').replace('#','');
-
-        //console.log('Current palette: ' + Color.currentPalette);
 
         // run palette check
         Color.paletteCheck();
     },
 
     handleSwatchClick: function(e) {
-
-        //console.log(e);
-
-        var color = $(this).data('swatch-color');
+        var $this = $(this),
+            color = $this.data('swatch-color'),
+            currentPalette = Color.currentPalette,
+            palette = Color.palettes[currentPalette];
 
         // if clicked swatch is in a color set (aka, adding)
         if ($(e.target).parent().hasClass('tab-pane')) {
 
             // if the color doesn't exist in the current palette
-            if (!$(this).hasClass('in-' + Color.currentPalette)) {
-
+            if (!$this.hasClass('in-' + currentPalette)) {
                 // copy swatch to palette
-                $(this).clone(true).empty().appendTo('.palettes .active');
+                $this.clone(true).empty().appendTo('.palettes .active');
 
                 // add class noting which palette it's been added to
-                $(this).addClass('in-' + Color.currentPalette);
+                $this.addClass('in-' + currentPalette);
 
                 // add visual indicator of what palette it's been added to
-                $(this).append('<span class="' + Color.currentPalette + '">' + Color.currentPalette.replace('palette-', '') + '</span>');
+                $this.append('<span class="' + currentPalette + '">' + currentPalette.replace('palette-', '') + '</span>');
 
                 // add to swatches array for current palette
-                Color.swatchesChosen[Color.currentPalette].push(color);
-
-                // do CSS thing
-                var hue = $(e.target).parent().attr('id');
-
-                $('.palettes .active textarea').append('.' + hue + ' { background-color: ' + color + '; }\n');
-
-                // add swatches to local storage
-                // localStorage.setItem('swatches', JSON.stringify(Color.swatchesChosen));
-
-                //console.log(Color.swatchesChosen[Color.currentPalette]);
-                //console.log(Color.swatchesChosen);
+                palette.push(color);
             }
 
         // if clicked swatch is in a palette (aka, removing)
         } else if ($(e.target).parents().hasClass('palettes')) {
-
-            // remove from array
-            var i = Color.swatchesChosen[Color.currentPalette].indexOf(color);
+            // remove from swatches array for current palette
+            var i = palette.indexOf(color);
             if (i != -1) {
-                Color.swatchesChosen[Color.currentPalette].splice(i, 1);
+                palette.splice(i, 1);
             }
-
-            //console.log(Color.swatchesChosen);
-
             // remove swatch from palette
-            $(this).remove();
+            $this.remove();
 
             // remove indicator
-            $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('in-' + Color.currentPalette).find('span.'+ Color.currentPalette).remove();
-
+            $('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('in-' + currentPalette).find('span.'+ currentPalette).remove();
         }
 
+        // console.log(palette);
+
+        // run palette check
         Color.paletteCheck();
 
     },
 
     paletteCheck: function() {
 
-        // palette has swatches
-        if (Color.swatchesChosen[Color.currentPalette].length > 0) {
+        var currentPalette = Color.palettes[Color.currentPalette],
+            $activePaletteTab = $('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]'),
+            $paletteControlsButtons = $('.palette-control button'),
+            $addSwatchesNotification = $('.palettes p');
 
-            $('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]').addClass('has-swatches');
-            $('.palette-control button').removeClass('disabled');
-            $('.palettes p').hide();
+        // palette has swatches
+        if (currentPalette.length > 0) {
+            $activePaletteTab.addClass('has-swatches');
+            $paletteControlsButtons.removeClass('disabled');
+            $addSwatchesNotification.hide();
 
         // if palette is empty
-        } else if (Color.swatchesChosen[Color.currentPalette].length === 0) {
-
-			$('.palette-tabs .active a[data-target="#' + Color.currentPalette + '"]').removeClass('has-swatches');
-			$('.palette-control button').addClass('disabled');
-			$('.palettes p').show();
-
+        } else if (currentPalette.length === 0) {
+			$activePaletteTab.removeClass('has-swatches');
+			$paletteControlsButtons.addClass('disabled');
+			$addSwatchesNotification.show();
         }
-
     },
 
     clipboardNotification: function() {
@@ -215,11 +191,8 @@ var Color = {
         // generate colors
         this.generateColors(Color.colors);
 
-        // load preset colors
-        this.displayColors(Color.colors);
-
-        // load grayscale manually
-        //this.loadGrayscaleColors();
+        // create swatches
+        this.createSwatches(Color.colors);
 
         /* LOCAL STORAGE
         // add stored swatches
