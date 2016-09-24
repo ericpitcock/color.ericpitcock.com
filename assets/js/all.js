@@ -28264,7 +28264,7 @@ var Color = {
         if ($(e.target).parent().hasClass('tab-pane')) {
 
             // if the color doesn't exist in the current palette
-            //********** NEED TO CHECK AGAINST THE ARRAY INSTEAD
+            //********** TO DO: CHECK AGAINST THE ARRAY INSTEAD
             if (!$this.hasClass('in-' + currentPalette)) {
                 // copy swatch to palette
                 $this
@@ -28275,15 +28275,12 @@ var Color = {
                 // add class noting which palette it's been added to
                 $this.addClass('in-' + currentPalette);
 
-                // add visual indicator of what palette it's been added to
-                //$this.append('<span class="' + currentPalette + '">' + currentPalette.replace('palette-', '') + '</span>');
-
                 // add to swatches array for current palette
                 palette.push(color);
             } else {
-                $('#' + currentPalette + '.active')
-                    .find('.swatch:not([data-swatch-color="' + color + '"])')
-                    .css('opacity', '0.5');
+                // $('#' + currentPalette + '.active')
+                //     .find('.swatch:not([data-swatch-color="' + color + '"])')
+                //     .css('opacity', '0.5');
             }
 
         // if clicked swatch is in a palette (aka, removing)
@@ -28295,9 +28292,6 @@ var Color = {
             }
             // remove swatch from palette
             $this.remove();
-
-            // remove indicator
-            //$('.tab-pane').children('*[data-swatch-color="' + color + '"]').removeClass('in-' + currentPalette).find('span.'+ currentPalette).remove();
         }
 
         // run palette check
