@@ -32,12 +32,12 @@ gulp.task('sass', function() {
 gulp.task('js', function() {
     gulp.src([
             'assets/bower/jquery/dist/jquery.js',
-            'assets/bower/jquery-ui/jquery-ui.js',
+            'assets/js/jquery-ui.js',
             'assets/bower/jqueryui-touch-punch/jquery.ui.touch-punch.js',
             'assets/bower/bootstrap/js/tab.js',
             'assets/bower/randomcolor/randomColor.js',
             'assets/bower/fastclick/lib/fastclick.js',
-            'assets/bower/clipboard/dist/clipboard.js',
+            //'assets/bower/clipboard/dist/clipboard.js',
             'assets/js/color.js'
             ])
         .pipe(sourcemaps.init())
