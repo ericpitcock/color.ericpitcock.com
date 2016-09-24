@@ -74,7 +74,7 @@ gulp.task('js', ['jshint'], function() {
         .pipe(concat('color.js'))
         .pipe(rename(pluginConfig.rename))
         .pipe(uglify())
-        .pipe(sourcemaps.write())
+        .pipe(sourcemaps.write('../maps'))
         .pipe(gulp.dest('assets/js'));
 });
 
