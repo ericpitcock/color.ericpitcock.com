@@ -57,7 +57,7 @@ header {
     border-bottom: 1px solid $light-gray;
     user-select: none;
     cursor: default;
-    
+
     h1 {
         height: 20px;
         line-height: 20px;
@@ -66,16 +66,16 @@ header {
         margin-top: 20px;
         cursor: pointer;
     }
-    
+
     .palette-tabs {
         display: flex;
         align-items: flex-end;
         height: 61px;
         overflow: hidden;
         //background: #f9f9f9;
-        
+
         li {
-            
+
             // styles everything
             a {
                 position: relative;
@@ -87,7 +87,7 @@ header {
                 margin-right: 10px;
                 cursor: pointer;
                 color: #999;
-                
+
                 &.has-swatches:after {
                     content: '';
                     position: absolute;
@@ -99,20 +99,20 @@ header {
                     background: #a2e06e;
                     border-radius: 3px;
                 }
-            
+
                 html.no-touch &:hover {
                     background: $hover;
                 }
             }
-            
+
             &.active {
-                
+
                 a {
                     background: #fff;
                     border-bottom-color: #fff;
                     cursor: default;
                     color: $black;
-                    
+
                     html.no-touch &:hover {
                         background: #fff;
                     }
@@ -126,7 +126,7 @@ header {
     position: relative;
     background: url(../img/stripe_07124988ed2a06d6779512c020f61af9.png);
     border-bottom: 1px solid $light-gray;
-    
+
     .gradient-overlay {
         position: absolute;
         top: 0;
@@ -138,14 +138,14 @@ header {
         background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );
     }
-    
+
     .palette-control {
-        
+
         display: flex;
         flex-direction: column;
         justify-content: center;
         height: 200px;
-        
+
         button {
             display: block;
             width: 80px;
@@ -154,29 +154,29 @@ header {
             border: 1px solid #e6e6e6;
             border-radius: 3px;
             margin: 10px 0 0 0;
-            
+
             &:first-child {
                 margin-top: 0;
             }
-            
+
             html.no-touch &:hover {
                 background: $hover;
             }
-            
+
             &:active {
                 background: darken($hover, 10%);
             }
-            
+
             &:focus {
                 outline: none;
             }
-            
+
             &.disabled {
                 color: #ccc;
                 pointer-events: none;
             }
         }
-        
+
         button::-moz-focus-inner {
             border: 0;
             padding: 0;
@@ -184,17 +184,17 @@ header {
     }
 
     .palettes {
-    
+
         & > div {
             display: none;
             align-content: flex-start;
             height: 200px;
-            
+
             &.active {
                 display: flex;
             }
         }
-        
+
         p {
             display: block;
             position: absolute;
@@ -208,16 +208,6 @@ header {
             line-height: 37px;
         }
     }
-    
-    textarea.css {
-        position: absolute;
-        z-index: -1;
-        border: 0;
-        outline: 0;
-        padding: 0;
-        -webkit-appearance: none;
-        resize: none;
-    }
 }
 
 .swatch {
@@ -225,7 +215,7 @@ header {
     width: 120px;
     height: 120px;
     margin: 0 30px 30px 0;
-    
+
     &:after {
         content: '';
         position: absolute;
@@ -240,45 +230,45 @@ header {
         margin-top: -11px;
         color: rgba(255, 255, 255, 0.5);
     }
-    
+
     // hover in unselected state
     html.no-touch &:hover {
         cursor: pointer;
     }
-    
+
     html.no-touch .tab-pane &:not(.added):hover:after {
         content: '+';
     }
-    
+
     .palettes > div & {
         align-self: center;
         margin-bottom: 0;
     }
-    
+
     html.no-touch .palettes &:hover:after {
         content: '×';
         margin-left: -10px;
         margin-top: -10px;
     }
-    
+
     &.added:after {
         content: '✓';
     }
-    
+
     &.add {
         border: 1px solid $light-gray;
-        
+
         &:after {
             content: '+';
             color: $light-gray;
         }
     }
-    
+
     &.spacer {
         cursor: default;
         pointer-events: none;
     }
-    
+
     // palette indicators
     span {
         display: block;
@@ -298,7 +288,7 @@ header {
 .color-sets-container {
     flex: 1;
     position: relative;
-    
+
     .container {
         position: absolute;
         top: 0;
@@ -307,42 +297,42 @@ header {
         left: 0;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
-        
+
         &::-webkit-scrollbar { width: 0 !important }
-        
+
         .col-sm-2 {
             position: fixed;
             padding-top: 40px;
         }
     }
-    
+
     h2 {
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 1px;
         margin-bottom: 30px;
     }
-    
+
     ul.color-sets {
         li {
             text-transform: capitalize;
-            
+
             &.active {
-                
+
                 font-weight: 600;
-                
+
                 a {
                     color: $black;
                     cursor: default;
                 }
             }
-            
+
             a {
                 display: block;
                 height: $button-height;
                 color: $gray;
                 cursor: pointer;
-                
+
                 html.no-touch &:hover {
                     color: $black;
                 }
@@ -352,15 +342,15 @@ header {
 
     .colors {
         position: relative;
-        
+
         // tab content
         .tab-content {
             padding-top: 40px;
-    
+
             .tab-pane {
                 display: none;
                 flex-wrap: wrap;
-                
+
                 &.active {
                     display: flex;
                 }
@@ -392,7 +382,7 @@ header {
     z-index: 1;
     background: rgba(0,0,0,0.3);
     cursor: pointer;
-    
+
     .about {
         position: relative;
         width: 400px;
@@ -402,22 +392,22 @@ header {
         padding: 40px 50px;
         background: #fff;
         cursor: default;
-        
+
         h3 {
             font-size: 20px;
         }
-        
+
         h3, p {
             margin-bottom: 10px;
         }
-        
+
         p {
             line-height: 20px;
         }
-        
+
         a {
             border-bottom: 1px solid #f5c1c1;
-            
+
             &:hover {
                 border-bottom-color: red;
             }
