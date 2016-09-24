@@ -1,6 +1,4 @@
-//=============================================================================
-// COLOR PICKER
-//=============================================================================
+/// COLOR /////////////////////////////////////////////////////////
 
 var Color = {
 
@@ -118,6 +116,12 @@ var Color = {
 
         // if clicked swatch is in a palette (aka, removing)
         } else if ($(e.target).parents().hasClass('palettes')) {
+
+            // remove in-palette class
+            $('.tab-pane')
+                .children('*[data-swatch-color="' + color + '"]')
+                .removeClass('in-' + Color.currentPalette);
+
             // remove from swatches array for current palette
             var i = palette.indexOf(color);
             if (i != -1) {
@@ -215,7 +219,7 @@ var Color = {
         });
 
         // instantiate clipboard action
-        new Clipboard('.copy-css');
+        //new Clipboard('.copy-css');
     }
 };
 
