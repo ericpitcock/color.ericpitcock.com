@@ -36,29 +36,43 @@
         </div>
       </div>
     </div>
-    <div class="color-sets-container">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-2">
-            <h2>COLOR SETS</h2>
-            <ul class="color-sets">
-              <li v-for="(hue, name) in roygbiv">{{ name }}</li>
-            </ul>
-          </div>
-          <div class="colors col-sm-10 col-sm-offset-2">
-            <div class="tab-content"></div>
-          </div>
-        </div>
+      <div>
+        <h2>COLOR SETS</h2>
+        <ul class="color-sets">
+          <li v-for="(hue, name) in roygbiv" @click="selectedHue = name">{{ name }}</li>
+        </ul>
       </div>
-    </div>
+      <div class="swatches">
+        <div v-for="swatch in swatches[selectedHue]" class="swatch" :style="{ backgroundColor: swatch }"></div>
+      </div>
   </div>
 </template>
 
 <script>
+  import * as randomColor from 'randomColor'
+  
   export default {
     name: 'app',
     data() {
       return {
+        about: false,
+        clipboard: false,
+        currentPalette: 'palette-1',
+        grayscale: [
+            '#000000',
+            '#1b1b1b',
+            '#363636',
+            '#515151',
+            '#6c6c6c',
+            '#868686',
+            '#a1a1a1',
+            '#bcbcbc',
+            '#d7d7d7',
+            '#f2f2f2'
+        ],
+        palettes: {
+          'palette-1': []
+        },
         roygbiv: {
           'red': '#F00',
           'orange': '#FFA500',
@@ -69,19 +83,36 @@
           'pink': '#FFC0CB'
           //'monochrome': '#000'
         },
-        currentPalette: 'palette-1',
-        palettes: {},
-        selectedHue: ''
+        selectedHue: 'red',
+        swatches: [
+          { 'red': [] },
+          { 'orange': [] },
+          { 'yellow': [] },
+          { 'green': [] },
+          { 'blue': [] },
+          { 'purple': [] },
+          { 'pink': [] }
+        ]
       }
     },
     methods: {
-      loadDefaultColors: function(object) {
+      buildSwatches: function(roygbiv) {
         for (var hue in roygbiv) {
           if (roygbiv.hasOwnProperty(hue)) {
             // roygbiv[hue] <-- name
+            var swatches = randomColor({
+              hue: hue,
+              luminosity: 'bright',
+              count: 20
+            })
+            this.swatches[hue] = swatches
           }
         }
+        // console.log(this.swatches.red)
       }
+    },
+    created: function() {
+      this.buildSwatches(this.roygbiv)
     }
   }
 </script>
