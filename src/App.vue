@@ -12,8 +12,8 @@
       <h1>Color</h1>
       <div class="palette-tabs">
         <a>Palette 1</a>
+        <div class="addPalette">+</div>
       </div>
-      <div class="addPalette">+</div>
     </header>
     <div class="palette-container">
       <div class="gradient-overlay"></div>
@@ -84,6 +84,7 @@
           //'monochrome': '#000'
         },
         selectedHue: 'red',
+        selectedPalette: 'palette-1',
         swatches: [
           { 'red': [] },
           { 'orange': [] },
@@ -170,76 +171,80 @@
   }
 
   header {
+    display: flex;
+    // flex: 0 0 60px;
+    align-items: center;
     height: 61px;
     background: $lightest-gray;
     border-bottom: 1px solid $light-gray;
     user-select: none;
     cursor: default;
-
     h1 {
       height: 20px;
       line-height: 20px;
       padding-left: 35px;
-      background: url("/static/img/e.svg") left center no-repeat;
-      margin-top: 20px;
+      background: url('/static/img/e.svg') left center no-repeat;
+      margin: 0 60px 0 30px;
       cursor: pointer;
     }
-
     .palette-tabs {
+      align-self: flex-end;
       display: flex;
-      align-items: flex-end;
-      height: 61px;
+      align-items: center;
+      // height: 61px;
       overflow: hidden;
-      //background: #f9f9f9;
-      li {
-        // styles everything
-        a {
-          position: relative;
+      // background: red;
+      a {
+        position: relative;
+        display: block;
+        height: $button-height;
+        line-height: 38px;
+        padding: 0 20px;
+        border: 1px solid $light-gray;
+        // margin-right: 10px;
+        margin-bottom: -1px;
+        cursor: pointer;
+        color: #999;
+        &.has-swatches:after {
+          content: '';
+          position: absolute;
+          top: 5px;
+          right: 5px;
           display: block;
-          height: $button-height;
-          line-height: 38px;
-          padding: 0 20px;
-          border: 1px solid $light-gray;
-          margin-right: 10px;
-          cursor: pointer;
-          color: #999;
-
-          &.has-swatches:after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            display: block;
-            width: 5px;
-            height: 5px;
-            background: #a2e06e;
-            border-radius: 3px;
-          }
+          width: 5px;
+          height: 5px;
+          background: #a2e06e;
+          border-radius: 3px;
+        }
+        html.no-touch &:hover {
+          background: $hover;
+        }
+      }
+      &.active {
+        a {
+          background: #fff;
+          border-bottom-color: #fff;
+          cursor: default;
+          color: $black;
 
           html.no-touch &:hover {
-            background: $hover;
-          }
-        }
-
-        &.active {
-          a {
             background: #fff;
-            border-bottom-color: #fff;
-            cursor: default;
-            color: $black;
-
-            html.no-touch &:hover {
-              background: #fff;
-            }
           }
         }
+      }
+      .addPalette {
+        width: 39px;
+        height: 39px;
+        font-size: 20px;
+        text-align: center;
+        line-height: 38px;
       }
     }
   }
 
   .palette-container {
     position: relative;
-    background: url("/static/img/stripe_07124988ed2a06d6779512c020f61af9.png");
+    background: url('/static/img/stripe_07124988ed2a06d6779512c020f61af9.png');
     border-bottom: 1px solid $light-gray;
 
     .gradient-overlay {
