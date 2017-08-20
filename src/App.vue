@@ -23,7 +23,8 @@
         <button type="button" class="copy-css disabled">Copy CSS</button>
       </div>
       <div class="palette">
-        <p>Add swatches to build your palette</p>
+        <p v-if="palettes[selectedPalette].length == 0">Add swatches to build your palette</p>
+        <div v-for="swatch in palettes[selectedPalette]" class="swatch" :style="{ backgroundColor: swatch }"></div>
       </div>
     </div>
     <div class="hues">
@@ -32,14 +33,14 @@
         <button v-for="(swatch, hue) in swatches" @click="selectedHue = hue" :class="{ 'active': selectedHue == hue }">{{ hue }}</button>
       </div>
       <div class="swatches">
-        <div v-for="swatch in swatches[selectedHue]" class="swatch" :style="{ backgroundColor: swatch }"></div>
+        <div v-for="swatch in swatches[selectedHue]" @click="palettes[selectedPalette].push(swatch)" class="swatch" :style="{ backgroundColor: swatch }"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import * as randomColor from 'randomColor'
+  import randomColor from 'randomColor'
   
   export default {
     name: 'app',
@@ -49,7 +50,10 @@
         clipboard: false,
         currentPalette: 'palette-1',
         palettes: {
-          'palette-1': []
+          'palette-1': [
+            // 'purple',
+            // 'blue'
+          ]
         },
         selectedHue: 'red',
         selectedPalette: 'palette-1',
@@ -79,6 +83,7 @@
     methods: {
       buildSwatches: function(roygbiv) {
         for (var hue in roygbiv) {
+          // skip monochrome because it's already defined
           if (roygbiv.hasOwnProperty(hue) && hue != 'monochrome') {
             var swatches = randomColor({
               hue: hue,
@@ -88,12 +93,10 @@
             this.swatches[hue] = swatches
           }
         }
-        // console.log(this.swatches.red)
       }
     },
     created: function() {
       this.buildSwatches(this.swatches)
-      console.log(this.swatches)
     }
   }
 </script>
