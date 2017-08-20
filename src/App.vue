@@ -15,36 +15,26 @@
         <div class="addPalette">+</div>
       </div>
     </header>
-    <div class="palette-container">
+    <div class="palettes">
       <div class="gradient-overlay"></div>
-      <div class="container">
-        <div class="row">
-          <div class="palette-control col-sm-2">
-            <button type="button" class="clear-palette disabled">Clear</button>
-            <!--<button type="button" class="duplicate-palette disabled">Duplicate</button>-->
-            <button type="button" class="copy-css disabled" data-clipboard-target=".active textarea">Copy CSS</button>
-          </div>
-          <div class="palettes col-sm-10">
-            <p>Add swatches to build your palette</p>
-            <div id="palette-1" class="active"><textarea class="css"></textarea></div>
-            <div id="palette-2"><textarea class="css"></textarea></div>
-            <div id="palette-3"><textarea class="css"></textarea></div>
-            <div id="palette-4"><textarea class="css"></textarea></div>
-            <div id="palette-5"><textarea class="css"></textarea></div>
-            <div id="palette-6"><textarea class="css"></textarea></div>
-          </div>
-        </div>
+      <div class="paletteControls">
+        <button type="button" class="clear-palette disabled">Clear</button>
+        <button type="button" class="duplicate-palette disabled">Duplicate</button>
+        <button type="button" class="copy-css disabled">Copy CSS</button>
+      </div>
+      <div class="palette">
+        <p>Add swatches to build your palette</p>
       </div>
     </div>
-      <div>
+    <div class="hues">
+      <div class="color-sets">
         <h2>COLOR SETS</h2>
-        <ul class="color-sets">
-          <li v-for="(hue, name) in roygbiv" @click="selectedHue = name">{{ name }}</li>
-        </ul>
+        <button v-for="(swatch, hue) in swatches" @click="selectedHue = hue" :class="{ 'active': selectedHue == hue }">{{ hue }}</button>
       </div>
       <div class="swatches">
         <div v-for="swatch in swatches[selectedHue]" class="swatch" :style="{ backgroundColor: swatch }"></div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -58,53 +48,42 @@
         about: false,
         clipboard: false,
         currentPalette: 'palette-1',
-        grayscale: [
-            '#000000',
-            '#1b1b1b',
-            '#363636',
-            '#515151',
-            '#6c6c6c',
-            '#868686',
-            '#a1a1a1',
-            '#bcbcbc',
-            '#d7d7d7',
-            '#f2f2f2'
-        ],
         palettes: {
           'palette-1': []
         },
-        roygbiv: {
-          'red': '#F00',
-          'orange': '#FFA500',
-          'yellow': '#FF0',
-          'green': '#008000',
-          'blue': '#00F',
-          'purple': '#800080',
-          'pink': '#FFC0CB'
-          //'monochrome': '#000'
-        },
         selectedHue: 'red',
         selectedPalette: 'palette-1',
-        swatches: [
-          { 'red': [] },
-          { 'orange': [] },
-          { 'yellow': [] },
-          { 'green': [] },
-          { 'blue': [] },
-          { 'purple': [] },
-          { 'pink': [] }
-        ]
+        swatches: {
+          'red': [],
+          'orange': [],
+          'yellow': [],
+          'green': [],
+          'blue': [],
+          'purple': [],
+          'pink': [],
+          'monochrome': [
+              '#000000',
+              '#1b1b1b',
+              '#363636',
+              '#515151',
+              '#6c6c6c',
+              '#868686',
+              '#a1a1a1',
+              '#bcbcbc',
+              '#d7d7d7',
+              '#f2f2f2'
+            ]
+        }
       }
     },
     methods: {
       buildSwatches: function(roygbiv) {
         for (var hue in roygbiv) {
-          if (roygbiv.hasOwnProperty(hue)) {
-            // roygbiv[hue] <-- name
+          if (roygbiv.hasOwnProperty(hue) && hue != 'monochrome') {
             var swatches = randomColor({
               hue: hue,
               luminosity: 'bright',
-              count: 20
+              count: 10
             })
             this.swatches[hue] = swatches
           }
@@ -113,7 +92,8 @@
       }
     },
     created: function() {
-      this.buildSwatches(this.roygbiv)
+      this.buildSwatches(this.swatches)
+      console.log(this.swatches)
     }
   }
 </script>
@@ -157,24 +137,24 @@
     //overflow-y: scroll;
   }
 
-  body {
-    display: flex;
-    flex-direction: column;
-  }
-
   body,
-  input {
+  input,
+  button {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400; // regular
     font-size: 14px;
     color: $black;
   }
+  
+  #app {
+    display: flex;
+    flex-direction: column;
+  }
 
   header {
     display: flex;
-    // flex: 0 0 60px;
+    flex: 0 0 61px;
     align-items: center;
-    height: 61px;
     background: $lightest-gray;
     border-bottom: 1px solid $light-gray;
     user-select: none;
@@ -242,11 +222,12 @@
     }
   }
 
-  .palette-container {
+  .palettes {
     position: relative;
+    flex: 0 0 200px;
+    display: flex;
     background: url('/static/img/stripe_07124988ed2a06d6779512c020f61af9.png');
     border-bottom: 1px solid $light-gray;
-
     .gradient-overlay {
       position: absolute;
       top: 0;
@@ -258,13 +239,14 @@
       background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#ffffff', endColorstr='#00ffffff',GradientType=0 );
     }
-
-    .palette-control {
+    .paletteControls {
+      flex: 0 0 auto;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      height: 200px;
-
+      align-items: flex-start;
+      padding: 0 30px;
+      z-index: 1;
       button {
         display: block;
         width: 80px;
@@ -302,29 +284,11 @@
       }
     }
 
-    .palettes {
-      & > div {
-        display: none;
-        align-content: flex-start;
-        height: 200px;
-
-        &.active {
-          display: flex;
-        }
-      }
-
-      p {
-        display: block;
-        position: absolute;
-        width: 300px;
-        height: 40px;
-        background: #fff;
-        border: 1px solid #e6e6e6;
-        top: 80px;
-        left: 15px;
-        text-align: center;
-        line-height: 37px;
-      }
+    .palette {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      z-index: 1;
     }
 
     textarea.css {
@@ -338,6 +302,18 @@
     }
   }
 
+  .hues {
+    flex: 0 0 200px;
+    display: flex;
+  }
+  .color-sets {
+    flex: 0 0 200px;
+  }
+  .swatches {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
   .swatch {
     position: relative;
     width: 120px;
@@ -411,75 +387,37 @@
     }
   }
 
-  .color-sets-container {
-    flex: 1;
+  h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+  }
+
+  .color-sets {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    button {
+      height: 30px;
+      margin-bottom: 10px;
+      text-align: left;
+      text-transform: capitalize;
+    }
+  }
+
+  .colors {
     position: relative;
+    // tab content
+    .tab-content {
+      padding-top: 40px;
 
-    .container {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
-
-      &::-webkit-scrollbar {
-        width: 0 !important;
-      }
-
-      .col-sm-2 {
-        position: fixed;
-        padding-top: 40px;
-      }
-    }
-
-    h2 {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 30px;
-    }
-
-    ul.color-sets {
-      li {
-        text-transform: capitalize;
+      .tab-pane {
+        display: none;
+        flex-wrap: wrap;
 
         &.active {
-          font-weight: 600;
-
-          a {
-            color: $black;
-            cursor: default;
-          }
-        }
-
-        a {
-          display: block;
-          height: $button-height;
-          color: $gray;
-          cursor: pointer;
-
-          html.no-touch &:hover {
-            color: $black;
-          }
-        }
-      }
-    }
-
-    .colors {
-      position: relative;
-      // tab content
-      .tab-content {
-        padding-top: 40px;
-
-        .tab-pane {
-          display: none;
-          flex-wrap: wrap;
-
-          &.active {
-            display: flex;
-          }
+          display: flex;
         }
       }
     }
