@@ -11,8 +11,8 @@
     <header>
       <h1>Color</h1>
       <div class="palette-tabs">
-        <a>Palette 1</a>
-        <div class="addPalette">+</div>
+        <a v-for="(palette, index) in palettes" @click="selectedPalette = index" :class="{ 'active': index == selectedPalette }">{{ 'Palette ' + (index + 1) }}</a>
+        <div @click="addPalette()" class="addPalette">+</div>
       </div>
     </header>
     <div class="palettes">
@@ -24,7 +24,7 @@
       </div>
       <div class="palette">
         <p v-if="palettes[selectedPalette].length == 0">Add swatches to build your palette</p>
-        <div v-for="swatch in palettes[selectedPalette]" class="swatch" :style="{ backgroundColor: swatch }"></div>
+        <div v-for="swatch in palettes[selectedPalette]" @click="removeSwatch(swatch)" class="swatch" :style="{ backgroundColor: swatch }"></div>
       </div>
     </div>
     <div class="hues">
@@ -49,14 +49,11 @@
         about: false,
         clipboard: false,
         currentPalette: 'palette-1',
-        palettes: {
-          'palette-1': [
-            // 'purple',
-            // 'blue'
-          ]
-        },
+        palettes: [
+          ['purple', 'blue']
+        ],
         selectedHue: 'red',
-        selectedPalette: 'palette-1',
+        selectedPalette: 0,
         swatches: {
           'red': [],
           'orange': [],
@@ -81,6 +78,11 @@
       }
     },
     methods: {
+      addPalette: function() {
+        var paletteCount = this.palettes.length
+        this.palettes.push([])
+        this.selectedPalette = paletteCount++
+      },
       buildSwatches: function(roygbiv) {
         for (var hue in roygbiv) {
           // skip monochrome because it's already defined
@@ -93,6 +95,10 @@
             this.swatches[hue] = swatches
           }
         }
+      },
+      removeSwatch: function(swatch) {
+        var index = this.palettes[this.selectedPalette].indexOf(swatch)
+        this.palettes[this.selectedPalette].splice(index, 1)
       }
     },
     created: function() {
@@ -202,9 +208,7 @@
         html.no-touch &:hover {
           background: $hover;
         }
-      }
-      &.active {
-        a {
+        &.active {
           background: #fff;
           border-bottom-color: #fff;
           cursor: default;
