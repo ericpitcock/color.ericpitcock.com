@@ -24,7 +24,9 @@
       </div>
       <div class="palette">
         <p v-if="palettes[selectedPalette].length == 0">Add swatches to build your palette</p>
+        <draggable v-model="palettes[selectedPalette]" :options="{ draggable: '.swatch' }">
         <div v-for="swatch in palettes[selectedPalette]" @click="removeSwatch(swatch)" :key="selectedPalette" class="swatch" :style="{ backgroundColor: swatch }"></div>
+        </draggable>
       </div>
     </div>
     <div class="hues">
@@ -42,9 +44,13 @@
 <script>
   import randomColor from 'randomColor'
   import _ from 'lodash'
+  import draggable from 'vuedraggable'
   
   export default {
     name: 'app',
+    components: {
+      draggable
+    },
     data() {
       return {
         about: false,
@@ -318,6 +324,9 @@
       display: flex;
       align-items: center;
       z-index: 1;
+      & > div {
+        display: flex;
+      }
     }
 
     textarea.css {
@@ -348,6 +357,9 @@
     width: 120px;
     height: 120px;
     margin: 0 30px 30px 0;
+    &:hover {
+      cursor: pointer;
+    }
 
     &:after {
       content: '';
@@ -396,10 +408,6 @@
       }
     }
 
-    &.spacer {
-      cursor: default;
-      pointer-events: none;
-    }
     // palette indicators
     span {
       display: block;
