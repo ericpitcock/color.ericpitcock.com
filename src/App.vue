@@ -18,9 +18,9 @@
     <div class="palettes">
       <div class="gradient-overlay"></div>
       <div class="paletteControls">
-        <button type="button" class="clear-palette disabled">Clear</button>
-        <button @click="duplicatePalette(palettes[selectedPalette])" type="button" class="duplicate-palette">Duplicate</button>
-        <button type="button" class="copy-css disabled">Copy CSS</button>
+        <button @click="clearPalette()" :disabled="palettes[selectedPalette].length == 0" type="button" class="clear-palette">Clear</button>
+        <button @click="duplicatePalette(palettes[selectedPalette])" :disabled="palettes[selectedPalette].length == 0" type="button" class="duplicate-palette">Duplicate</button>
+        <button @click="" :disabled="palettes[selectedPalette].length == 0" type="button" class="copy-css">Copy CSS</button>
       </div>
       <div class="palette">
         <p v-if="palettes[selectedPalette].length == 0">Add swatches to build your palette</p>
@@ -99,10 +99,14 @@
           }
         }
       },
+      clearPalette: function() {
+        this.$set(this.palettes, this.selectedPalette, [])
+      },
       duplicatePalette: function(palette) {
-        var currentPaletteSwatches = JSON.parse(JSON.stringify(this.palettes[this.selectedPalette]))
-        this.addPalette()
-        this.palettes[this.selectedPalette] = currentPaletteSwatches
+        var currentPaletteSwatches = _.cloneDeep(this.palettes[this.selectedPalette])
+        // this.addPalette()
+        this.palettes.push(currentPaletteSwatches)
+        // this.selectedPalette = 3
         console.log(this.palettes)
       },
       removeSwatch: function(swatch) {
@@ -297,7 +301,7 @@
           outline: none;
         }
 
-        &.disabled {
+        &:disabled {
           color: #ccc;
           pointer-events: none;
         }
