@@ -19,12 +19,12 @@
       <div class="gradient-overlay"></div>
       <div class="paletteControls">
         <button type="button" class="clear-palette disabled">Clear</button>
-        <button type="button" class="duplicate-palette disabled">Duplicate</button>
+        <button @click="duplicatePalette(palettes[selectedPalette])" type="button" class="duplicate-palette">Duplicate</button>
         <button type="button" class="copy-css disabled">Copy CSS</button>
       </div>
       <div class="palette">
         <p v-if="palettes[selectedPalette].length == 0">Add swatches to build your palette</p>
-        <div v-for="swatch in palettes[selectedPalette]" @click="removeSwatch(swatch)" class="swatch" :style="{ backgroundColor: swatch }"></div>
+        <div v-for="swatch in palettes[selectedPalette]" @click="removeSwatch(swatch)" :key="selectedPalette" class="swatch" :style="{ backgroundColor: swatch }"></div>
       </div>
     </div>
     <div class="hues">
@@ -41,6 +41,7 @@
 
 <script>
   import randomColor from 'randomColor'
+  import _ from 'lodash'
   
   export default {
     name: 'app',
@@ -48,9 +49,10 @@
       return {
         about: false,
         clipboard: false,
-        currentPalette: 'palette-1',
+        // currentPalette: 'palette-1',
         palettes: [
-          ['purple', 'blue']
+          ['purple', 'black'],
+          ['brown', 'black']
         ],
         selectedHue: 'red',
         selectedPalette: 0,
@@ -82,6 +84,7 @@
         var paletteCount = this.palettes.length
         this.palettes.push([])
         this.selectedPalette = paletteCount++
+        console.log(this.palettes)
       },
       buildSwatches: function(roygbiv) {
         for (var hue in roygbiv) {
@@ -90,11 +93,17 @@
             var swatches = randomColor({
               hue: hue,
               luminosity: 'bright',
-              count: 10
+              count: 20
             })
             this.swatches[hue] = swatches
           }
         }
+      },
+      duplicatePalette: function(palette) {
+        var currentPaletteSwatches = JSON.parse(JSON.stringify(this.palettes[this.selectedPalette]))
+        this.addPalette()
+        this.palettes[this.selectedPalette] = currentPaletteSwatches
+        console.log(this.palettes)
       },
       removeSwatch: function(swatch) {
         var index = this.palettes[this.selectedPalette].indexOf(swatch)
@@ -169,11 +178,12 @@
     user-select: none;
     cursor: default;
     h1 {
+      flex: 0 0 200px;
       height: 20px;
       line-height: 20px;
-      padding-left: 35px;
-      background: url('/static/img/e.svg') left center no-repeat;
-      margin: 0 60px 0 30px;
+      // padding-left: 35px;
+      background: url('/static/img/e.svg') 30px center no-repeat;
+      padding-left: 65px;
       cursor: pointer;
     }
     .palette-tabs {
@@ -181,7 +191,7 @@
       display: flex;
       align-items: center;
       // height: 61px;
-      overflow: hidden;
+      // overflow: hidden;
       // background: red;
       a {
         position: relative;
@@ -189,7 +199,7 @@
         height: $button-height;
         line-height: 38px;
         padding: 0 20px;
-        border: 1px solid $light-gray;
+        border: 1px solid transparent;
         // margin-right: 10px;
         margin-bottom: -1px;
         cursor: pointer;
@@ -210,6 +220,7 @@
         }
         &.active {
           background: #fff;
+          border-color: $light-gray;
           border-bottom-color: #fff;
           cursor: default;
           color: $black;
@@ -220,11 +231,18 @@
         }
       }
       .addPalette {
-        width: 39px;
-        height: 39px;
+        width: 32px;
+        height: 32px;
+        border: 1px solid transparent;
         font-size: 20px;
         text-align: center;
-        line-height: 38px;
+        line-height: 28px;
+        margin-left: 4px;
+        &:hover {
+          background: #fff;
+          border: 1px solid $light-gray;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -247,7 +265,7 @@
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#ffffff', endColorstr='#00ffffff',GradientType=0 );
     }
     .paletteControls {
-      flex: 0 0 auto;
+      flex: 0 0 200px;
       display: flex;
       flex-direction: column;
       justify-content: center;
