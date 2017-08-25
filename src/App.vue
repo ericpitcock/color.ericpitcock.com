@@ -19,6 +19,7 @@
       <div class="gradient-overlay"></div>
       <div class="paletteControls">
         <button @click="clearPalette()" :disabled="palettes[selectedPalette].length == 0" type="button" class="clear-palette">Clear</button>
+        <button @click="deletePalette()" :disabled="palettes[selectedPalette].length == 0" type="button" class="clear-palette">Delete</button>
         <button @click="duplicatePalette(palettes[selectedPalette])" :disabled="palettes[selectedPalette].length == 0" type="button" class="duplicate-palette">Duplicate</button>
         <button @click="" :disabled="palettes[selectedPalette].length == 0" type="button" class="copy-css">Copy CSS</button>
       </div>
@@ -57,8 +58,7 @@
         clipboard: false,
         // currentPalette: 'palette-1',
         palettes: [
-          ['purple', 'black'],
-          ['brown', 'black']
+          []
         ],
         selectedHue: 'red',
         selectedPalette: 0,
@@ -71,17 +71,17 @@
           'purple': [],
           'pink': [],
           'monochrome': [
-              '#000000',
-              '#1b1b1b',
-              '#363636',
-              '#515151',
-              '#6c6c6c',
-              '#868686',
-              '#a1a1a1',
-              '#bcbcbc',
-              '#d7d7d7',
-              '#f2f2f2'
-            ]
+            '#000000',
+            '#1b1b1b',
+            '#363636',
+            '#515151',
+            '#6c6c6c',
+            '#868686',
+            '#a1a1a1',
+            '#bcbcbc',
+            '#d7d7d7',
+            '#f2f2f2'
+          ]
         }
       }
     },
@@ -107,6 +107,9 @@
       },
       clearPalette: function() {
         this.$set(this.palettes, this.selectedPalette, [])
+      },
+      deletePalette: function() {
+        delete this.palettes[this.selectedPalette]
       },
       duplicatePalette: function(palette) {
         var currentPaletteSwatches = _.cloneDeep(this.palettes[this.selectedPalette])
