@@ -98,7 +98,12 @@
         // get current palette count
         let paletteCount = this.palettes.length
         // add new palette object
-        this.palettes.push({
+        // this.palettes.push({
+        //   id: this.nextPaletteID,
+        //   swatches: []
+        // })
+        // add new palette - using $set to make it reactive
+        this.$set(this.palettes, paletteCount, {
           id: this.nextPaletteID,
           swatches: []
         })
