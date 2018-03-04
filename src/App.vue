@@ -11,22 +11,22 @@
     <header>
       <h1>Color</h1>
       <div class="palette-tabs">
-        <a v-for="(palette, index) in palettes" @click="switchPalette(index)" :class="{ 'active': index == selectedPalette }">{{ 'Palette ' + (index + 1) }}</a>
+        <a v-for="(palette, index) in palettes" :key="palette.id" @click="switchPalette(index)" :class="{ 'active': index == selectedPalette }">{{ 'Palette ' + (palette.id + 1) }}</a>
         <div @click="addPalette()" class="addPalette">+</div>
       </div>
     </header>
     <div class="palettes">
       <div class="gradient-overlay"></div>
       <div class="paletteControls">
-        <button @click="clearPalette()" :disabled="palettes[selectedPalette].length == 0" type="button" class="clear-palette">Clear</button>
+        <button @click="clearPalette()" :disabled="palettes[selectedPalette].swatches.length == 0" type="button" class="clear-palette">Clear</button>
         <button @click="deletePalette()" :disabled="enableDeleteButton()" type="button" class="clear-palette">Delete</button>
-        <button @click="duplicatePalette(palettes[selectedPalette])" :disabled="palettes[selectedPalette].length == 0" type="button" class="duplicate-palette">Duplicate</button>
-        <button @click="" :disabled="palettes[selectedPalette].length == 0" type="button" class="copy-css">Copy CSS</button>
+        <button @click="duplicatePalette(palettes[selectedPalette])" :disabled="palettes[selectedPalette].swatches.length == 0" type="button" class="duplicate-palette">Duplicate</button>
+        <button @click="" :disabled="palettes[selectedPalette].swatches.length == 0" type="button" class="copy-css">Copy CSS</button>
       </div>
       <div class="palette">
-        <p v-if="palettes[selectedPalette].length == 0">Add swatches to build your palette</p>
-        <draggable v-model="palettes[selectedPalette]" :options="{ draggable: '.swatch' }">
-        <div v-for="swatch in palettes[selectedPalette]"
+        <p v-if="palettes[selectedPalette].swatches.length == 0">Add swatches to build your palette</p>
+        <draggable v-model="palettes[selectedPalette].swatches" :options="{ draggable: '.swatch' }">
+        <div v-for="swatch in palettes[selectedPalette].swatches"
              :key="swatch"
              class="swatch"
              :style="{ backgroundColor: swatch }">
@@ -62,7 +62,10 @@
         clipboard: false,
         // currentPalette: 'palette-1',
         palettes: [
-          []
+          {
+            'id': 0,
+            'swatches': []
+          }
         ],
         selectedHue: 'red',
         selectedPalette: 0,
@@ -94,13 +97,16 @@
         // get current palette count
         let paletteCount = this.palettes.length
         // add new palette array
-        this.palettes.push([])
+        this.palettes.push({
+          'id': paletteCount,
+          'swatches': []
+        })
         // select newly added palette
         this.selectedPalette = paletteCount++
-        // console.log(this.palettes)
+        console.log(this.palettes)
       },
       addSwatch(swatch) {
-        this.palettes[this.selectedPalette].push(swatch)
+        this.palettes[this.selectedPalette].swatches.push(swatch)
         console.log(this.palettes[this.selectedPalette])
       },
       buildSwatches(roygbiv) {
