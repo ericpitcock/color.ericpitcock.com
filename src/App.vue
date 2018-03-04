@@ -19,7 +19,7 @@
       <div class="gradient-overlay"></div>
       <div class="paletteControls">
         <button @click="clearPalette()" :disabled="palettes[selectedPalette].length == 0" type="button" class="clear-palette">Clear</button>
-        <button @click="deletePalette()" :disabled="palettes[selectedPalette].length == 0" type="button" class="clear-palette">Delete</button>
+        <button @click="deletePalette()" :disabled="enableDeleteButton()" type="button" class="clear-palette">Delete</button>
         <button @click="duplicatePalette(palettes[selectedPalette])" :disabled="palettes[selectedPalette].length == 0" type="button" class="duplicate-palette">Duplicate</button>
         <button @click="" :disabled="palettes[selectedPalette].length == 0" type="button" class="copy-css">Copy CSS</button>
       </div>
@@ -38,10 +38,10 @@
     <div class="hues">
       <div class="color-sets">
         <h2>COLOR SETS</h2>
-        <button v-for="(swatch, hue) in swatches" @click="selectedHue = hue" :class="{ 'active': selectedHue == hue }">{{ hue }}</button>
+        <button v-for="(swatch, hue) in swatches" @click="selectHue(hue)" :class="{ 'active': selectedHue == hue }">{{ hue }}</button>
       </div>
       <div class="swatches">
-        <div v-for="swatch in swatches[selectedHue]" @click="palettes[selectedPalette].push(swatch)" class="swatch" :style="{ backgroundColor: swatch }"></div>
+        <div v-for="swatch in swatches[selectedHue]" @click="addSwatch(swatch)" class="swatch" :style="{ backgroundColor: swatch }"></div>
       </div>
     </div>
   </div>
@@ -99,6 +99,10 @@
         this.selectedPalette = paletteCount++
         // console.log(this.palettes)
       },
+      addSwatch(swatch) {
+        this.palettes[this.selectedPalette].push(swatch)
+        console.log(this.palettes[this.selectedPalette])
+      },
       buildSwatches(roygbiv) {
         for (var hue in roygbiv) {
           // skip monochrome because it's already defined
@@ -116,7 +120,8 @@
         this.$set(this.palettes, this.selectedPalette, [])
       },
       deletePalette() {
-        delete this.palettes[this.selectedPalette]
+        this.$delete(this.palettes, this.selectedPalette)
+        this.selectedPalette = this.selectedPalette - 1
       },
       duplicatePalette(palette) {
         var currentPaletteSwatches = _.cloneDeep(this.palettes[this.selectedPalette])
@@ -125,9 +130,17 @@
         // this.selectedPalette = 3
         // console.log(this.palettes)
       },
+      enableDeleteButton() {
+        // if there's more than one palette, enable
+        // if there's only one palette, disable
+        return (this.palettes.length > 1) ? false : true
+      },
       removeSwatch(swatch) {
         var index = this.palettes[this.selectedPalette].indexOf(swatch)
         this.palettes[this.selectedPalette].splice(index, 1)
+      },
+      selectHue(hue) {
+        this.selectedHue = hue
       },
       switchPalette(index) {
         this.selectedPalette = index
@@ -399,6 +412,11 @@
       text-align: center;
       line-height: 28px;
       cursor: pointer;
+    }
+    &.sortable-chosen.sortable-ghost {
+      .remove-swatch {
+        display: none;
+      }
     }
     &:hover {
       .remove-swatch {
