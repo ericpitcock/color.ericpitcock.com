@@ -61,10 +61,11 @@
         about: false,
         clipboard: false,
         // currentPalette: 'palette-1',
+        nextPaletteID: 1,
         palettes: [
           {
-            'id': 0,
-            'swatches': []
+            id: 0,
+            swatches: []
           }
         ],
         selectedHue: 'red',
@@ -96,18 +97,18 @@
       addPalette() {
         // get current palette count
         let paletteCount = this.palettes.length
-        // add new palette array
+        // add new palette object
         this.palettes.push({
-          'id': paletteCount,
-          'swatches': []
+          id: this.nextPaletteID,
+          swatches: []
         })
-        // select newly added palette
         this.selectedPalette = paletteCount++
+        this.nextPaletteID++
         console.log(this.palettes)
       },
       addSwatch(swatch) {
         this.palettes[this.selectedPalette].swatches.push(swatch)
-        console.log(this.palettes[this.selectedPalette])
+        console.log(this.palettes[this.selectedPalette].swatches)
       },
       buildSwatches(roygbiv) {
         for (var hue in roygbiv) {
@@ -123,7 +124,7 @@
         }
       },
       clearPalette() {
-        this.$set(this.palettes, this.selectedPalette, [])
+        this.$set(this.palettes[this.selectedPalette], 'swatches', [])
       },
       deletePalette() {
         this.$delete(this.palettes, this.selectedPalette)
@@ -142,8 +143,10 @@
         return (this.palettes.length > 1) ? false : true
       },
       removeSwatch(swatch) {
-        var index = this.palettes[this.selectedPalette].indexOf(swatch)
-        this.palettes[this.selectedPalette].splice(index, 1)
+        // var index = this.palettes[this.selectedPalette].indexOf(swatch)
+        // this.palettes[this.selectedPalette].splice(index, 1)
+        this.$delete(this.palettes[this.selectedPalette].swatches, swatch)
+        console.log(swatch)
       },
       selectHue(hue) {
         this.selectedHue = hue
