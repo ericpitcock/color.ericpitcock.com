@@ -11,7 +11,7 @@
     <header>
       <h1>Color</h1>
       <div class="palette-tabs">
-        <a v-for="(palette, index) in palettes" @click="selectedPalette = index" :class="{ 'active': index == selectedPalette }">{{ 'Palette ' + (index + 1) }}</a>
+        <a v-for="(palette, index) in palettes" @click="switchPalette(index)" :class="{ 'active': index == selectedPalette }">{{ 'Palette ' + (index + 1) }}</a>
         <div @click="addPalette()" class="addPalette">+</div>
       </div>
     </header>
@@ -26,7 +26,12 @@
       <div class="palette">
         <p v-if="palettes[selectedPalette].length == 0">Add swatches to build your palette</p>
         <draggable v-model="palettes[selectedPalette]" :options="{ draggable: '.swatch' }">
-        <div v-for="swatch in palettes[selectedPalette]" @click="removeSwatch(swatch)" :key="selectedPalette" class="swatch" :style="{ backgroundColor: swatch }"></div>
+        <div v-for="swatch in palettes[selectedPalette]"
+             :key="swatch"
+             class="swatch"
+             :style="{ backgroundColor: swatch }">
+             <div @click="removeSwatch(swatch)" class="remove-swatch">×</div>
+        </div>
         </draggable>
       </div>
     </div>
@@ -48,7 +53,6 @@
   import draggable from 'vuedraggable'
   
   export default {
-    name: 'app',
     components: {
       draggable
     },
@@ -86,13 +90,16 @@
       }
     },
     methods: {
-      addPalette: function() {
-        var paletteCount = this.palettes.length
+      addPalette() {
+        // get current palette count
+        let paletteCount = this.palettes.length
+        // add new palette array
         this.palettes.push([])
+        // select newly added palette
         this.selectedPalette = paletteCount++
-        console.log(this.palettes)
+        // console.log(this.palettes)
       },
-      buildSwatches: function(roygbiv) {
+      buildSwatches(roygbiv) {
         for (var hue in roygbiv) {
           // skip monochrome because it's already defined
           if (roygbiv.hasOwnProperty(hue) && hue != 'monochrome') {
@@ -105,25 +112,29 @@
           }
         }
       },
-      clearPalette: function() {
+      clearPalette() {
         this.$set(this.palettes, this.selectedPalette, [])
       },
-      deletePalette: function() {
+      deletePalette() {
         delete this.palettes[this.selectedPalette]
       },
-      duplicatePalette: function(palette) {
+      duplicatePalette(palette) {
         var currentPaletteSwatches = _.cloneDeep(this.palettes[this.selectedPalette])
         // this.addPalette()
         this.palettes.push(currentPaletteSwatches)
         // this.selectedPalette = 3
-        console.log(this.palettes)
+        // console.log(this.palettes)
       },
-      removeSwatch: function(swatch) {
+      removeSwatch(swatch) {
         var index = this.palettes[this.selectedPalette].indexOf(swatch)
         this.palettes[this.selectedPalette].splice(index, 1)
+      },
+      switchPalette(index) {
+        this.selectedPalette = index
+        console.log(this.selectedPalette)
       }
     },
-    created: function() {
+    created() {
       this.buildSwatches(this.swatches)
     }
   }
@@ -360,10 +371,6 @@
     width: 120px;
     height: 120px;
     margin: 0 30px 30px 0;
-    &:hover {
-      cursor: pointer;
-    }
-
     &:after {
       content: '';
       position: absolute;
@@ -378,52 +385,30 @@
       margin-top: -11px;
       color: rgba(255, 255, 255, 0.5);
     }
-    // hover in unselected state
-    html.no-touch &:hover {
+    .remove-swatch {
+      display: none;
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 30px;
+      height: 30px;
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 15px;
+      font-size: 20px;
+      text-align: center;
+      line-height: 28px;
       cursor: pointer;
     }
-
-    html.no-touch .tab-pane &:not(.added):hover:after {
-      content: '+';
+    &:hover {
+      .remove-swatch {
+        display: block;
+      }
     }
 
     .palettes > div & {
       align-self: center;
       margin-bottom: 0;
-    }
-
-    html.no-touch .palettes &:hover:after {
-      content: '×';
-      margin-left: -10px;
-      margin-top: -10px;
-    }
-
-    &.added:after {
-      content: '✓';
-    }
-
-    &.add {
-      border: 1px solid $light-gray;
-
-      &:after {
-        content: '+';
-        color: $light-gray;
-      }
-    }
-
-    // palette indicators
-    span {
-      display: block;
-      width: 14px;
-      height: 14px;
-      background: rgba(255,255,255,0.3);
-      //border-radius: 7px;
-      margin: 5px;
-      text-align: center;
-      line-height: 13px;
-      font-size: 10px;
-      font-weight: 600;
-      color: rgba(0,0,0,0.5);
     }
   }
 
