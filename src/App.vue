@@ -38,10 +38,18 @@
     <div class="hues">
       <div class="color-sets">
         <h2>COLOR SETS</h2>
-        <button v-for="(swatch, hue) in swatches" @click="selectHue(hue)" :class="{ 'active': selectedHue == hue }">{{ hue }}</button>
+        <button v-for="(swatch, hue) in swatches"
+                @click="selectHue(hue)"
+                :class="{ 'active': selectedHue == hue }">{{ hue }}
+        </button>
       </div>
       <div class="swatches">
-        <div v-for="swatch in swatches[selectedHue]" @click="addSwatch(swatch)" class="swatch" :style="{ backgroundColor: swatch }"></div>
+        <div v-for="swatch in swatches[selectedHue]"
+             @click="addSwatch(swatch)"
+             class="swatch"
+             :class="{ 'in-palette': palettes[selectedPalette].swatches.indexOf(swatch) == -1 ? false : true }"
+             :style="{ backgroundColor: swatch }">
+        </div>
       </div>
     </div>
   </div>
@@ -148,9 +156,9 @@
         return (this.palettes.length > 1) ? false : true
       },
       removeSwatch(swatch) {
-        // var index = this.palettes[this.selectedPalette].indexOf(swatch)
-        // this.palettes[this.selectedPalette].splice(index, 1)
-        this.$delete(this.palettes[this.selectedPalette].swatches, swatch)
+        var index = this.palettes[this.selectedPalette].swatches.indexOf(swatch)
+        this.palettes[this.selectedPalette].swatches.splice(index, 1)
+        // this.$delete(this.palettes[this.selectedPalette].swatches, swatch)
         console.log(swatch)
       },
       selectHue(hue) {
@@ -411,6 +419,9 @@
       margin-left: -10px;
       margin-top: -11px;
       color: rgba(255, 255, 255, 0.5);
+    }
+    &.in-palette {
+      border: 4px solid black;
     }
     .remove-swatch {
       display: none;
