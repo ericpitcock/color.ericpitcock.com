@@ -18,10 +18,26 @@
     <div class="palettes">
       <div class="gradient-overlay"></div>
       <div class="paletteControls">
-        <button @click="clearPalette()" :disabled="palettes[selectedPalette].swatches.length == 0" type="button" class="clear-palette">Clear</button>
-        <button @click="deletePalette()" :disabled="enableDeleteButton()" type="button" class="clear-palette">Delete</button>
-        <button @click="duplicatePalette(palettes[selectedPalette])" :disabled="palettes[selectedPalette].swatches.length == 0" type="button" class="duplicate-palette">Duplicate</button>
-        <button @click="" :disabled="palettes[selectedPalette].swatches.length == 0" type="button" class="copy-css">Copy CSS</button>
+        <button @click="clearPalette()"
+                :disabled="enableButton()"
+                type="button">
+                Clear
+        </button>
+        <button @click="deletePalette()"
+                :disabled="enableDeleteButton()"
+                type="button">
+                Delete
+        </button>
+        <button @click="addPalette(palettes[selectedPalette].swatches)"
+                :disabled="enableButton()"
+                type="button">
+                Duplicate
+        </button>
+        <button @click=""
+                :disabled="enableButton()"
+                type="button">
+                Copy CSS
+        </button>
       </div>
       <div class="palette">
         <p v-if="palettes[selectedPalette].swatches.length == 0">Add swatches to build your palette</p>
@@ -68,7 +84,6 @@
       return {
         about: false,
         clipboard: false,
-        // currentPalette: 'palette-1',
         nextPaletteID: 1,
         palettes: [
           {
@@ -102,7 +117,7 @@
       }
     },
     methods: {
-      addPalette() {
+      addPalette(swatches) {
         // get current palette count
         let paletteCount = this.palettes.length
         // add new palette object
@@ -113,7 +128,8 @@
         // add new palette - using $set to make it reactive
         this.$set(this.palettes, paletteCount, {
           id: this.nextPaletteID,
-          swatches: []
+          // if duplicating, use passed swatches, otherwise create empty array
+          swatches: swatches || []
         })
         this.selectedPalette = paletteCount++
         this.nextPaletteID++
@@ -143,12 +159,8 @@
         this.$delete(this.palettes, this.selectedPalette)
         this.selectedPalette = this.selectedPalette - 1
       },
-      duplicatePalette(palette) {
-        var currentPaletteSwatches = _.cloneDeep(this.palettes[this.selectedPalette])
-        // this.addPalette()
-        this.palettes.push(currentPaletteSwatches)
-        // this.selectedPalette = 3
-        // console.log(this.palettes)
+      enableButton() {
+        return (this.palettes[this.selectedPalette].swatches.length == 0) ? true : false
       },
       enableDeleteButton() {
         // if there's more than one palette, enable
