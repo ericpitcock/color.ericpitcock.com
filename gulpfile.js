@@ -22,13 +22,13 @@ gulp.task('sass', function() {
 
 gulp.task('js', function() {
     gulp.src([
-            'assets/bower/jquery/dist/jquery.js',
-            'assets/bower/jquery-ui/jquery-ui.js',
-            'assets/bower/jqueryui-touch-punch/jquery.ui.touch-punch.js',
-            'assets/bower/bootstrap/js/tab.js',
-            'assets/bower/randomcolor/randomColor.js',
-            'assets/bower/fastclick/lib/fastclick.js',
-            'assets/bower/clipboard/dist/clipboard.js',
+            'node_modules/jquery/dist/jquery.js',
+            'node_modules/jquery-ui-dist/jquery-ui.js',
+            'node_modules/jqueryui-touch-punch/jquery.ui.touch-punch.js',
+            'node_modules/bootstrap/js/tab.js',
+            'node_modules/randomcolor/randomColor.js',
+            'node_modules/fastclick/lib/fastclick.js',
+            'node_modules/clipboard/dist/clipboard.js',
             'assets/js/color.js'
             ])
         .pipe(concat('all.js'))
