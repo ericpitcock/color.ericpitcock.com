@@ -72,7 +72,7 @@
 </template>
 
 <script>
-  import randomColor from 'randomColor'
+  import randomColor from 'randomcolor'
   import _ from 'lodash'
   import draggable from 'vuedraggable'
   
