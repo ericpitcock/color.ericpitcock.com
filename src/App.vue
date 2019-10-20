@@ -55,12 +55,14 @@
       <div class="color-sets">
         <h2>COLOR SETS</h2>
         <button v-for="(swatch, hue) in swatches"
+                :key="hue"
                 @click="selectHue(hue)"
                 :class="{ 'active': selectedHue == hue }">{{ hue }}
         </button>
       </div>
       <div class="swatches">
         <div v-for="swatch in swatches[selectedHue]"
+             :key="swatch"
              @click="addSwatch(swatch)"
              class="swatch"
              :class="{ 'in-palette': palettes[selectedPalette].swatches.indexOf(swatch) == -1 ? false : true }"
