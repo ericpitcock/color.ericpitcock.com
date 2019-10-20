@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "lodash": "4.17.15",
     "randomcolor": "^0.5.3",
     "vue": "^2.3.3",
     "vuedraggable": "^2.14.1"
